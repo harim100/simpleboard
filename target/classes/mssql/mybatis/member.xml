@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- xml의 주석은 Ctrl + shift + /  -->
+<mapper namespace="mssql.mybatis.memberMapper">
+<insert id="customer_join" parameterType="map" >
+		INSERT INTO Cu_Customer (
+		   CustomerId
+           ,CustomerPw
+           ,CustomerName
+           ,CustomerPhone)
+		VALUES ( 
+				#{CustomerId}  
+				,#{CustomerPw}  
+				,#{CustomerName}
+				,#{CustomerPhone}	
+		 )
+</insert>
+ 	<select id="proc_Login" parameterType="map" statementType="CALLABLE">
+		{call proc_ajaxLogin
+							(#{mem_email, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
+		                    ,#{mem_pw, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String} 
+		                    ,#{msg, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}  
+		                    ,#{r_memEmail, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
+		                    ,#{r_memNum, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
+		                    ,#{r_memUid, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
+		                   )}
+	</select>	  
+ 
+
+</mapper>

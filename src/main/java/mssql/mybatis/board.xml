@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mssql.mybatis.firstBMapper">
+<insert id="posting_insert"  parameterType="map">
+INSERT INTO Bd_Board
+           (BoardNum
+           ,CustomerId
+           ,BoardTitle
+           ,BoardContent
+           ,BoardImagePath
+           ,BoardImageSize
+           ,BoardDate)
+VALUES ( 
+	 SeqBdNum.NEXTVAL
+	,#{CustomerId    }
+	,#{BoardTitle    }
+	,#{BoardContent  }
+	,#{BoardImagePath}
+	,#{BoardImageSize}
+	,convert(varchar(10), getdate(), 120)
+ 	)
+</insert>
+
+  <select id="titleList" parameterType="map" resultType="map">
+   SELECT BoardTitle FROM Bd_Board
+	ORDER BY BoardNum desc
+ </select>
+ 
+</mapper>
