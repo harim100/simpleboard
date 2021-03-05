@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.my.board">
+	<logger name="com.board.controller">
 		<level value="info" />
 	</logger>
 	

@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+.container{
+	width: 30%
+} 
+
+.joinBtn{
+	float:right;
+	width: 50%;
+	background: powderblue;
+}  
+.loginBtn{
+	width: 100%;
+    background: indianred;
+    padding: 0.5em 0 0.5em 0;
+    margin: 1em 0 1em 0;
+}
+
+table, .form-control{
+	width: 100%;
+}

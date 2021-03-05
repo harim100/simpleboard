@@ -4,29 +4,46 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <!-- xml의 주석은 Ctrl + shift + /  -->
 <mapper namespace="mssql.mybatis.memberMapper">
-<insert id="customer_join" parameterType="map" >
+<insert id="member_join" parameterType="map" >
 		INSERT INTO Cu_Customer (
-		   CustomerId
-           ,CustomerPw
+		   Id
+           ,Pw
            ,CustomerName
-           ,CustomerPhone)
+           ,CellNum
+           ,InsDate
+           )
 		VALUES ( 
-				#{CustomerId}  
-				,#{CustomerPw}  
+				#{Id}  
+				,#{Pw}  
 				,#{CustomerName}
-				,#{CustomerPhone}	
+				,#{CustomerPhone}
+				,convert(varchar(10), getdate(), 120)
 		 )
 </insert>
- 	<select id="proc_Login" parameterType="map" statementType="CALLABLE">
-		{call proc_ajaxLogin
-							(#{mem_email, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
-		                    ,#{mem_pw, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String} 
-		                    ,#{msg, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}  
-		                    ,#{r_memEmail, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
-		                    ,#{r_memNum, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
-		                    ,#{r_memUid, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
-		                   )}
-	</select>	  
- 
+<!-- 로그인 -->
+<!-- <select id="procLogin" parameterType="com.board.vo.MemberVO" statementType="CALLABLE">
+	{call proc_ajaxLogin
+	(#{mem_email, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
+      ,#{mem_pw, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String} 
+      ,#{msg, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}  
+      ,#{r_memEmail, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
+      ,#{r_memNum, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
+      ,#{r_memUid, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
+     )}
+</select>	 -->  
+<!-- 로그인 -->
+	<select id="login" resultType="com.board.vo.MemberVO">
+	SELECT 
+		CustomerNum
+      ,Id
+      ,Pw
+      ,CustomerName
+	  FROM Cu_Customer
+	  WHERE Id = #{Id} AND Pw = #{Pw}
+	</select>
+<select id="idCheck" parameterType="map" resultType="int">
+	SELECT COUNT(*) FROM Cu_Customer
+	WHERE Id = #{requestedId}
+</select>
 
 </mapper>
