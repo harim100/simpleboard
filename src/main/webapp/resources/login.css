@@ -1,21 +1,37 @@
 @charset "UTF-8";
 
 .container{
-	width: 30%
+	width: 30%;
+	margin: 0 auto 0 auto;
+	margin-top: 10em;
 } 
 
 .joinBtn{
 	float:right;
 	width: 50%;
 	background: powderblue;
+	border : 1px solid #ececec;
+	padding: 0.5em 0 0.5em 0;
+	margin-top : 1em;
 }  
 .loginBtn{
 	width: 100%;
     background: indianred;
     padding: 0.5em 0 0.5em 0;
     margin: 1em 0 1em 0;
+    border : 1px solid #ececec;
+}
+
+.btn{
+	font-weight: bold;	
 }
 
 table, .form-control{
 	width: 100%;
+	border: 1px solid #ececec;
+    font-size: 14px;
+    color: #4c4c4c;
+    height: 35px;
+    padding: 10px;
+    float: left;
 }

@@ -28,8 +28,8 @@ public class MemberLogic {
 	}
 
 //==================================== [[login]] ==========================================
-	public int member_join(Map<String,Object> pMap) {
+	public int insertMember(Map<String,Object> pMap) {
 		logger.info("member_join 호출 성공");
-		return memDao.member_join(pMap);
+		return memDao.insertMember(pMap);
 	}
 }

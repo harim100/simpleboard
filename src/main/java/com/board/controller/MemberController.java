@@ -1,12 +1,9 @@
 package com.board.controller;
 
-import java.net.http.HttpRequest;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.PageContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +31,6 @@ public class MemberController {
 	
 	HttpSession session= null;
 	int result = 0;
-	List<Map<String,Object>> memList = null;
 	
 	@Autowired(required=false)
 	MemberLogic memLogic; 
@@ -42,28 +38,29 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
 	
-	@RequestMapping("/DoLogin")
+	@RequestMapping("/do/login")
 	public ModelAndView member_login(@RequestParam Map<String,Object> pMap
 			,MemberVO vo, HttpServletRequest req, RedirectAttributes rttr) {
 		logger.info("member_login 호출 성공"+pMap);
 		
 		MemberVO login = null; 
 		login = memLogic.login(vo);
-		HttpSession session = req.getSession();
+		session = req.getSession();
 		ModelAndView mv = new ModelAndView();
 		
-		if(login == null) {
-			session.setAttribute("member", null);
-			rttr.addFlashAttribute("msg", false);
-			mv.setViewName("login");
-			mv.addObject("msg", "fail");
-			logger.info("로그인 실패");
-		} else {
-			session.setAttribute("customerName", login.getCustomerName());
+		boolean passMatch = passEncoder.matches(vo.getPw(), login.getPw());
+		
+		if(login != null && passMatch) {
 			logger.info("로그인 성공");
-			mv.setViewName("boardList");
-			mv.addObject("msg", "success");
+			session.setAttribute("customerName", login.getCustomerName());
+			mv.setViewName("redirect:/boardList");
 			logger.info("MemberController 세션 setAttribute===>"+ login.getCustomerName());
+		} else {
+			session.setAttribute("customerName", null);
+			rttr.addFlashAttribute("msg", false);
+			logger.info("msg ===>" + rttr.getAttribute("msg"));
+			mv.setViewName("redirect:/login");
+			logger.info("로그인 실패");
 		}
 		 
 		return mv;
@@ -87,23 +84,34 @@ public class MemberController {
 		result = memLogic.member_id_check(pMap);
 		return result;
 	} 
-	@RequestMapping("/logout")
+	
+	@RequestMapping("/logout")  
 	public String member_logout(Model mod, @RequestParam Map<String,Object> pMap) {
-		return "login";
+		return "redirect:/login";
+	}
+	
+	@RequestMapping("/join")
+	public String member_join(Model mod, @RequestParam Map<String,Object> pMap) {
+		return "join";
 	}
 	
 	@RequestMapping("/create/member")
-	public String member_join(Model mod, @RequestParam Map<String,Object> pMap) {
+	public String insertMember(Model mod, @RequestParam Map<String,Object> pMap, HttpServletRequest req) {
 		logger.info("member_join 호출 성공"+pMap);
 		
 		//패스워드 암호화
 		String password = (String) pMap.get("Pw");
 		pMap.put("Pw", passEncoder.encode(password));
 		
-		result = memLogic.member_join(pMap);
+		//insert
+		result = memLogic.insertMember(pMap);
 		logger.info("결과 : "+result);
+		
+		//이름 세션에 담기
+		session = req.getSession();
+		session.setAttribute("customerName", pMap.get("CustomerName"));
 		mod.addAttribute("result", result);
-		return "login";
+		return "redirect:/boardList";
 	}
 	
 }

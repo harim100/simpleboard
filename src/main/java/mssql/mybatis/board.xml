@@ -23,9 +23,33 @@ VALUES (
  	)
 </insert>
 
+<select id="boardList" resultType="map">
+	SELECT
+		BrdIdx
+		,Title
+		,Content
+		,ImagePath
+		,CONVERT(varchar(10), InsDate, 23) AS InsDate
+		,IsUse
+		,CONVERT(varchar(10), UpdateDate, 23) AS UpdateDate
+	FROM Bd_Board
+	ORDER BY BrdIdx desc
+</select>
+
+<select id="boardSelect" resultType="com.board.vo.BoardVO">
+	SELECT
+		BrdIdx
+		,Title
+		,Content
+		,ImagePath
+		,CONVERT(varchar(10), InsDate, 23) AS InsDate
+	FROM Bd_Board
+	WHERE BrdIdx = ${idx}
+</select>
+
   <select id="titleList" parameterType="map" resultType="map">
-   SELECT BoardTitle FROM Bd_Board
-	ORDER BY BoardNum desc
+   SELECT Title FROM Bd_Board
+	ORDER BY BrdIdx desc
  </select>
  
 </mapper>

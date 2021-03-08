@@ -4,33 +4,19 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>Home</title>
+	<title>로그인</title>
 	<link rel="stylesheet" href="../../resources/login.css">
 	<script>
-	const loginForm = document.querySelector("#loginForm");
-	const warning = document.querySelector(".js-warning");
 	
-	function init(){
-		loginForm.addEventListener("submit", login);
-	}
-	function login(){
-		loginForm.submit();
-		if(${msg} == "fail"){
-			warning.innerText("아이디 또는 비밀번호가 틀렸습니다.");
-		} else {
-			alert("로그인 성공");
-		}
-	}	
-	
-	init();
+	console.log("${msg}")
 	</script>
 </head>
 <body>
-<h1>
-	로그인
-</h1>
 	<div class="container">
-	<form action="/login" method="post" id="loginForm">
+	<h1>
+		로그인
+	</h1>
+	<form action="/do/login" method="post" id="loginForm" class="loginForm">
 	<table>
 		<tr>
 		<td>
@@ -44,19 +30,25 @@
 		</tr>
 		<tr>
 			<td>
-			<label><input type="checkbox" name="cb_id" value="data">아이디 저장하기</label>
+			<label><input type="checkbox" name="cbId" class="cbId">아이디 저장하기</label>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<input class="loginBtn" type="submit" value="로그인" />
+			<input class="loginBtn btn" type="submit" value="로그인" />
 			</td>
 		</tr>
 	</table>
-			<div class="js-warning"></div>
+	<c:if test= "${msg == false}">
+		<div style="color : red;">
+		아이디, 비밀번호가 틀렸습니다.	
+		</div>
+	</c:if>
 	</form>
 	<div class="js-warning"></div>
-	<button class="joinBtn"> 회원가입 </button>
+	<button class="joinBtn btn"> 회원가입 </button>
 	</div>
+
+<script src="./resources/login.js"></script>
 </body>
 </html>

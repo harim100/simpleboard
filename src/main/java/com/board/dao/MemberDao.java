@@ -32,7 +32,7 @@ public class MemberDao {
 		return sqlSessionTemplate.selectOne("idCheck",pMap);
 	}
 	
-	public int member_join(Map<String, Object> pMap) {
+	public int insertMember(Map<String, Object> pMap) {
 		logger.info("member_join 호출성공");
 		return sqlSessionTemplate.insert("member_join",pMap);
 	}
@@ -41,7 +41,7 @@ public class MemberDao {
 	
 	public MemberVO login(MemberVO vo) {
 		logger.info("member_login 호출성공");
-		return sqlSessionTemplate.selectOne("login",vo);
+		return sqlSessionTemplate.selectOne("loginBcrypt",vo);
 	}
 		
 	
