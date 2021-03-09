@@ -16,19 +16,22 @@ window.onload = function() {
 	}
 }
 
-
 function handleJoin(){
 	location.href = "/join";
 }
 
 function handleSubmit(){
 	if(cbId.checked){
-	console.log("checked ==>" + cbId.checked);
-		var date = new Date();
-		date.setTime(date.getTime() + 7*24*60*60*1000);
-		document.cookie = "memberId" + '=' + memberId.value + ';expires=' + date.toUTCString() + ';path=/';
+		console.log("checked ==>" + cbId.checked);
+		setCookie("memberId", memberId.value, periode)
 	}
 	loginForm.submit();
+}
+
+function setCookie(name, value, date){
+	var date = new Date();
+		date.setTime(date.getTime() + periode*24*60*60*1000);
+		document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
 }
 
 const getCookieValue = (key) => {

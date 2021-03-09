@@ -26,22 +26,21 @@ function checkId(event){
 	
 	let idVaildation = check(idReg, id, "아이디는 최소 4자리~최대 20자리, 영문, 숫자만 허용됩니다.");
 	console.log("입력한 아이디 => " + requestedId);
-	
-	if(idVaildation == true) {
-		const form = new FormData();
-		form.append('requestedId', requestedId);
-		fetch('/check-id', {
-		  method: 'POST',
-		  body: form
-		}).then(function(response){
-	       return response.text();
-	    }).then(function(text){
-			console.log("결과:: " + text);
-			if(text != '0') warning.innerHTML = "중복된 아이디가 있습니다."
-			else			warning.innerHTML = "사용가능한 아이디 입니다."
-		});
-		}//end of else
-	}//end of idValidation
+		if(idVaildation == true) {
+			const form = new FormData();
+			form.append('requestedId', requestedId);
+			fetch('/check-id', {
+			  method: 'POST',
+			  body: form
+			}).then(function(response){
+		       return response.text();
+		    }).then(function(text){
+				console.log("결과:: " + text);
+				if(text != '0') warning.innerHTML = "중복된 아이디가 있습니다."
+				else			warning.innerHTML = "사용가능한 아이디 입니다."
+			});
+		}//end of idValidation
+	}//end of else
 }
 
 function check(re, what, message) {
@@ -72,4 +71,3 @@ function handleSubmit(event){
 	document.querySelector(".joinForm").submit();
 	}
 }
-

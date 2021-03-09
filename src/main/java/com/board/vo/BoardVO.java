@@ -8,7 +8,15 @@ public class BoardVO {
 	private String InsDate    ;
 	private String IsUse      ;
 	private String UpdateDate ;
+	private String CustomerNum;
+	
 
+	public String getCustomerNum() {
+		return CustomerNum;
+	}
+	public void setCustomerNum(String customerNum) {
+		CustomerNum = customerNum;
+	}
 	public String getBrdIdx() {
 		return BrdIdx;
 	}

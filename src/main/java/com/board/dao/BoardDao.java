@@ -27,6 +27,15 @@ public class BoardDao {
 	public BoardVO boardSelect(Map<String, Object> pMap) {
 		return sqlSessionTemplate.selectOne("boardSelect", pMap);
 	}
+	public int boardDelete(Map<String, Object> pMap) {
+		return sqlSessionTemplate.delete("boardDelete", pMap);
+	}
+	public int boardUpdate(Map<String, Object> pMap) {
+		return sqlSessionTemplate.update("boardUpdate", pMap);
+	}
+	public int boardInsert(Map<String, Object> pMap) {
+		return sqlSessionTemplate.insert("boardInsert", pMap);
+	}
 		
 	
 }

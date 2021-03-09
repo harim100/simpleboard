@@ -45,15 +45,16 @@ public class MemberController {
 		
 		MemberVO login = null; 
 		login = memLogic.login(vo);
-		session = req.getSession();
-		ModelAndView mv = new ModelAndView();
+		session = req.getSession(); 
+		ModelAndView mv = new ModelAndView(); 
 		
 		boolean passMatch = passEncoder.matches(vo.getPw(), login.getPw());
 		
 		if(login != null && passMatch) {
 			logger.info("로그인 성공");
 			session.setAttribute("customerName", login.getCustomerName());
-			mv.setViewName("redirect:/boardList");
+			session.setAttribute("customerNumber", login.getCustomerNum());
+			mv.setViewName("redirect:/board/list");
 			logger.info("MemberController 세션 setAttribute===>"+ login.getCustomerName());
 		} else {
 			session.setAttribute("customerName", null);
@@ -61,7 +62,7 @@ public class MemberController {
 			logger.info("msg ===>" + rttr.getAttribute("msg"));
 			mv.setViewName("redirect:/login");
 			logger.info("로그인 실패");
-		}
+		} 
 		 
 		return mv;
 	}
@@ -106,12 +107,12 @@ public class MemberController {
 		//insert
 		result = memLogic.insertMember(pMap);
 		logger.info("결과 : "+result);
-		
+		 
 		//이름 세션에 담기
 		session = req.getSession();
 		session.setAttribute("customerName", pMap.get("CustomerName"));
 		mod.addAttribute("result", result);
-		return "redirect:/boardList";
+		return "redirect:/board/list";
 	}
 	
 }

@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+.container {
+    width: 50%;
+    margin: 0 auto 0 auto;
+}
+
 .js-warning{
 	color: red;
 }
@@ -25,7 +30,6 @@ ul{list-style:none; }
 .wrap{max-width:960px; margin: 0 auto;}
 .wrap.wd668{max-width:628px;}
 .wrap.wd668.line{border:1px solid #ececec;padding:30px 20px;}
-.container{width:100%;}
 .sub_tit_txt{margin:80px 0 20px 20px; color: #2f2f2f; font-size: 25px;}
 .wrap.wd668.line .sub_tit_txt{margin:0px 0 20px 20px; }
 .con_term .term_txt{border:1px solid #ececec;padding:30px; height:210px; overflow-y: auto; margin:0 0 15px;}
@@ -58,17 +62,9 @@ ul{list-style:none; }
 .exform_txt span:after{content:'*';position:absolute;left:0;top:0; color:#f95427; font-size: 13px; font-weight: bold;}
 .explan_txt {margin:3px 0 0 22px;}
 .explan_txt li{color:#b2b2b2;font-size:13px; line-height:17px;}
-.popWrap{border:1px solid #ececec;padding:30px; max-width:400px;width:100%;margin:30px auto 0;display: none;position: absolute;top:0;left:50%;transform: translateX(-50%);background: #fff;z-index:5;}
-.popWrap.is-open{display: block;}
-.popWrap .pop_txt_con .pop_exTxt{font-size:14px;color:#9a9a9a;line-height:20px;}
-.popWrap .pop_txt_con .pop_exTxt span{color:#254ee9}
-.popWrap .pop_btnWrap{margin:30px 0 0;}
-.popWrap .pop_btnWrap a{color: #fff; background-color: #4380ce; font-weight: bold; padding: 10px;  height: 22px; line-height: 22px; width: 103px; display: block; text-align: center;}
 .joinForm table input.send_number::placeholder{text-align:right;}
 .joinForm table input.send_number:-ms-input-placeholder {text-align:right;}
 .joinForm table input.send_number::-ms-input-placeholder {text-align:right;}
-.overlayer {  position: fixed;display: none;width: 100%;  height: 100%;  top: 0;  left: 0;  right: 0;  bottom: 0;  background-color: rgba(0,0,0,0.5);  z-index: 2;  cursor: pointer;}
-.overlayer.is-open{  display: block;}
 @media ( max-width: 1023px ) {
   .wrap{margin: 30px auto;}
   .wrap,.wrap.wd668.line{max-width:80vw;}
@@ -77,10 +73,8 @@ ul{list-style:none; }
   .joinForm table th span{text-indent: 0;font-size:13px;}
   .joinForm table{width:100%;}
   .joinForm table input{ border:1px solid #ececec;font-size:14px;color:#4c4c4c; height:37px; padding:10px; width:100%;}
-  .mar10{margin:5px 2% 0 2%; float:left;}
   .joinForm table input.send_number{width: 53%; }
   .exTxt{margin:0 0 25px 0px}
-  .wrap.wd668.line .sub_tit_txt,.wrap .sub_tit_txt{margin:0 0 10px 0;}
   .btn_wrap a,.btn_wrap a.wide{width:auto;margin:0;}
   .btn_wrap{overflow: hidden;}
 }

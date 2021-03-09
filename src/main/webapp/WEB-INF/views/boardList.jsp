@@ -61,7 +61,6 @@ body {height:100%; font-family: 'Noto Sans KR';}
 .js-insertBtn{
 	background: powderblue;
 }
-
 </style>
 </head>
 <body>
@@ -73,8 +72,8 @@ body {height:100%; font-family: 'Noto Sans KR';}
 	</div>
 	<div class="space"></div>
 	<div class="btnGroup">
-	 <button class="js-deleteBtn btn" onClick="javascript:delete()">삭제</button>
-	 <button class="js-insertBtn btn" onClick="javascript:insert()">등록</button>
+	 <button class="js-deleteBtn btn" onClick="deleteGroup()">삭제</button>
+	 <button class="js-insertBtn btn" onClick="insert()">등록</button>
 	</div>
 <form>
 	<table class="bListTable">
@@ -97,7 +96,7 @@ body {height:100%; font-family: 'Noto Sans KR';}
 		<c:forEach var = "bList" items="${bList}">
 			<tr>
 			<td>		    	
-				<input type="checkbox" class="cb"/>
+				<input type="checkbox" class="cb" value="${bList.CustomerNum}" onChange="cbValidation(this)"/>
 			</td>
 			<!-- 이미지 -->
 			<td><img src="${bList.ImagePath}" width="50" height="50"></td>
@@ -118,8 +117,13 @@ body {height:100%; font-family: 'Noto Sans KR';}
 			<td>${bList.InsDate}</td>
 			<!-- 버튼 -->
 			<td>
-				<button class="modifyOneBtn tableBtn modify">수정</button>
-				<button class="deleteOneBtn tableBtn">삭제</button>
+				<div class="tableBtnGroup">
+					<div class="btns" name="tableBtns">
+						<button class="modifyOneBtn tableBtn modify" onClick="modify(this, event)" value="${bList.BrdIdx}">수정</button>
+						<button class="deleteOneBtn tableBtn" onClick="deleteBoard(this, event)" value="${bList.BrdIdx}">삭제</button>
+					</div>
+					<input type="hidden" value="${bList.CustomerNum}" name="customerNum">
+				</div>
 			</td>
 			</tr>
 		</c:forEach>
@@ -127,6 +131,85 @@ body {height:100%; font-family: 'Noto Sans KR';}
 </form>
 </div>
 <div class="space"></div>
-<script src="../resources/boardList.js"></script>
+<script>
+console.log(`customerNumber==> ${customerNumber}`);
+
+const cbSelectAll = document.querySelector(".selectAll");
+const cbArr = document.querySelectorAll(".cb");
+const tableBtnGroup = document.querySelectorAll(".tableBtnGroup");
+
+cbSelectAll.addEventListener("change", selectAll);
+
+function deleteBoard(btn, event){
+	event.preventDefault();
+	const form = new FormData();
+	form.append('idx', btn.value);
+	fetch('/board/delete', {
+		  method: 'POST',
+		  body: form
+		}).then(function(response){
+	       return response.text();
+	    }).then(function(text){
+			console.log("결과:: " + text);
+			text = 1 ? alert("삭제 성공") : alert("삭제 실패");
+			if(text = 1) btn.closest("tr").style.display = 'none';
+		});
+}
+
+function deleteGroup(){
+	console.log(cbArr); //<-- nodeList
+	const checked = cbArr.find(isChecked);	
+	cbSelectAll.checked = true || checked  ? deleteChecked() : alert("삭제할 글을 선택해 주세요");
+}
+
+function isChecked(cb){
+	return cb.checked === true;
+}
+
+function modify(obj, event){
+	event.preventDefault();
+	location.href = '/board/view?idx='+obj.value;
+}
+
+function insert(){
+	location.href = '/board/write';
+}
+
+function hideButtons(){
+	tableBtnGroup.forEach(function(element, index, array){
+		let buttons = element.children.tableBtns;
+		let authorNum = element.children.customerNum.value;
+		if(${customerNumber}!=authorNum) {
+			buttons.style.display = 'none';
+		}
+	});
+}
+
+function cbValidation(cb){
+	let author = cb.value;
+		if(author != ${customerNumber}){
+			cb.checked = false;
+		}
+}
+
+function selectAll(){
+	if (this.checked) {
+		for(let cbs of cbArr){
+			cbs.checked = true;
+			cbValidation(cbs);
+		}
+  } else {
+		for(let cbs of cbArr){
+			cbs.checked = false;
+		}
+  }
+}
+
+function init(){
+	hideButtons();
+}
+
+init();
+</script>
 </body>
 </html>

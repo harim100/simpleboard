@@ -3,23 +3,22 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mssql.mybatis.firstBMapper">
-<insert id="posting_insert"  parameterType="map">
+<insert id="boardInsert"  parameterType="map">
 INSERT INTO Bd_Board
-           (BoardNum
-           ,CustomerId
-           ,BoardTitle
-           ,BoardContent
-           ,BoardImagePath
-           ,BoardImageSize
-           ,BoardDate)
+           (Title
+           ,Content
+           ,ImagePath
+           ,InsDate
+           ,IsUse
+           ,CustomerNum
+           )
 VALUES ( 
-	 SeqBdNum.NEXTVAL
-	,#{CustomerId    }
-	,#{BoardTitle    }
-	,#{BoardContent  }
-	,#{BoardImagePath}
-	,#{BoardImageSize}
+	 #{title}
+	,#{content}
+	,#{imagePath}
 	,convert(varchar(10), getdate(), 120)
+	,'Y'
+	,#{customerNum}
  	)
 </insert>
 
@@ -32,6 +31,7 @@ VALUES (
 		,CONVERT(varchar(10), InsDate, 23) AS InsDate
 		,IsUse
 		,CONVERT(varchar(10), UpdateDate, 23) AS UpdateDate
+		,CustomerNum
 	FROM Bd_Board
 	ORDER BY BrdIdx desc
 </select>
@@ -43,13 +43,30 @@ VALUES (
 		,Content
 		,ImagePath
 		,CONVERT(varchar(10), InsDate, 23) AS InsDate
+		,CONVERT(varchar(10), UpdateDate, 23) AS UpdateDate
+		,CustomerNum
 	FROM Bd_Board
-	WHERE BrdIdx = ${idx}
+	WHERE BrdIdx = #{idx}
 </select>
 
-  <select id="titleList" parameterType="map" resultType="map">
+<select id="titleList" parameterType="map" resultType="map">
    SELECT Title FROM Bd_Board
 	ORDER BY BrdIdx desc
- </select>
+</select>
+
+<delete id="boardDelete" parameterType="map">
+	DELETE FROM Bd_Board
+	WHERE BrdIdx = #{idx}
+</delete>
+
+<update id="boardUpdate" parameterType="map">
+	UPDATE Bd_Board
+	SET  Title = '#{title}'
+		,Content = '#{content}'
+		,ImagePath = '#{imagePath}'
+		,UpdateDate = CONVERT(varchar(10), getDate(), 23)
+	WHERE BrdIdx = #{idx}
+
+</update>
  
 </mapper>
