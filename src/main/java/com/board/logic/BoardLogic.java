@@ -23,7 +23,8 @@ import com.board.vo.BoardVO;
 public class BoardLogic {
 	private static final Logger logger = LoggerFactory.getLogger(BoardLogic.class);
 	
-	private final String DOWNLOAD_PATH = "\\resources\\img";
+	private final String DOWNLOAD_PATH = "C:\\work";
+	private final String URL_PATH = "/simpleboard/upload/";
 	
 	
 	@Autowired(required=false)
@@ -37,8 +38,12 @@ public class BoardLogic {
 		return bDao.boardSelect(pMap);
 	}
 	
-	public int boardInsert(Map<String, Object> pMap) {
+	public int boardInsert(Map<String, Object> pMap, MultipartFile file) throws IllegalStateException, IOException {
 		logger.info("boardModify 호출 성공");
+		
+		String path = fileUpload(file);
+		pMap.put("imagePath", path);
+		
 		return bDao.boardInsert(pMap);
 	}
 	
@@ -49,9 +54,29 @@ public class BoardLogic {
 	
 	public int boardUpdate(Map<String, Object> pMap, MultipartFile file) throws IllegalStateException, IOException{
 		logger.info("update 호출 성공");
+		
+		String path = fileUpload(file);
+		pMap.put("imagePath", path);
+		
 		return bDao.boardUpdate(pMap);
 	}
 	
+	public String fileUpload(MultipartFile file) throws IllegalStateException, IOException {
+		String originFileName = file.getOriginalFilename();
+		long fileSize = file.getSize(); // 파일 사이즈
+		logger.info("originFileName= " + originFileName + "fileSize= " + fileSize);
+		
+	   // Save mediaFile on system 
+	   if (!file.getOriginalFilename().isEmpty()) {
+	      file.transferTo(new File(DOWNLOAD_PATH, file.getOriginalFilename()));
+	      logger.info("originFileName= " + originFileName + "fileSize= " + fileSize);
+	   } else {
+		   logger.info("originFileName= " + originFileName + "fileSize= " + fileSize);
+	   }
+	   String path = URL_PATH + file.getOriginalFilename();
+	   
+	   return path;
+	}
 	
 	
 

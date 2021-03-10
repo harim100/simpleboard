@@ -31,6 +31,7 @@ public class BoardController {
 	
 	//private final String DOWNLOAD_PATH = "\\resources\\img";
 	private final String DOWNLOAD_PATH = "C:\\work";
+	
 	//private final String SINGLE_FILE_UPLOAD_PATH = "C:\\work";
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	 
@@ -41,11 +42,11 @@ public class BoardController {
 	BoardLogic bLogic; 
 	
 	@RequestMapping("/board/list") 
-	public String boardList(Model model) {
+	public String boardList(Model model, BoardVO bVO) {
 		List<Map<String,Object>> bList = null; 
 		bList = bLogic.boardList();
 		model.addAttribute("bList", bList);
-		return "boardList"; 
+		return "boardList";  
 	} 
 	  
 	@RequestMapping("/board/view") 
@@ -56,10 +57,11 @@ public class BoardController {
 	}
 	  
 	@RequestMapping("/board/insert") 
-	public String insert(Model model, @RequestParam Map<String,Object> pMap) {
-		int result = bLogic.boardInsert(pMap);
+	public String insert(Model model, @RequestParam Map<String,Object> pMap
+			, @RequestParam("imagePath") MultipartFile file) throws IllegalStateException, IOException {
+		int result = bLogic.boardInsert(pMap, file);
 		model.addAttribute("result", result);
-		return "boardList"; 
+		return "redirect:/board/list"; 
 	}
 	
 	@RequestMapping("/board/write") 
@@ -77,19 +79,6 @@ public class BoardController {
 	@RequestMapping("/board/update")  
 	public String update(Model model, HttpServletRequest request, @RequestParam Map<String,Object> pMap
 			,@RequestParam("imagePath") MultipartFile file) throws IOException {
-		
-		String originFileName = file.getOriginalFilename();
-		long fileSize = file.getSize(); // 파일 사이즈
-		logger.info("originFileName= " + originFileName + "fileSize= " + fileSize);
-		
-		String path = DOWNLOAD_PATH + file.getOriginalFilename();
-	   // Save mediaFile on system 
-	   if (!file.getOriginalFilename().isEmpty()) {
-	      file.transferTo(new File(DOWNLOAD_PATH, file.getOriginalFilename()));
-	      logger.info("originFileName= " + originFileName + "fileSize= " + fileSize);
-	   } else {
-	   }
-	   pMap.put("imagePath", path);
 		
 		int result = bLogic.boardUpdate(pMap, file);
 		model.addAttribute("result", result);

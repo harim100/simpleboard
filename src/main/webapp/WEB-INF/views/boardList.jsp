@@ -135,7 +135,7 @@ body {height:100%; font-family: 'Noto Sans KR';}
 console.log(`customerNumber==> ${customerNumber}`);
 
 const cbSelectAll = document.querySelector(".selectAll");
-const cbArr = document.querySelectorAll(".cb");
+const cbList = document.querySelectorAll(".cb");
 const tableBtnGroup = document.querySelectorAll(".tableBtnGroup");
 
 cbSelectAll.addEventListener("change", selectAll);
@@ -157,13 +157,19 @@ function deleteBoard(btn, event){
 }
 
 function deleteGroup(){
-	console.log(cbArr); //<-- nodeList
+	console.log(cbArr);
+	
+	
 	const checked = cbArr.find(isChecked);	
 	cbSelectAll.checked = true || checked  ? deleteChecked() : alert("삭제할 글을 선택해 주세요");
 }
 
 function isChecked(cb){
-	return cb.checked === true;
+	return cb.checked === true ? true : false;
+}
+
+function deleteChecked(){
+	
 }
 
 function modify(obj, event){
