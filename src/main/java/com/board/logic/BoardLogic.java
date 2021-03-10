@@ -30,8 +30,8 @@ public class BoardLogic {
 	@Autowired(required=false)
 	private BoardDao bDao;
 
-	public List<Map<String, Object>> boardList() {
-		return bDao.boardList();
+	public List<Map<String, Object>> boardList(Map offset) {
+		return bDao.boardList(offset);
 	}
 	public BoardVO boardSelect(Map<String, Object> pMap) {
 		logger.info("boardModify 호출 성공");
@@ -39,7 +39,7 @@ public class BoardLogic {
 	}
 	
 	public int boardInsert(Map<String, Object> pMap, MultipartFile file) throws IllegalStateException, IOException {
-		logger.info("boardModify 호출 성공");
+		logger.info("boardInsert 호출 성공");
 		
 		String path = fileUpload(file);
 		pMap.put("imagePath", path);
@@ -50,6 +50,11 @@ public class BoardLogic {
 	public int boardDelete(Map<String, Object> pMap) {
 		logger.info("delete 호출 성공");
 		return bDao.boardDelete(pMap);
+	}
+	
+	public int boardDeleteGroup(String[] pMap) {
+		logger.info("deletegroup 호출 성공");
+		return bDao.boardDeleteGroup(pMap);
 	}
 	
 	public int boardUpdate(Map<String, Object> pMap, MultipartFile file) throws IllegalStateException, IOException{
@@ -76,6 +81,9 @@ public class BoardLogic {
 	   String path = URL_PATH + file.getOriginalFilename();
 	   
 	   return path;
+	}
+	public int getTotal() {
+		return bDao.getTotal();
 	}
 	
 	

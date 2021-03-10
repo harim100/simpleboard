@@ -2,6 +2,7 @@ package com.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,11 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.board.logic.BoardLogic;
+import com.board.util.Pagination;
 import com.board.vo.BoardVO;
 
 /**
  * Handles requests for the application home page.
- */
+ */ 
 @Controller
 public class BoardController {     
 	
@@ -39,13 +41,23 @@ public class BoardController {
     SqlSession sqlSession;
 	
 	@Autowired(required=false) 
-	BoardLogic bLogic; 
+	BoardLogic bLogic;  
+	
+	Pagination pagination;
 	
 	@RequestMapping("/board/list") 
-	public String boardList(Model model, BoardVO bVO) {
+	public String boardList(Model model, BoardVO bVO, @RequestParam(defaultValue="0") int page) {
+		int totalRows = bLogic.getTotal();
+		pagination = new Pagination(totalRows, page);
+		int pageArr[] = pagination.getPagesArr();
+		Map<String, Integer> offset = new HashMap<>();
+		offset.put("offset", pagination.getOffset(page));
+		 
 		List<Map<String,Object>> bList = null; 
-		bList = bLogic.boardList();
+		bList = bLogic.boardList(offset);
+		
 		model.addAttribute("bList", bList);
+		model.addAttribute("pageArr", pageArr);
 		return "boardList";  
 	} 
 	  
@@ -74,14 +86,23 @@ public class BoardController {
 	public void delete(Model model, @RequestParam Map<String,Object> pMap) {
 		int result = bLogic.boardDelete(pMap);
 		model.addAttribute("result", result);
+	}     
+	  
+	@RequestMapping("/board/delete/group")  
+	public String deleteGroup(Model model, @RequestParam("idxArr") String[] pMap) {
+		logger.info("idxArr===>" + pMap);
+		int result = bLogic.boardDeleteGroup(pMap);   
+		model.addAttribute("result", result); 
+		return "redirect:/board/list";
 	}  
 
 	@RequestMapping("/board/update")  
 	public String update(Model model, HttpServletRequest request, @RequestParam Map<String,Object> pMap
-			,@RequestParam("imagePath") MultipartFile file) throws IOException {
+			, @RequestParam("imagePath") MultipartFile file) throws IOException {
 		
 		int result = bLogic.boardUpdate(pMap, file);
-		model.addAttribute("result", result);
+		model.addAttribute("result", result); 
+		logger.info("update pmap ===> " + pMap );
 		return "redirect:/board/view?idx=" + pMap.get("idx"); 
 	} 
 	

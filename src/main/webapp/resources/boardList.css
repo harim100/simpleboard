@@ -1,0 +1,64 @@
+@charset "UTF-8";
+body {height:100%; font-family: 'Noto Sans KR';}
+
+.container{
+	width: 60%;
+	margin: 0 auto 0 auto;
+} 
+.bListTable{
+	width: 100%;
+	text-align: center;
+}
+.tdTitle{
+	text-align: left;
+	padding-left: 2em;
+}
+.space{
+	margin-top: 10em;
+}
+.bListTable, .bListTable th {
+	border: 1px solid #ececec;
+	border-collapse: collapse;
+}
+
+.navBar{
+	text-align: right;
+}
+
+.btnGroup{
+	float: right;
+	margin-bottom: 0.5em;
+}
+
+.btn{
+	border : 1px solid #ececec;
+	padding: 1em 3em 1em 3em;
+	font-weight: bold;
+}
+
+.tableBtn{
+	border : 1px solid #ececec;
+	padding: 1em 4em 1em 4em;
+	font-weight: bold;
+	margin: 0.2em;
+}
+.modifyOneBtn{
+	background: mediumpurple;
+	margin-bottom: 0.2em;
+}
+.js-deleteBtn, .deleteOneBtn{
+	background: mistyrose;
+}
+.js-insertBtn{
+	background: powderblue;
+}
+
+.pagination{
+	margin: 0 auto 0 auto;
+}
+
+.pagination tr td{
+	border : 1px solid #ececec;
+	padding: 1em;
+	border-collapse: collapse;
+}

@@ -39,7 +39,8 @@ window.onload = function() {
 		<tr>
 			<th>이미지</th>
 			<td>
-				<input type="file" name="imagePath" id="fileUploadBtn" class="fileUploadBtn" onChange="imageChanger(this)">
+				<input type="file"  accept=".gif, .jpg, .png"  name="imagePath" 
+				id="fileUploadBtn" class="fileUploadBtn" onChange="imageChanger(this)">
 <!-- 				<label class="fileUploadLabel" for="input-file">
 				  업로드
 				</label>
@@ -103,9 +104,15 @@ function update(event){
 }
 
 function imageChanger(file){
-	console.log("file.value " + file.value);
 	const imagePreview = document.querySelector(".imagePreview");
-	imagePreview.setAttribute("src", file.value);
+	
+	let reader = new FileReader(); 
+	
+	reader.readAsDataURL(event.target.files[0]); 
+	reader.onload = (function (e) {
+            imagePreview.src = e.target.result;
+    })
+	console.log(event.target.files[0]);
 }
 
 function getFileName(){

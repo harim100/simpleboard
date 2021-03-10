@@ -3,10 +3,6 @@ const cbId = document.querySelector(".cbId");
 const loginForm = document.querySelector(".loginForm");
 const memberId = document.querySelector(".js-id");
 
-loginForm.addEventListener("submit", handleSubmit);
-joinBtn.addEventListener("click", handleJoin);
-
-
 window.onload = function() {
 	cookieId = getCookieValue("memberId");
 	console.log("cookieId ===> " + cookieId);
@@ -20,17 +16,18 @@ function handleJoin(){
 	location.href = "/join";
 }
 
-function handleSubmit(){
+function handleSubmit(event){
+    event.preventDefault();
 	if(cbId.checked){
 		console.log("checked ==>" + cbId.checked);
-		setCookie("memberId", memberId.value, periode)
+		setCookie("memberId", memberId.value, 7)
 	}
 	loginForm.submit();
 }
 
-function setCookie(name, value, date){
+function setCookie(name, value, period){
 	var date = new Date();
-		date.setTime(date.getTime() + periode*24*60*60*1000);
+		date.setTime(date.getTime() + period*24*60*60*1000);
 		document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
 }
 
@@ -51,3 +48,6 @@ const getCookieValue = (key) => {
   }
   return result;
 }
+
+loginForm.addEventListener("submit", handleSubmit, true);
+joinBtn.addEventListener("click", handleJoin);

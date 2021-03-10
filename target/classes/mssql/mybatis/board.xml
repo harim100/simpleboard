@@ -22,18 +22,20 @@ VALUES (
  	)
 </insert>
 
-<select id="boardList" resultType="map">
-	SELECT
-		BrdIdx
-		,Title
-		,Content
-		,ImagePath
-		,CONVERT(varchar(10), InsDate, 23) AS InsDate
-		,IsUse
-		,CONVERT(varchar(10), UpdateDate, 23) AS UpdateDate
-		,CustomerNum
-	FROM Bd_Board
-	ORDER BY BrdIdx desc
+<select id="boardList" parameterType="map" resultType="map">
+	SELECT ROW_NUMBER() OVER(ORDER BY BrdIdx DESC) AS RowNumber
+			,BrdIdx
+			,Title
+			,Content
+			,ImagePath
+			,CONVERT(varchar(10), InsDate, 23) AS InsDate
+			,IsUse
+			,CONVERT(varchar(10), UpdateDate, 23) AS UpdateDate
+			,CustomerNum
+	FROM  Bd_Board
+	ORDER BY BrdIdx
+	OFFSET #{offset} ROWS
+	FETCH NEXT 5 ROWS ONLY
 </select>
 
 <select id="boardSelect" resultType="com.board.vo.BoardVO">
@@ -49,24 +51,31 @@ VALUES (
 	WHERE BrdIdx = #{idx}
 </select>
 
-<select id="titleList" parameterType="map" resultType="map">
-   SELECT Title FROM Bd_Board
-	ORDER BY BrdIdx desc
-</select>
-
 <delete id="boardDelete" parameterType="map">
 	DELETE FROM Bd_Board
 	WHERE BrdIdx = #{idx}
 </delete>
 
+<delete id="boardDeleteGroup" parameterType="map">
+	DELETE FROM Bd_Board
+	WHERE BrdIdx in 
+	<foreach collection="array" item='item' index='i' open="(" close=")" separator=","> 
+	#{item}
+	</foreach>
+</delete>
+
 <update id="boardUpdate" parameterType="map">
 	UPDATE Bd_Board
-	SET  Title = '#{title}'
-		,Content = '#{content}'
-		,ImagePath = '#{imagePath}'
+	SET  Title = #{title}
+		,Content = #{content}
+		,ImagePath = #{imagePath}
 		,UpdateDate = CONVERT(varchar(10), getDate(), 23)
 	WHERE BrdIdx = #{idx}
 
 </update>
- 
+
+<select id="getTotal" parameterType="map" resultType="Integer">
+	SELECT count(BrdIdx) FROM Bd_Board WHERE IsUse = 'Y';
+</select>
+
 </mapper>

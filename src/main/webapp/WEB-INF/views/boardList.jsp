@@ -7,61 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시판 목록</title>
-<style>
-body {height:100%; font-family: 'Noto Sans KR';}
-
-.container{
-	width: 60%;
-	margin: 0 auto 0 auto;
-} 
-.bListTable{
-	width: 100%;
-	text-align: center;
-}
-.tdTitle{
-	text-align: left;
-	padding-left: 2em;
-}
-.space{
-	margin-top: 10em;
-}
-.bListTable, .bListTable th {
-	border: 1px solid #ececec;
-	border-collapse: collapse;
-}
-
-.navBar{
-	text-align: right;
-}
-
-.btnGroup{
-	float: right;
-	margin-bottom: 0.5em;
-}
-
-.btn{
-	border : 1px solid #ececec;
-	padding: 1em 3em 1em 3em;
-	font-weight: bold;
-}
-
-.tableBtn{
-	border : 1px solid #ececec;
-	padding: 1em 4em 1em 4em;
-	font-weight: bold;
-	margin: 0.2em;
-}
-.modifyOneBtn{
-	background: mediumpurple;
-	margin-bottom: 0.2em;
-}
-.js-deleteBtn, .deleteOneBtn{
-	background: mistyrose;
-}
-.js-insertBtn{
-	background: powderblue;
-}
-</style>
+<link rel="stylesheet" href="../../resources/boardList.css">
 </head>
 <body>
 
@@ -97,6 +43,7 @@ body {height:100%; font-family: 'Noto Sans KR';}
 			<tr>
 			<td>		    	
 				<input type="checkbox" class="cb" value="${bList.CustomerNum}" onChange="cbValidation(this)"/>
+				<input type="hidden" class="cbIdx" value="${bList.BrdIdx}">
 			</td>
 			<!-- 이미지 -->
 			<td><img src="${bList.ImagePath}" width="50" height="50"></td>
@@ -119,8 +66,8 @@ body {height:100%; font-family: 'Noto Sans KR';}
 			<td>
 				<div class="tableBtnGroup">
 					<div class="btns" name="tableBtns">
-						<button class="modifyOneBtn tableBtn modify" onClick="modify(this, event)" value="${bList.BrdIdx}">수정</button>
-						<button class="deleteOneBtn tableBtn" onClick="deleteBoard(this, event)" value="${bList.BrdIdx}">삭제</button>
+						<button class="modifyOneBtn tableBtn modify" onClick="modify(this)" value="${bList.BrdIdx}">수정</button>
+						<button class="deleteOneBtn tableBtn" onClick="deleteBoard(this)" value="${bList.BrdIdx}">삭제</button>
 					</div>
 					<input type="hidden" value="${bList.CustomerNum}" name="customerNum">
 				</div>
@@ -129,57 +76,20 @@ body {height:100%; font-family: 'Noto Sans KR';}
 		</c:forEach>
 	</table>
 </form>
+	<ul>
+	</ul>
+	<table class="pagination">
+		<tr>
+			<c:forEach var = "page" items="${pageArr}">
+				<td>${page+1}</td>
+			</c:forEach>
+		</tr>
+	</table>
 </div>
 <div class="space"></div>
+<script src="../../resources/boardList.js"></script>
 <script>
 console.log(`customerNumber==> ${customerNumber}`);
-
-const cbSelectAll = document.querySelector(".selectAll");
-const cbList = document.querySelectorAll(".cb");
-const tableBtnGroup = document.querySelectorAll(".tableBtnGroup");
-
-cbSelectAll.addEventListener("change", selectAll);
-
-function deleteBoard(btn, event){
-	event.preventDefault();
-	const form = new FormData();
-	form.append('idx', btn.value);
-	fetch('/board/delete', {
-		  method: 'POST',
-		  body: form
-		}).then(function(response){
-	       return response.text();
-	    }).then(function(text){
-			console.log("결과:: " + text);
-			text = 1 ? alert("삭제 성공") : alert("삭제 실패");
-			if(text = 1) btn.closest("tr").style.display = 'none';
-		});
-}
-
-function deleteGroup(){
-	console.log(cbArr);
-	
-	
-	const checked = cbArr.find(isChecked);	
-	cbSelectAll.checked = true || checked  ? deleteChecked() : alert("삭제할 글을 선택해 주세요");
-}
-
-function isChecked(cb){
-	return cb.checked === true ? true : false;
-}
-
-function deleteChecked(){
-	
-}
-
-function modify(obj, event){
-	event.preventDefault();
-	location.href = '/board/view?idx='+obj.value;
-}
-
-function insert(){
-	location.href = '/board/write';
-}
 
 function hideButtons(){
 	tableBtnGroup.forEach(function(element, index, array){
@@ -196,19 +106,6 @@ function cbValidation(cb){
 		if(author != ${customerNumber}){
 			cb.checked = false;
 		}
-}
-
-function selectAll(){
-	if (this.checked) {
-		for(let cbs of cbArr){
-			cbs.checked = true;
-			cbValidation(cbs);
-		}
-  } else {
-		for(let cbs of cbArr){
-			cbs.checked = false;
-		}
-  }
 }
 
 function init(){

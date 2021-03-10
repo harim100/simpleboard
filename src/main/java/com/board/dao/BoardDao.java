@@ -21,8 +21,8 @@ public class BoardDao {
 	int result = 0; 
 	
 
-	public List<Map<String, Object>> boardList() {
-		return sqlSessionTemplate.selectList("boardList");
+	public List<Map<String, Object>> boardList(Map offset) {
+		return sqlSessionTemplate.selectList("boardList", offset);
 	}
 	
 	public BoardVO boardSelect(Map<String, Object> pMap) {
@@ -32,6 +32,10 @@ public class BoardDao {
 	public int boardDelete(Map<String, Object> pMap) {
 		return sqlSessionTemplate.delete("boardDelete", pMap);
 	}
+ 
+	public int boardDeleteGroup(String[] pMap) {
+		return sqlSessionTemplate.delete("boardDeleteGroup", pMap);
+	}
 	
 	public int boardUpdate(Map<String, Object> pMap) {
 		return sqlSessionTemplate.update("boardUpdate", pMap);
@@ -39,6 +43,10 @@ public class BoardDao {
 	
 	public int boardInsert(Map<String, Object> pMap) {
 		return sqlSessionTemplate.insert("boardInsert", pMap);
+	}
+
+	public int getTotal() {
+		return sqlSessionTemplate.selectOne("getTotal");
 	}
 		
 	

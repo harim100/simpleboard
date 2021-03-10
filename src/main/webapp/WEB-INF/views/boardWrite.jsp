@@ -36,8 +36,9 @@
 		<tr>
 			<th>이미지</th>
 			<td>
-				<input type="file" accept=".gif, .jpg, .png" name="imagePath" id="fileUploadBtn" class="fileUploadBtn" 
-				onChange="imageChanger(this, event)">
+				<input type="file" accept=".gif, .jpg, .png" name="imagePath" 
+				id="fileUploadBtn" class="fileUploadBtn" 
+				onChange="imageChanger(this)">
 			</td>
 		</tr>
 		<tr>
@@ -68,7 +69,7 @@ function cancel(event){
     location.href = `${pageContext.request.contextPath}/board/insert`;
 }
 
-function imageChanger(file, event){
+function imageChanger(file){
 	const imagePreview = document.querySelector(".imagePreview");
 	
 	let reader = new FileReader(); 
