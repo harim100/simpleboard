@@ -33,7 +33,7 @@ VALUES (
 			,CONVERT(varchar(10), UpdateDate, 23) AS UpdateDate
 			,CustomerNum
 	FROM  Bd_Board
-	ORDER BY BrdIdx
+	ORDER BY BrdIdx desc
 	OFFSET #{offset} ROWS
 	FETCH NEXT 5 ROWS ONLY
 </select>

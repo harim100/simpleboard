@@ -17,7 +17,7 @@
 	<logger name="com.board.logic">
 		<level value="info" />
 	</logger>
-	<logger name="com.board.dao">
+	<logger name="com.board.util">
 		<level value="info" />
 	</logger>
 	

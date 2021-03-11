@@ -51,7 +51,6 @@ window.onload = function() {
 			<td></td>
 			<td>
 			<div class="filename">
-				${bVO.getImagePath()}
 			</div>
 			<img class="imagePreview" src="${bVO.getImagePath()}" width="50" height="50">
 			</td>
@@ -68,6 +67,8 @@ window.onload = function() {
 <div class="space"></div>
 <script>
 const updateForm = document.querySelector(".updateForm");
+const textArea = document.querySelector(".textarea");
+const title = document.querySelector(".title");
 
 function cancel(event){
 	event.preventDefault();
@@ -77,16 +78,20 @@ function cancel(event){
 function deleteBoard(event){
 	event.preventDefault();
 	if(${bVO.getCustomerNum()}==${sessionScope.customerNumber}){
-		//location.href = `board/delete?idx=${bVO.getBrdIdx()}`;
-		fetch(`/board/delete?idx=${bVO.getBrdIdx()}`, {
-			  method: 'GET',
-			}).then(function(response){
-		       return response.text();
-		    }).then(function(text){
-				console.log("결과:: " + text);
-				text = 1 ? alert("삭제 성공") : alert("삭제 실패");
-				location.href = `${pageContext.request.contextPath}/board/list`;
-			});
+		 if(confirm("정말 삭제하시겠습니까?") == true){
+			fetch(`/board/delete?idx=${bVO.getBrdIdx()}`, {
+				  method: 'GET',
+				}).then(function(response){
+			       return response.text();
+			    }).then(function(text){
+					console.log("결과:: " + text);
+					text = 1 ? alert("삭제 성공") : alert("삭제 실패");
+					location.href = `${pageContext.request.contextPath}/board/list`;
+				});
+		 }
+		 else{
+		     return ;
+		 }
 	}
 	else{
 		alert("본인이 작성한 글만 삭제할 수 있습니다.");
@@ -96,11 +101,24 @@ function deleteBoard(event){
 function update(event){
 	event.preventDefault();
 	if(${bVO.getCustomerNum()}==${sessionScope.customerNumber}){
-		updateForm.submit();
+		if(writeValidation(title, 30) && writeValidation(textArea, 100)){
+			updateForm.submit();
+		}
 	}
 	else{
 		alert("본인이 작성한 글만 수정할 수 있습니다.");
 	}
+}
+
+function writeValidation(what, limit) {
+	console.log("limit ===> " + limit);
+    if(what.value.length < limit) return true;
+    else{
+	       alert('최대 ' + limit + '자 까지만 입력가능합니다');
+	       what.value = "";
+	       what.focus();
+	       return false;
+		}
 }
 
 function imageChanger(file){
@@ -116,11 +134,12 @@ function imageChanger(file){
 }
 
 function getFileName(){
-	const splits = `${bVO.getImagePath()}`.split('/');
-	console.log(splits[splits.length-1]);
+	const file = `${bVO.getImagePath()}`.split('/');
 	
-	const filename = document.querySelector(".filename");
-	filename.innerText = splits[splits.length-1];
+	if(file[file.length-1] != 'default.png'){
+		const filename = document.querySelector(".filename");
+		filename.innerText = file[file.length-1];
+	}
 }
 
 function init(){

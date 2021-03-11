@@ -20,10 +20,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.board.logic.MemberLogic;
 import com.board.vo.MemberVO;
-
-/**
+  
+/** 
  * Handles requests for the application home page.
- */
+ */ 
 @Controller
 public class MemberController {
 	
@@ -75,7 +75,7 @@ public class MemberController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) throws Exception{
 		session.invalidate();
-		return "login";
+		return "redirect:/login";
 	}
 	
 	@ResponseBody
@@ -112,7 +112,7 @@ public class MemberController {
 		session = req.getSession();
 		session.setAttribute("customerName", pMap.get("CustomerName"));
 		mod.addAttribute("result", result);
-		return "redirect:/board/list";
+		return "redirect:/login";
 	}
 	
 }

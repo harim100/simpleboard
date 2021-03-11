@@ -45,21 +45,20 @@ public class BoardController {
 	
 	Pagination pagination;
 	
-	@RequestMapping("/board/list") 
-	public String boardList(Model model, BoardVO bVO, @RequestParam(defaultValue="0") int page) {
+	@RequestMapping("/board/list")  
+	public String boardList(Model model, BoardVO bVO, @RequestParam(defaultValue="1") int page) {
 		int totalRows = bLogic.getTotal();
-		pagination = new Pagination(totalRows, page);
-		int pageArr[] = pagination.getPagesArr();
+		pagination = new Pagination(totalRows, page-1);
 		Map<String, Integer> offset = new HashMap<>();
-		offset.put("offset", pagination.getOffset(page));
+		offset.put("offset", pagination.getOffset(page-1)); 
 		 
-		List<Map<String,Object>> bList = null; 
+		List<Map<String,Object>> bList = null;  
 		bList = bLogic.boardList(offset);
-		
+		   
 		model.addAttribute("bList", bList);
-		model.addAttribute("pageArr", pageArr);
+		model.addAttribute("pagination", pagination);     
 		return "boardList";  
-	} 
+	}  
 	  
 	@RequestMapping("/board/view") 
 	public String modify(Model model, @RequestParam Map<String,Object> pMap, BoardVO bVO) {
@@ -70,7 +69,7 @@ public class BoardController {
 	  
 	@RequestMapping("/board/insert") 
 	public String insert(Model model, @RequestParam Map<String,Object> pMap
-			, @RequestParam("imagePath") MultipartFile file) throws IllegalStateException, IOException {
+			, @RequestParam(value = "imagePath", required = false) MultipartFile file) throws IllegalStateException, IOException {
 		int result = bLogic.boardInsert(pMap, file);
 		model.addAttribute("result", result);
 		return "redirect:/board/list"; 
@@ -81,11 +80,11 @@ public class BoardController {
 		return "boardWrite"; 
 	}
 	
-	@ResponseBody
 	@RequestMapping("/board/delete") 
-	public void delete(Model model, @RequestParam Map<String,Object> pMap) {
+	public String delete(Model model, @RequestParam Map<String,Object> pMap) {
 		int result = bLogic.boardDelete(pMap);
 		model.addAttribute("result", result);
+		return "redirect:/board/list"; 
 	}     
 	  
 	@RequestMapping("/board/delete/group")  
@@ -98,7 +97,7 @@ public class BoardController {
 
 	@RequestMapping("/board/update")  
 	public String update(Model model, HttpServletRequest request, @RequestParam Map<String,Object> pMap
-			, @RequestParam("imagePath") MultipartFile file) throws IOException {
+			, @RequestParam(value = "imagePath" , required = false) MultipartFile file) throws IOException {
 		
 		int result = bLogic.boardUpdate(pMap, file);
 		model.addAttribute("result", result); 

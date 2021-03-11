@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,7 @@
 	</div>
 	<div class="space"></div>
 	<div class="btnGroup">
-	 <button class="js-deleteBtn btn" onClick="deleteGroup()">삭제</button>
+	 <button class="js-deleteBtn btn" onClick="selDeleteGroup()">삭제</button>
 	 <button class="js-insertBtn btn" onClick="insert()">등록</button>
 	</div>
 <form>
@@ -76,20 +77,26 @@
 		</c:forEach>
 	</table>
 </form>
-	<ul>
+	<ul> 
 	</ul>
 	<table class="pagination">
 		<tr>
-			<c:forEach var = "page" items="${pageArr}">
-				<td>${page+1}</td>
-			</c:forEach>
+			<c:if test="${pagination.isBefore}">
+				<td><a href="${pageContext.request.contextPath}/board/list?page=${pagination.startPage}">이전</a></td>
+			</c:if>
+			<c:forEach var = "curPage" items="${pagination.pages}">
+				<td><a href="${pageContext.request.contextPath}/board/list?page=${curPage+1}">${curPage+1}</a></td>
+			</c:forEach> 
+			<c:if test="${pagination.isNext}">
+				<td><a href="${pageContext.request.contextPath}/board/list?page=${pagination.endPage+1}">다음</a></td>
+			</c:if>
 		</tr>
 	</table>
 </div>
 <div class="space"></div>
 <script src="../../resources/boardList.js"></script>
 <script>
-console.log(`customerNumber==> ${customerNumber}`);
+console.log("customerNumber = " + ${customerNumber})
 
 function hideButtons(){
 	tableBtnGroup.forEach(function(element, index, array){

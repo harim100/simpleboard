@@ -22,6 +22,7 @@
 		<tr>
 			<th>제목</th>
 			<td>
+				<input type="hidden" value="${sessionScope.customerNumber}" name="customerNum">
 				<input name="title" class="input title" type="text">
 			</td>
 		</tr>
@@ -48,25 +49,42 @@
 			</td>
 		</tr>
 	</table>
-	<input type="hidden" value="${sessionScope.customerNumber}" name="customerNum">
 	<div class="btnGroup">
-		 <button class="btn" onclick="cancel(event)">취소</button>
-		 <button class="js-insertBtn btn" onClick="insert(event)">등록</button>
+		 <button class="btn" onclick="cancel()">취소</button>
+		 <button class="js-insertBtn btn" onclick="insert()">등록</button>
 	</div>
 </form>
 </div>
 <div class="space"></div>
 <script>
-const insertForm = document.querySelector(".insertForm");
+console.log("customerNumber = " + ${customerNumber})
 
-function cancel(event){
+const insertForm = document.querySelector(".insertForm");
+const textArea = document.querySelector(".textarea");
+const title = document.querySelector(".title");
+
+function cancel(){
 	event.preventDefault();
     location.href = `${pageContext.request.contextPath}/board/list`;
 }
 
-function cancel(event){
+function insert(){
 	event.preventDefault();
-    location.href = `${pageContext.request.contextPath}/board/insert`;
+	
+	if(writeValidation(title, 30) && writeValidation(textArea, 100)){
+		insertForm.submit();
+	}
+}
+
+function writeValidation(what, limit) {
+	console.log("limit ===> " + limit);
+    if(what.value.length < limit) return true;
+    else{
+	       alert('최대 ' + limit + '자 까지만 입력가능합니다');
+	       what.value = "";
+	       what.focus();
+	       return false;
+		}
 }
 
 function imageChanger(file){
@@ -81,9 +99,6 @@ function imageChanger(file){
 	console.log(event.target.files[0]);
 }
 
-function init(){
-}
-init();
 </script>
 </body>
 </html>

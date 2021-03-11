@@ -4,21 +4,17 @@ const tableBtnGroup = document.querySelectorAll(".tableBtnGroup");
 
 function deleteBoard(btn){
 	event.preventDefault();
-	const form = new FormData();
-	form.append('idx', btn.value);
-	fetch('/board/delete', {
-		  method: 'POST',
-		  body: form
-		}).then(function(response){
-	       return response.text();
-	    }).then(function(text){
-			console.log("결과:: " + text);
-			text = 1 ? alert("삭제 성공") : alert("삭제 실패");
-			if(text = 1) btn.closest("tr").style.display = 'none';
-		});
+	
+	 if(confirm("정말 삭제하시겠습니까?") == true){
+		makeForm("idx", "hidden", btn.value, "post", "/board/delete").submit();
+	 }
+	 else{
+	     return ;
+	 }
+	
 }
 
-function deleteGroup(){
+function selDeleteGroup(){
 	event.preventDefault();
 	const cbArr = Array.from(cbList);
 	const checkedCbs = cbArr.filter(isChecked);	
@@ -31,8 +27,8 @@ function isChecked(cb){
 
 function confirmDelete(checkedCbs){
 	 if(confirm("정말 삭제하시겠습니까?") == true){
-	     alert("삭제되었습니다");
-		 deleteChecked(checkedCbs);
+		deleteChecked(checkedCbs);
+	    alert("삭제되었습니다");
 	 }
 	 else{
 	     return ;
@@ -48,23 +44,27 @@ function deleteChecked(checkedCbs){
 	}
 	console.log("idxArr:: " + idxArr);
 	
+	makeForm("idxArr", "hidden", idxArr, "post", "/board/delete/group").submit();
+}
+
+function makeForm(name, type, value, method, action){
 	const form = document.createElement("form");
 	const input = document.createElement("input");
-	input.name = "idxArr";
-	input.type = "hidden";
-	input.value = idxArr;
+	input.name = name;
+	input.type = type;
+	input.value = value;
 	
 	form.appendChild(input);
 	
 	console.log(form);
 	
-	form.charset = "UTF-8"
-	form.method = "post"
-	form.action = "/board/delete/group"
+	form.charset = "UTF-8";
+	form.method = method;
+	form.action = action;
 	
 	document.body.appendChild(form); 
 	
-	form.submit(); 
+	return form;
 }
  
 function modify(obj){

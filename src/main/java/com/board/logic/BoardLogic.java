@@ -25,7 +25,7 @@ public class BoardLogic {
 	
 	private final String DOWNLOAD_PATH = "C:\\work";
 	private final String URL_PATH = "/simpleboard/upload/";
-	
+	private final String DEFAULT_IMAGE = "default.png";
 	
 	@Autowired(required=false)
 	private BoardDao bDao;
@@ -39,10 +39,12 @@ public class BoardLogic {
 	}
 	
 	public int boardInsert(Map<String, Object> pMap, MultipartFile file) throws IllegalStateException, IOException {
-		logger.info("boardInsert 호출 성공");
-		
-		String path = fileUpload(file);
-		pMap.put("imagePath", path);
+		if(file.isEmpty()) {
+			pMap.put("imagePath", URL_PATH + DEFAULT_IMAGE);
+		} else {
+			String path = fileUpload(file);
+			pMap.put("imagePath", path);
+		}
 		
 		return bDao.boardInsert(pMap);
 	}

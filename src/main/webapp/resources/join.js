@@ -9,9 +9,10 @@ const pw2 = document.querySelector(".js-pw2");
 const name = document.querySelector(".js-name");
 
 const idReg = /^[a-zA-Z0-9]{4,20}$/ 
-const pwReg = /^[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{8,20}$/
-// 특문, 영문, 숫자 필수
-// const pwReg = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[$@!%*#?&])[a-z0-9$@!%*#?&]{8,20}$");
+//영문특문숫자*선택*
+//const pwReg = /^[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{8,20}$/
+//영문특문숫자*필수*
+const pwReg = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[$@!%*#?&])[a-z0-9$@!%*#?&]{8,20}$");
 
 const nameReg = /^[a-zA-Z가-힣]{2,30}$/
 const cellReg = /^[0-9]{1,15}$/
