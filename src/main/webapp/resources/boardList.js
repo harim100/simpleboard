@@ -11,7 +11,6 @@ function deleteBoard(btn){
 	 else{
 	     return ;
 	 }
-	
 }
 
 function selDeleteGroup(){
@@ -28,7 +27,6 @@ function isChecked(cb){
 function confirmDelete(checkedCbs){
 	 if(confirm("정말 삭제하시겠습니까?") == true){
 		deleteChecked(checkedCbs);
-	    alert("삭제되었습니다");
 	 }
 	 else{
 	     return ;
@@ -44,7 +42,21 @@ function deleteChecked(checkedCbs){
 	}
 	console.log("idxArr:: " + idxArr);
 	
-	makeForm("idxArr", "hidden", idxArr, "post", "/board/delete/group").submit();
+	const form = new FormData();
+	form.append('idxArr', idxArr);
+	
+	fetch('/board/delete/group', {
+				  method: 'POST',
+				  body: form
+				}).then(function(response){
+			       return response.text();
+			    }).then(function(text){
+					console.log("결과:: " + text);
+					text = 1 ? alert("삭제 성공") : alert("삭제 실패");
+					location.href = "javascript:location.reload()";
+				});
+	
+	//makeForm("idxArr", "hidden", idxArr, "post", "/board/delete/group").submit();
 }
 
 function makeForm(name, type, value, method, action){

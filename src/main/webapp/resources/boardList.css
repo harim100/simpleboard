@@ -9,12 +9,17 @@ body {height:100%; font-family: 'Noto Sans KR';}
 	width: 100%;
 	text-align: center;
 }
+
+.bListTable tr td{
+	height : 7em;
+}
+
 .tdTitle{
 	text-align: left;
 	padding-left: 2em;
 }
 .space{
-	margin-top: 10em;
+	margin-top: 8em;
 }
 .bListTable, .bListTable th {
 	border: 1px solid #ececec;
@@ -40,11 +45,10 @@ body {height:100%; font-family: 'Noto Sans KR';}
 	border : 1px solid #ececec;
 	padding: 1em 4em 1em 4em;
 	font-weight: bold;
-	margin: 0.2em;
+	margin: 0.1em;
 }
 .modifyOneBtn{
 	background: mediumpurple;
-	margin-bottom: 0.2em;
 }
 .js-deleteBtn, .deleteOneBtn{
 	background: mistyrose;

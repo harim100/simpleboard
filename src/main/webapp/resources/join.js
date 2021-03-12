@@ -7,22 +7,24 @@ const id = document.querySelector(".js-id");
 const pw = document.querySelector(".js-pw");
 const pw2 = document.querySelector(".js-pw2");
 const name = document.querySelector(".js-name");
+const cell = document.querySelector(".js-cell");
 
 const idReg = /^[a-zA-Z0-9]{4,20}$/ 
-//영문특문숫자*선택*
+//영문특문숫자 *선택*
 //const pwReg = /^[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{8,20}$/
-//영문특문숫자*필수*
+//영문특문숫자 *필수*
 const pwReg = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[$@!%*#?&])[a-z0-9$@!%*#?&]{8,20}$");
-
+//이름
 const nameReg = /^[a-zA-Z가-힣]{2,30}$/
+//연락처 - 숫자만입력
 const cellReg = /^[0-9]{1,15}$/
+let isIdChecked = false;
 
-function checkId(event){
-	console.log("중복체크 클릭");
+function checkId(){
 	console.log("입력한 아이디:" + id.value);
 	let requestedId = id.value;
 	
-	if(requestedId == null || requestedId.length == 0) alert("아이디를 입력해주세요")
+	if(requestedId.length == 0) alert("아이디를 입력해주세요")
 	else {
 	
 	let idVaildation = check(idReg, id, "아이디는 최소 4자리~최대 20자리, 영문, 숫자만 허용됩니다.");
@@ -30,16 +32,21 @@ function checkId(event){
 		if(idVaildation == true) {
 			const form = new FormData();
 			form.append('requestedId', requestedId);
-			fetch('/check-id', {
-			  method: 'POST',
-			  body: form
-			}).then(function(response){
-		       return response.text();
-		    }).then(function(text){
-				console.log("결과:: " + text);
-				if(text != '0') warning.innerHTML = "중복된 아이디가 있습니다."
-				else			warning.innerHTML = "사용가능한 아이디 입니다."
-			});
+				fetch('/check/id', {
+				  method: 'POST',
+				  body: form
+				}).then(function(response){
+			       return response.text();
+			    }).then(function(text){
+					console.log("결과:: " + text);
+					if(text != '0') {
+						warning.innerHTML = "중복된 아이디가 있습니다.";
+						isIdChecked = false;
+					} else{
+						warning.innerHTML = "사용가능한 아이디 입니다."; 
+						isIdChecked = true;
+					}			
+				});
 		}//end of idValidation
 	}//end of else
 }
@@ -63,12 +70,13 @@ function validation(){
 	}
 	let nameCheck = check(nameReg, name, "이름은 한글 또는 영문만 최소 두 자부터 30자 까지 허용됩니다.");
 	
-	if(idCheck && pwCheck && nameCheck) return true;
-	else return false;
+	return idCheck && pwCheck && nameCheck
+			&& isIdChecked == true ? true : alert("아이디를 확인해주세요")
+			&& cell.value > 0 ? check(cellReg, cell, "하이픈을 제외한 숫자만 허용됩니다.") : false;
 }
 
-function handleSubmit(event){
+function handleSubmit(){
 	if (validation()){
-	document.querySelector(".joinForm").submit();
+		document.querySelector(".joinForm").submit();
 	}
 }

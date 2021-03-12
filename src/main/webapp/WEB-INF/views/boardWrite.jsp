@@ -37,9 +37,9 @@
 		<tr>
 			<th>이미지</th>
 			<td>
-				<input type="file" accept=".gif, .jpg, .png" name="imagePath" 
-				id="fileUploadBtn" class="fileUploadBtn" 
-				onChange="imageChanger(this)">
+				<input type="file" accept=".gif, .jpg, .png" name="imageFile" 
+					id="fileUploadBtn" class="fileUploadBtn" 
+					onChange="imageChanger(this)">
 			</td>
 		</tr>
 		<tr>
@@ -57,7 +57,7 @@
 </div>
 <div class="space"></div>
 <script>
-console.log("customerNumber = " + ${customerNumber})
+console.log(`customerNumber = + ${customerNumber}`);
 
 const insertForm = document.querySelector(".insertForm");
 const textArea = document.querySelector(".textarea");

@@ -5,7 +5,6 @@ const memberId = document.querySelector(".js-id");
 
 window.onload = function() {
 	cookieId = getCookieValue("memberId");
-	console.log("cookieId ===> " + cookieId);
 	if(cookieId != null){
 		memberId.value = cookieId;
 		cbId.checked = true;		

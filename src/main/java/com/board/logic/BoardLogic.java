@@ -34,7 +34,6 @@ public class BoardLogic {
 		return bDao.boardList(offset);
 	}
 	public BoardVO boardSelect(Map<String, Object> pMap) {
-		logger.info("boardModify 호출 성공");
 		return bDao.boardSelect(pMap);
 	}
 	
@@ -50,37 +49,31 @@ public class BoardLogic {
 	}
 	
 	public int boardDelete(Map<String, Object> pMap) {
-		logger.info("delete 호출 성공");
 		return bDao.boardDelete(pMap);
 	}
 	
 	public int boardDeleteGroup(String[] pMap) {
-		logger.info("deletegroup 호출 성공");
 		return bDao.boardDeleteGroup(pMap);
 	}
 	
 	public int boardUpdate(Map<String, Object> pMap, MultipartFile file) throws IllegalStateException, IOException{
-		logger.info("update 호출 성공");
-		
-		String path = fileUpload(file);
-		pMap.put("imagePath", path);
+		if(file.isEmpty()) {
+			pMap.put("imagePath", pMap.get("oriImagePath"));
+		} else {
+			String path = fileUpload(file);
+			pMap.put("imagePath", path);
+		}
 		
 		return bDao.boardUpdate(pMap);
 	}
 	
 	public String fileUpload(MultipartFile file) throws IllegalStateException, IOException {
 		String originFileName = file.getOriginalFilename();
-		long fileSize = file.getSize(); // 파일 사이즈
-		logger.info("originFileName= " + originFileName + "fileSize= " + fileSize);
 		
-	   // Save mediaFile on system 
 	   if (!file.getOriginalFilename().isEmpty()) {
-	      file.transferTo(new File(DOWNLOAD_PATH, file.getOriginalFilename()));
-	      logger.info("originFileName= " + originFileName + "fileSize= " + fileSize);
-	   } else {
-		   logger.info("originFileName= " + originFileName + "fileSize= " + fileSize);
+	      file.transferTo(new File(DOWNLOAD_PATH, originFileName));
 	   }
-	   String path = URL_PATH + file.getOriginalFilename();
+	   String path = URL_PATH + originFileName;
 	   
 	   return path;
 	}

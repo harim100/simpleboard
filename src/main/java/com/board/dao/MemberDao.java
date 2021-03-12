@@ -1,7 +1,5 @@
 package com.board.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,12 +27,12 @@ public class MemberDao {
 	 */
 	public int member_id_check(Map<String, Object> pMap) {
 		logger.info("member_id_check 호출성공");
-		return sqlSessionTemplate.selectOne("idCheck",pMap);
+		return sqlSessionTemplate.selectOne("checkId",pMap);
 	}
 	
 	public int insertMember(Map<String, Object> pMap) {
 		logger.info("member_join 호출성공");
-		return sqlSessionTemplate.insert("member_join",pMap);
+		return sqlSessionTemplate.insert("joinMember",pMap);
 	}
 	
 //==================================== [[login]] ==========================================

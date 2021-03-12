@@ -96,13 +96,21 @@
 <div class="space"></div>
 <script src="../../resources/boardList.js"></script>
 <script>
-console.log("customerNumber = " + ${customerNumber})
+console.log(`customerNumber =  ${customerNumber}`);
+<%-- var userId=<%: Session["userId"] %>;/*  */ --%>
+function init(){
+	let customerNum = "${customerNumber}";
+	customerNum.length <= 0 ? (
+		alert("로그인이 필요합니다"),
+		location.href ="/login"
+	) : hideButtons();
+}
 
 function hideButtons(){
 	tableBtnGroup.forEach(function(element, index, array){
 		let buttons = element.children.tableBtns;
 		let authorNum = element.children.customerNum.value;
-		if(${customerNumber}!=authorNum) {
+		if("${customerNumber}"!=authorNum) {
 			buttons.style.display = 'none';
 		}
 	});
@@ -110,16 +118,13 @@ function hideButtons(){
 
 function cbValidation(cb){
 	let author = cb.value;
-		if(author != ${customerNumber}){
+		if(author != "${customerNumber}"){
 			cb.checked = false;
 		}
 }
 
-function init(){
-	hideButtons();
-}
-
 init();
+
 </script>
 </body>
 </html>

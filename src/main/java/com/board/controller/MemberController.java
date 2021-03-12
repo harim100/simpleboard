@@ -26,7 +26,7 @@ import com.board.vo.MemberVO;
  */ 
 @Controller
 public class MemberController {
-	
+	 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	HttpSession session= null;
@@ -41,7 +41,7 @@ public class MemberController {
 	@RequestMapping("/do/login")
 	public ModelAndView member_login(@RequestParam Map<String,Object> pMap
 			,MemberVO vo, HttpServletRequest req, RedirectAttributes rttr) {
-		logger.info("member_login 호출 성공"+pMap);
+		logger.info("member_login  " + pMap);
 		
 		MemberVO login = null; 
 		login = memLogic.login(vo);
@@ -79,7 +79,7 @@ public class MemberController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/check-id")
+	@RequestMapping("/check/id")
 	public int member_id_check(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("member_id_check 호출 성공"+pMap);
 		result = memLogic.member_id_check(pMap);
@@ -98,7 +98,6 @@ public class MemberController {
 	
 	@RequestMapping("/create/member")
 	public String insertMember(Model mod, @RequestParam Map<String,Object> pMap, HttpServletRequest req) {
-		logger.info("member_join 호출 성공"+pMap);
 		
 		//패스워드 암호화
 		String password = (String) pMap.get("Pw");

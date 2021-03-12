@@ -43,7 +43,7 @@
                 </tr>
                 <tr>
                   <th><span>연락처</span></th>
-                  <td><input name="CustomerPhone" type="text" placeholder=""></td>
+                  <td><input class="js-cell" name="CustomerPhone" type="text" placeholder=""></td>
                 </tr>
               </tbody>
             </table>

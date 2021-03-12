@@ -4,22 +4,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mssql.mybatis.firstBMapper">
 <insert id="boardInsert"  parameterType="map">
-INSERT INTO Bd_Board
-           (Title
-           ,Content
-           ,ImagePath
-           ,InsDate
-           ,IsUse
-           ,CustomerNum
-           )
-VALUES ( 
-	 #{title}
-	,#{content}
-	,#{imagePath}
-	,convert(varchar(10), getdate(), 120)
-	,'Y'
-	,#{customerNum}
- 	)
+	INSERT INTO Bd_Board
+	           (Title
+	           ,Content
+	           ,ImagePath
+	           ,InsDate
+	           ,IsUse
+	           ,CustomerNum
+	           )
+	VALUES ( 
+		 #{title}
+		,#{content}
+		,#{imagePath}
+		, getdate()
+		,'Y'
+		,#{customerNum}
+	 	)
 </insert>
 
 <select id="boardList" parameterType="map" resultType="map">
@@ -69,7 +69,7 @@ VALUES (
 	SET  Title = #{title}
 		,Content = #{content}
 		,ImagePath = #{imagePath}
-		,UpdateDate = CONVERT(varchar(10), getDate(), 23)
+		,UpdateDate = getDate()
 	WHERE BrdIdx = #{idx}
 
 </update>

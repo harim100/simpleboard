@@ -23,6 +23,24 @@
       <constructor-arg index="0" ref="sqlSessionFactory"/>
    </bean>
 	
+	<!-- fileupload -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	    <property name="maxUploadSize" value="5242880"/> <!-- 5MB 5242880 bytes-->
+	    <property name="maxUploadSizePerFile" value="5242880"/>
+	    <property name="maxInMemorySize" value="0"/>
+	    <property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+	
+	<!-- fileupload handle size error -->
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    <property name="exceptionMappings">
+        <props>
+            <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">
+            /handleUploadError</prop>
+        </props>
+    </property>
+</bean>
+	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<context:component-scan base-package="com.board.dao, com.board.logic">
     	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />

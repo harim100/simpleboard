@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <!-- xml의 주석은 Ctrl + shift + /  -->
 <mapper namespace="mssql.mybatis.memberMapper">
-<insert id="member_join" parameterType="map" >
+<insert id="joinMember" parameterType="map" >
 		INSERT INTO Cu_Customer (
 		   Id
            ,Pw
@@ -17,8 +17,8 @@
 				,#{Pw}  
 				,#{CustomerName}
 				,#{CustomerPhone}
-				,convert(varchar(10), getdate(), 120)
-		 )
+				,getdate()
+		 		)
 </insert>
 <!-- 로그인 -->
 <!-- <select id="procLogin" parameterType="com.board.vo.MemberVO" statementType="CALLABLE">
@@ -50,7 +50,7 @@
 	  FROM Cu_Customer
 	  WHERE Id = #{Id}
 </select>
-<select id="idCheck" parameterType="map" resultType="int">
+<select id="checkId" parameterType="map" resultType="int">
 	SELECT COUNT(*) FROM Cu_Customer
 	WHERE Id = #{requestedId}
 </select>

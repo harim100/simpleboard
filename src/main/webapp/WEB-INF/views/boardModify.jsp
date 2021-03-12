@@ -41,10 +41,7 @@ window.onload = function() {
 			<td>
 				<input type="file"  accept=".gif, .jpg, .png"  name="imagePath" 
 				id="fileUploadBtn" class="fileUploadBtn" onChange="imageChanger(this)">
-<!-- 				<label class="fileUploadLabel" for="input-file">
-				  업로드
-				</label>
-				<input type="file" name="mediaFile" id="fileUploadBtn" class="fileUploadBtn"> -->
+				<input type="hidden" name="oriImagePath" value="${bVO.getImagePath()}">
 			</td>
 		</tr>
 		<tr>
@@ -111,11 +108,10 @@ function update(event){
 }
 
 function writeValidation(what, limit) {
-	console.log("limit ===> " + limit);
     if(what.value.length < limit) return true;
     else{
 	       alert('최대 ' + limit + '자 까지만 입력가능합니다');
-	       what.value = "";
+	       what.value = what.value.substring(0, limit);
 	       what.focus();
 	       return false;
 		}
