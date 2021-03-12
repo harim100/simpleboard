@@ -1,6 +1,6 @@
-package com.board.vo;
+package com.board.dto;
 
-public class MemberVO {
+public class MemberDto {
 	private String CustomerNum   ;
 	private String Id            ;
 	private String Pw            ;

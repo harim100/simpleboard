@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.board.vo.BoardVO;
+import com.board.dto.BoardDto;
 
 
 @Repository 
@@ -25,7 +25,7 @@ public class BoardDao {
 		return sqlSessionTemplate.selectList("boardList", offset);
 	}
 	
-	public BoardVO boardSelect(Map<String, Object> pMap) {
+	public BoardDto boardSelect(Map<String, Object> pMap) {
 		return sqlSessionTemplate.selectOne("boardSelect", pMap);
 	}
 	

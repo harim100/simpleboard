@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.board.dao.MemberDao;
-import com.board.vo.MemberVO;
+import com.board.dto.MemberDto;
 
 @Service
 public class MemberLogic {
@@ -17,7 +17,7 @@ public class MemberLogic {
 	private MemberDao memDao;
 
 //==================================== [[join]] ==========================================
-	public MemberVO login(MemberVO vo) {
+	public MemberDto login(MemberDto vo) {
 		logger.info("member_login 호출 성공");
 		return memDao.login(vo);
 	}

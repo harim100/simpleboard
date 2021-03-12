@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.board.vo.MemberVO;
+import com.board.dto.MemberDto;
 
 
 @Repository
@@ -37,7 +37,7 @@ public class MemberDao {
 	
 //==================================== [[login]] ==========================================
 	
-	public MemberVO login(MemberVO vo) {
+	public MemberDto login(MemberDto vo) {
 		logger.info("member_login 호출성공");
 		return sqlSessionTemplate.selectOne("loginBcrypt",vo);
 	}

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.board.dao.BoardDao;
-import com.board.vo.BoardVO;
+import com.board.dto.BoardDto;
  
 @Service
 public class BoardLogic {
@@ -33,7 +33,7 @@ public class BoardLogic {
 	public List<Map<String, Object>> boardList(Map offset) {
 		return bDao.boardList(offset);
 	}
-	public BoardVO boardSelect(Map<String, Object> pMap) {
+	public BoardDto boardSelect(Map<String, Object> pMap) {
 		return bDao.boardSelect(pMap);
 	}
 	

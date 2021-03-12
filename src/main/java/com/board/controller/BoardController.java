@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.board.dto.BoardDto;
 import com.board.logic.BoardLogic;
 import com.board.util.Pagination;
-import com.board.vo.BoardVO;
 
 /**
  * Handles requests for the application home page.
@@ -39,7 +39,7 @@ public class BoardController {
 	Pagination pagination;
 	
 	@RequestMapping("/board/list")  
-	public String boardList(Model model, BoardVO bVO, @RequestParam(defaultValue="1") int page) {
+	public String boardList(Model model, BoardDto bVO, @RequestParam(defaultValue="1") int page) {
 		int totalRows = bLogic.getTotal();
 		pagination = new Pagination(totalRows, page-1);
 		Map<String, Integer> offset = new HashMap<>();
@@ -54,7 +54,7 @@ public class BoardController {
 	}  
 	  
 	@RequestMapping("/board/view") 
-	public String modify(Model model, @RequestParam Map<String,Object> pMap, BoardVO bVO) {
+	public String modify(Model model, @RequestParam Map<String,Object> pMap, BoardDto bVO) {
 		bVO = bLogic.boardSelect(pMap);
 		model.addAttribute("bVO", bVO);
 		return "boardModify";  

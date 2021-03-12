@@ -1,6 +1,6 @@
-package com.board.vo;
+package com.board.dto;
 
-public class BoardVO {
+public class BoardDto {
 	private String BrdIdx     ;
 	private String Title      ;
 	private String Content    ;

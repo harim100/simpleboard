@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.board.dto.MemberDto;
 import com.board.logic.MemberLogic;
-import com.board.vo.MemberVO;
   
 /** 
  * Handles requests for the application home page.
@@ -40,10 +40,10 @@ public class MemberController {
 	
 	@RequestMapping("/do/login")
 	public ModelAndView member_login(@RequestParam Map<String,Object> pMap
-			,MemberVO vo, HttpServletRequest req, RedirectAttributes rttr) {
+			,MemberDto vo, HttpServletRequest req, RedirectAttributes rttr) {
 		logger.info("member_login  " + pMap);
 		
-		MemberVO login = null; 
+		MemberDto login = null; 
 		login = memLogic.login(vo);
 		session = req.getSession(); 
 		ModelAndView mv = new ModelAndView(); 
