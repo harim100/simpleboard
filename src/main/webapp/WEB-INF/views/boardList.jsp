@@ -96,8 +96,8 @@
 <script>
 
 const cbSelectAll = $("#selectAll");
-const tableBtnGroup = document.querySelectorAll(".tableBtnGroup");
 const cbList = $("[name=cb]");
+const tableBtns = $("[name=tableBtns]");
 const cbArr = [];
 
 function init(){
@@ -108,15 +108,13 @@ function init(){
 	) : hideButtons();
 }
 
-function hideButtons(){
-	tableBtnGroup.forEach(function(element, index, array){
-		let buttons = element.children.tableBtns;
-		let authorNum = element.children.customerNum.value;
-		if("${customerNumber}"!=authorNum) {
-			buttons.style.display = 'none';
-		}
-	});
-}
+function hideButtons(obj){
+	console.log(obj);
+	var authorNum = obj.nextElementSibling.value;
+	if("${customerNumber}"!=authorNum) {
+		obj.style.display = "none";
+	}
+} 
 
 function cbValidation(cb){
 	let author = cb.value;
