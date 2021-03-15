@@ -41,8 +41,8 @@
 		    <th>등록일</th>
 		    <th>수정/삭제</th>
 		</tr>
-		<c:forEach var = "bList" items="${bList}">
-			<tr>
+		<c:forEach var = "bList" items="${bList}" varStatus="status">
+			<tr> 
 			<td>
 				<input type="checkbox" name="cb" class="cb" value="${bList.CustomerNum}" onChange="cbValidation(this)"/>
 				<input type="hidden" class="cbIdx" value="${bList.BrdIdx}">
@@ -68,8 +68,8 @@
 					<div class="btns" name="tableBtns">
 						<button class="modifyOneBtn tableBtn modify" onclick="modify(this, event)" value="${bList.BrdIdx}">수정</button>
 						<button class="deleteOneBtn tableBtn" onclick="deleteBoard(this, event)" value="${bList.BrdIdx}">삭제</button>
+						<input type="hidden" value="${bList.CustomerNum}" name="customerNum">
 					</div>
-					<input type="hidden" value="${bList.CustomerNum}" name="customerNum">
 				</div>
 			</td>
 			</tr>
@@ -105,16 +105,9 @@ function init(){
 	customerNum.length <= 0 ? (
 		alert("로그인이 필요합니다"),
 		location.href ="/login"
-	) : hideButtons();
+	) : true
 }
 
-function hideButtons(obj){
-	console.log(obj);
-	var authorNum = obj.nextElementSibling.value;
-	if("${customerNumber}"!=authorNum) {
-		obj.style.display = "none";
-	}
-} 
 
 function cbValidation(cb){
 	let author = cb.value;
@@ -131,11 +124,14 @@ function selDeleteGroup() {
 
 function deleteBoard(btn) {
 	event.preventDefault();
-
-	if (confirm("정말 삭제하시겠습니까?") == true) {
-		makeForm("idx", "hidden", btn.value, "post", "/board/delete").submit();
-	} else {
-		return;
+	if(btn.nextElementSibling.value != "${customerNumber}"){
+		alert("작성자만 삭제가능합니다");
+	} else{
+		if (confirm("정말 삭제하시겠습니까?") == true) {
+			makeForm("idx", "hidden", btn.value, "post", "/board/delete").submit();
+		} else {
+			return;
+		}
 	}
 }
 
@@ -151,7 +147,7 @@ function confirmDelete(cbArr) {
 			idxArr.push(cbArr[i].nextElementSibling.value);
 		}
 		
-		var obj = {idxArr : idxArr};
+		var obj = {"idxArr": idxArr};
 		
 		$.ajax({
 			url: '/board/delete/group'
@@ -185,11 +181,15 @@ function makeForm(name, type, value, method, action) {
 	document.body.appendChild(form);
 
 	return form;
-}
+} 
 
 function modify(obj, event) {
 	event.preventDefault();
-	location.href = '/board/view?idx=' + obj.value;
+	if(obj.nextElementSibling.nextElementSibling.value != "${customerNumber}"){
+		alert("작성자만 수정가능합니다");
+	} else{
+		location.href = '/board/view?idx=' + obj.value;
+	}
 }
 
 function insert() {
