@@ -1,82 +1,100 @@
-/**
- * 
- */
-const idCheckBtn = document.querySelector(".js-idCheckBtn");
-const warning = document.querySelector(".js-warning"); 
-const id = document.querySelector(".js-id");
-const pw = document.querySelector(".js-pw");
-const pw2 = document.querySelector(".js-pw2");
-const name = document.querySelector(".js-name");
-const cell = document.querySelector(".js-cell");
+const idCheckBtn = $("#idCheckBtn");
+const warning = $("#warningTxt");
+const id = $("#cuId");
+const pw = $("#cuPw");
+const pw2 = $("#cuPw2");
+const name = $("#cuName");
+const cell = $("#cuCellNum");
 
-const idReg = /^[a-zA-Z0-9]{4,20}$/ 
-//영문특문숫자 *선택*
-//const pwReg = /^[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{8,20}$/
-//영문특문숫자 *필수*
+const idReg = /^[a-zA-Z0-9]{4,20}$/
 const pwReg = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[$@!%*#?&])[a-z0-9$@!%*#?&]{8,20}$");
-//이름
 const nameReg = /^[a-zA-Z가-힣]{2,30}$/
-//연락처 - 숫자만입력
 const cellReg = /^[0-9]{1,15}$/
-let isIdChecked = false;
+var isIdChecked = false;
 
-function checkId(){
-	console.log("입력한 아이디:" + id.value);
-	let requestedId = id.value;
-	
-	if(requestedId.length == 0) alert("아이디를 입력해주세요")
-	else {
-	
-	let idVaildation = check(idReg, id, "아이디는 최소 4자리~최대 20자리, 영문, 숫자만 허용됩니다.");
-	console.log("입력한 아이디 => " + requestedId);
-		if(idVaildation == true) {
-			const form = new FormData();
-			form.append('requestedId', requestedId);
-				fetch('/check/id', {
-				  method: 'POST',
-				  body: form
-				}).then(function(response){
-			       return response.text();
-			    }).then(function(text){
-					console.log("결과:: " + text);
-					if(text != '0') {
-						warning.innerHTML = "중복된 아이디가 있습니다.";
-						isIdChecked = false;
-					} else{
-						warning.innerHTML = "사용가능한 아이디 입니다."; 
-						isIdChecked = true;
-					}			
-				});
-		}//end of idValidation
-	}//end of else
-}
-
-function check(re, what, message) {
-       if(re.test(what.value)) return true;
-       else{
-	       alert(message);
-	       what.value = "";
-	       what.focus();
-	       return false;
-		}
-   }
-
-function validation(){
-	let idCheck = check(idReg, id, "아이디는 최소 4자리~최대 20자리, 영문, 숫자만 허용됩니다.");
-	let pwCheck = check(pwReg, pw, "비밀번호는 길이 최소 8자리 ~ 최대 20자리, 영문/숫자/특문 조합만 허용됩니다.");
-	if(pw.value != pw2.value){
-		alert("비밀번호 확인이 일치하지 않습니다.");
-		pwCheck = false;
+function checkId() {
+	var requestedId = {
+		requestedId: id.val()
 	}
-	let nameCheck = check(nameReg, name, "이름은 한글 또는 영문만 최소 두 자부터 30자 까지 허용됩니다.");
-	
-	return idCheck && pwCheck && nameCheck
-			&& isIdChecked == true ? true : alert("아이디를 확인해주세요")
-			&& cell.value > 0 ? check(cellReg, cell, "하이픈을 제외한 숫자만 허용됩니다.") : false;
+
+	var idVaildation = check(idReg, id, "아이디는 최소 4자리~최대 20자리, 영문, 숫자만 허용됩니다.");
+	if (idVaildation) {
+		$.ajax({
+			url: '/check/id'
+			, data: requestedId
+			, method: 'post'
+			, success: function(data) {
+				if (data != 0) {
+					warning.text("중복된 아이디가 있습니다.");
+					isIdChecked = false;
+				} else {
+					warning.text("사용가능한 아이디 입니다.");
+					isIdChecked = true;
+				}
+			}, error: function(e) {
+				alert("error" + e);
+			}
+		});//end of ajax
+	}//end of idValidation
+}//end of else
+
+function check(re, target, message) {
+	if (target.val().length > 0) {
+		if (re.test(target.val())) {
+			return true;
+		} else {
+			alert(message);
+			target.val("");
+			target.focus();
+			return false;
+		}
+	} else {
+		alert(target.parent().siblings("th").children("span").text() + '를(을) 입력해주세요.');
+	}
 }
 
-function handleSubmit(){
-	if (validation()){
-		document.querySelector(".joinForm").submit();
+
+function validation() {
+	var valObj = {
+		target: [id, pw, name],
+		reg: [idReg, pwReg, nameReg],
+		message: ["아이디는 최소 4자리~최대 20자리, 영문, 숫자만 허용됩니다."
+			, "비밀번호는 길이 최소 8자리 ~ 최대 20자리, 영문/숫자/특문 조합만 허용됩니다."
+			, "이름은 한글 또는 영문만 최소 두 자부터 30자 까지 허용됩니다."
+		]
+	};
+
+	if (cell.val().length > 0) {
+		valObj.reg.push(cellReg);
+		valObj.target.push(cell);
+		valObj.messege.push("하이픈을 제외한 15자리 숫자만 허용됩니다.");
+	}
+	
+	var pwCheck = false;
+	if (pw2.val().length > 0) {
+		if (pw.val() == pw2.val()) {
+			alert("비밀번호 확인이 일치하지 않습니다.");
+			pwCheck = false;
+			pwCheck.val("");
+			pwCheck.focus();
+		} else {
+			pwCheck = true;
+		}
+	}
+
+	for (var i = 0; i < valObj.target.length; i++) {
+		if (check(valObj.reg[i], valObj.target[i], valObj.message[i])) {
+			continue;
+		} else {
+			return false;
+		}
+	}
+
+	return isIdChecked, pwCheck;
+}
+
+function handleSubmit() {
+	if (validation()) {
+		$("#joinForm").submit();
 	}
 }

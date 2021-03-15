@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <title>게시판 목록</title>
 <link rel="stylesheet" href="../../resources/boardList.css">
@@ -19,11 +20,11 @@
 	</div>
 	<div class="space"></div>
 	<div class="btnGroup">
-	 <button class="js-deleteBtn btn" onClick="selDeleteGroup()">삭제</button>
-	 <button class="js-insertBtn btn" onClick="insert()">등록</button>
+	 <button class="js-deleteBtn btn" id="deleteBtn" onClick="selDeleteGroup()">삭제</button>
+	 <button class="js-insertBtn btn" id="insertBtn" onClick="insert()">등록</button>
 	</div>
 <form>
-	<table class="bListTable">
+	<table id="bListTable" class="bListTable">
 		 <colgroup>
 		      <col width="5%"/>
 		      <col width="10%"/>
@@ -33,7 +34,7 @@
 	     </colgroup>
 		<tr>
 		    <th>
-		    	<input type="checkbox" class="selectAll"/>
+		    	<input type="checkbox" id="selectAll" class="selectAll"/>
 		    </th>
 		    <th>이미지</th>
 		    <th>제목</th>
@@ -42,8 +43,8 @@
 		</tr>
 		<c:forEach var = "bList" items="${bList}">
 			<tr>
-			<td>		    	
-				<input type="checkbox" class="cb" value="${bList.CustomerNum}" onChange="cbValidation(this)"/>
+			<td>
+				<input type="checkbox" name="cb" class="cb" value="${bList.CustomerNum}" onChange="cbValidation(this)"/>
 				<input type="hidden" class="cbIdx" value="${bList.BrdIdx}">
 			</td>
 			<!-- 이미지 -->
@@ -52,12 +53,10 @@
 				<td class="tdTitle">
 				<c:choose>
 		       	 	<c:when test="${fn:length(bList.Title) gt 11}">
-		        		<a href='/board/view?idx=${bList.BrdIdx}'> 
 		        		<c:out value="${fn:substring(bList.Title, 0, 10)}"/>...
-		        		</a>
 		        	</c:when>
 		        	<c:otherwise>
-		        		<a href='/board/view?idx=${bList.BrdIdx}'> <c:out value="${bList.Title}"/></a>
+		        		<c:out value="${bList.Title}"/>
 		        	</c:otherwise>
 				</c:choose>
 				</td>
@@ -67,8 +66,8 @@
 			<td>
 				<div class="tableBtnGroup">
 					<div class="btns" name="tableBtns">
-						<button class="modifyOneBtn tableBtn modify" onClick="modify(this)" value="${bList.BrdIdx}">수정</button>
-						<button class="deleteOneBtn tableBtn" onClick="deleteBoard(this)" value="${bList.BrdIdx}">삭제</button>
+						<button class="modifyOneBtn tableBtn modify" onclick="modify(this, event)" value="${bList.BrdIdx}">수정</button>
+						<button class="deleteOneBtn tableBtn" onclick="deleteBoard(this, event)" value="${bList.BrdIdx}">삭제</button>
 					</div>
 					<input type="hidden" value="${bList.CustomerNum}" name="customerNum">
 				</div>
@@ -94,10 +93,13 @@
 	</table>
 </div>
 <div class="space"></div>
-<script src="../../resources/boardList.js"></script>
 <script>
-console.log(`customerNumber =  ${customerNumber}`);
-<%-- var userId=<%: Session["userId"] %>;/*  */ --%>
+
+const cbSelectAll = $("#selectAll");
+const tableBtnGroup = document.querySelectorAll(".tableBtnGroup");
+const cbList = $("[name=cb]");
+const cbArr = [];
+
 function init(){
 	let customerNum = "${customerNumber}";
 	customerNum.length <= 0 ? (
@@ -120,8 +122,96 @@ function cbValidation(cb){
 	let author = cb.value;
 		if(author != "${customerNumber}"){
 			cb.checked = false;
+		} else {
+			cbArr.push(cb);
 		}
+	}
+
+function selDeleteGroup() {
+	cbArr.length > 0 ? confirmDelete(cbArr) : alert("삭제할 글을 선택해 주세요");
 }
+
+function deleteBoard(btn) {
+	event.preventDefault();
+
+	if (confirm("정말 삭제하시겠습니까?") == true) {
+		makeForm("idx", "hidden", btn.value, "post", "/board/delete").submit();
+	} else {
+		return;
+	}
+}
+
+function isChecked(cb) {
+	return cb.checked === true;
+}
+
+function confirmDelete(cbArr) {
+	if (confirm("정말 삭제하시겠습니까?") == true) {
+		var idxArr = [];
+
+		for (var i=0 ; i < cbArr.length ; i++){
+			idxArr.push(cbArr[i].nextElementSibling.value);
+		}
+		
+		var obj = {idxArr : idxArr};
+		
+		$.ajax({
+			url: '/board/delete/group'
+			, data: obj
+			, method: 'get'
+			, success: function(data) {
+				data = 1 ? alert("삭제 성공") : alert("삭제 실패");
+				location.href = "javascript:location.reload()";
+			}, error: function(e) {
+				alert("error" + e);
+			}
+		});//end of ajax
+	} else {
+		return;
+	}
+}
+
+function makeForm(name, type, value, method, action) {
+	const form = document.createElement("form");
+	const input = document.createElement("input");
+	input.name = name;
+	input.type = type;
+	input.value = value;
+
+	form.appendChild(input);
+
+	form.charset = "UTF-8";
+	form.method = method;
+	form.action = action;
+
+	document.body.appendChild(form);
+
+	return form;
+}
+
+function modify(obj, event) {
+	event.preventDefault();
+	location.href = '/board/view?idx=' + obj.value;
+}
+
+function insert() {
+	location.href = '/board/write';
+}
+
+cbSelectAll.change(function() {
+	
+	if(this.checked) {
+		for (let cbs of cbList) {
+			cbs.checked = true;
+			cbValidation(cbs);
+		} 
+	} else {
+		for (let cbs of cbList) {
+			cbs.checked = false;
+		}
+	}
+});
+
 
 init();
 

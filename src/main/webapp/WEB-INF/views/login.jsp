@@ -30,12 +30,12 @@
 		</tr>
 		<tr>
 			<td>
-			<label><input type="checkbox" name="cbId" class="cbId">아이디 저장하기</label>
+			<label><input type="checkbox" id="cbId" name="cbId" class="cbId">아이디 저장하기</label>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<input class="loginBtn btn" type="submit" value="로그인" />
+			<input id="loginBtn" class="loginBtn btn" type="submit" value="로그인" />
 			</td>
 		</tr>
 	</table>
@@ -45,8 +45,8 @@
 		</div>
 	</c:if>
 	</form>
-	<div class="js-warning"></div>
-	<button class="joinBtn btn"> 회원가입 </button>
+	<div id="loginWarning" class="js-warning"></div>
+	<button id="joinBtn" class="joinBtn btn"> 회원가입 </button>
 	</div>
 
 <script src="./resources/login.js"></script>

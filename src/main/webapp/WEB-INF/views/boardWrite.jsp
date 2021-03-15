@@ -45,13 +45,13 @@
 		<tr>
 			<td></td>
 			<td>
-			<img class="imagePreview" width="50" height="50">
+			<img id="imagePreview" class="imagePreview" width="50" height="50">
 			</td>
 		</tr>
 	</table>
 	<div class="btnGroup">
 		 <button class="btn" onclick="cancel()">취소</button>
-		 <button class="js-insertBtn btn" onclick="insert()">등록</button>
+		 <button id="insertBtn" class="js-insertBtn btn" onclick="insert()">등록</button>
 	</div>
 </form>
 </div>
@@ -77,7 +77,6 @@ function insert(){
 }
 
 function writeValidation(what, limit) {
-	console.log("limit ===> " + limit);
     if(what.value.length < limit) return true;
     else{
 	       alert('최대 ' + limit + '자 까지만 입력가능합니다');
