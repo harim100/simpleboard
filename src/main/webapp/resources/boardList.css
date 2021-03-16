@@ -50,10 +50,10 @@ body {height:100%; font-family: 'Noto Sans KR';}
 .modifyOneBtn{
 	background: mediumpurple;
 }
-.js-deleteBtn, .deleteOneBtn{
+.deleteBtn, .deleteOneBtn{
 	background: mistyrose;
 }
-.js-insertBtn{
+.insertBtn{
 	background: powderblue;
 }
 

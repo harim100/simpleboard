@@ -22,8 +22,8 @@
 		<tr>
 			<th>제목</th>
 			<td>
-				<input type="hidden" value="${sessionScope.customerNumber}" name="customerNum">
-				<input name="title" class="input title" type="text">
+				<input type="hidden" value="${sessionScope.customerNumber}" name="customerNum"/>
+				<input name="title" class="input title" type="text"/>
 			</td>
 		</tr>
 		<tr>
@@ -39,7 +39,7 @@
 			<td>
 				<input type="file" accept=".gif, .jpg, .png" name="imageFile" 
 					id="fileUploadBtn" class="fileUploadBtn" 
-					onChange="imageChanger(this)">
+					onChange="imageChanger(this)"/>
 			</td>
 		</tr>
 		<tr>

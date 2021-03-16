@@ -1,99 +1,97 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+	crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <title>게시판 목록</title>
 <link rel="stylesheet" href="../../resources/boardList.css">
 </head>
 <body>
-
-<div class="container">
-	<div class="navBar">
-		<span> ${customerName} | </span>
-		<a href="/logout"><span class="logoutTxt">로그아웃 </span></a>
+	<div class="container">
+		<div class="navBar">
+			<span> ${customerName} | </span> <a href="/logout"><span
+				class="logoutTxt">로그아웃 </span></a>
+		</div>
+		<div class="space"></div>
+		<div class="btnGroup">
+			<button class="deleteBtn btn" id="deleteBtn">삭제</button>
+			<button class="insertBtn btn" id="insertBtn" onClick="insert()">등록</button>
+		</div>
+		<form>
+			<table id="bListTable" class="bListTable">
+				<colgroup>
+					<col width="5%" />
+					<col width="10%" />
+					<col width="40%" />
+					<col width="25%" />
+					<col width="20%" />
+				</colgroup>
+				<tr>
+					<th><input type="checkbox" id="selectAll"/></th>
+					<th>이미지</th>
+					<th>제목</th>
+					<th>등록일</th>
+					<th>수정/삭제</th>
+				</tr>
+				<c:forEach var="bList" items="${bList}" varStatus="status">
+					<tr>
+						<td><input type="checkbox" name="cb" value="${bList.CustomerNum}"/> 
+							<input type="hidden" class="cbIdx" value="${bList.BrdIdx}"/></td>
+						<!-- 이미지 -->
+						<td><img src="${bList.ImagePath}" width="50" height="50"></td>
+						<!-- 제목 -->
+						<td class="tdTitle"><c:choose>
+								<c:when test="${fn:length(bList.Title) gt 11}">
+									<c:out value="${fn:substring(bList.Title, 0, 10)}" />...
+		        				</c:when>
+								<c:otherwise>
+									<c:out value="${bList.Title}" />
+								</c:otherwise>
+							</c:choose></td>
+						<!-- 등록일 -->
+						<td>${bList.InsDate}</td>
+						<!-- 버튼 -->
+						<td>
+							<div name="tableBtns">
+								<button class="modifyOneBtn tableBtn modify"
+									onclick="modify(this, event)" value="${bList.BrdIdx}">수정</button>
+								<button class="deleteOneBtn tableBtn"
+									onclick="deleteBoard(this, event)" value="${bList.BrdIdx}">삭제</button>
+								<input type="hidden" value="${bList.CustomerNum}" name="customerNum"/>
+							</div>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</form>
+		<ul>
+		</ul>
+		<table class="pagination">
+			<tr>
+				<c:if test="${pagination.isBefore}">
+					<td><a
+						href="${pageContext.request.contextPath}/board/list?page=${pagination.startPage}">이전</a></td>
+				</c:if>
+				<c:forEach var="curPage" items="${pagination.pages}">
+					<td><a
+						href="${pageContext.request.contextPath}/board/list?page=${curPage+1}">${curPage+1}</a></td>
+				</c:forEach>
+				<c:if test="${pagination.isNext}">
+					<td><a
+						href="${pageContext.request.contextPath}/board/list?page=${pagination.endPage+1}">다음</a></td>
+				</c:if>
+			</tr>
+		</table>
 	</div>
 	<div class="space"></div>
-	<div class="btnGroup">
-	 <button class="js-deleteBtn btn" id="deleteBtn" onClick="selDeleteGroup()">삭제</button>
-	 <button class="js-insertBtn btn" id="insertBtn" onClick="insert()">등록</button>
-	</div>
-<form>
-	<table id="bListTable" class="bListTable">
-		 <colgroup>
-		      <col width="5%"/>
-		      <col width="10%"/>
-		      <col width="40%"/>
-		      <col width="25%"/>
-		      <col width="20%"/>
-	     </colgroup>
-		<tr>
-		    <th>
-		    	<input type="checkbox" id="selectAll" class="selectAll"/>
-		    </th>
-		    <th>이미지</th>
-		    <th>제목</th>
-		    <th>등록일</th>
-		    <th>수정/삭제</th>
-		</tr>
-		<c:forEach var = "bList" items="${bList}" varStatus="status">
-			<tr> 
-			<td>
-				<input type="checkbox" name="cb" class="cb" value="${bList.CustomerNum}" onChange="cbValidation(this)"/>
-				<input type="hidden" class="cbIdx" value="${bList.BrdIdx}">
-			</td>
-			<!-- 이미지 -->
-			<td><img src="${bList.ImagePath}" width="50" height="50"></td>
-			<!-- 제목 -->
-				<td class="tdTitle">
-				<c:choose>
-		       	 	<c:when test="${fn:length(bList.Title) gt 11}">
-		        		<c:out value="${fn:substring(bList.Title, 0, 10)}"/>...
-		        	</c:when>
-		        	<c:otherwise>
-		        		<c:out value="${bList.Title}"/>
-		        	</c:otherwise>
-				</c:choose>
-				</td>
-			<!-- 등록일 -->
-			<td>${bList.InsDate}</td>
-			<!-- 버튼 -->
-			<td>
-				<div class="tableBtnGroup">
-					<div class="btns" name="tableBtns">
-						<button class="modifyOneBtn tableBtn modify" onclick="modify(this, event)" value="${bList.BrdIdx}">수정</button>
-						<button class="deleteOneBtn tableBtn" onclick="deleteBoard(this, event)" value="${bList.BrdIdx}">삭제</button>
-						<input type="hidden" value="${bList.CustomerNum}" name="customerNum">
-					</div>
-				</div>
-			</td>
-			</tr>
-		</c:forEach>
-	</table>
-</form>
-	<ul> 
-	</ul>
-	<table class="pagination">
-		<tr>
-			<c:if test="${pagination.isBefore}">
-				<td><a href="${pageContext.request.contextPath}/board/list?page=${pagination.startPage}">이전</a></td>
-			</c:if>
-			<c:forEach var = "curPage" items="${pagination.pages}">
-				<td><a href="${pageContext.request.contextPath}/board/list?page=${curPage+1}">${curPage+1}</a></td>
-			</c:forEach> 
-			<c:if test="${pagination.isNext}">
-				<td><a href="${pageContext.request.contextPath}/board/list?page=${pagination.endPage+1}">다음</a></td>
-			</c:if>
-		</tr>
-	</table>
-</div>
-<div class="space"></div>
-<script>
+	<script>
 
 const cbSelectAll = $("#selectAll");
 const cbList = $("[name=cb]");
@@ -106,64 +104,56 @@ function init(){
 		alert("로그인이 필요합니다"),
 		location.href ="/login"
 	) : true
-}
-
-
-function cbValidation(cb){
-	let author = cb.value;
-		if(author != "${customerNumber}"){
-			cb.checked = false;
-		} else {
-			cbArr.push(cb);
-		}
-	}
-
-function selDeleteGroup() {
-	cbArr.length > 0 ? confirmDelete(cbArr) : alert("삭제할 글을 선택해 주세요");
+	hideButtons();
 }
 
 function deleteBoard(btn) {
 	event.preventDefault();
-	if(btn.nextElementSibling.value != "${customerNumber}"){
-		alert("작성자만 삭제가능합니다");
-	} else{
 		if (confirm("정말 삭제하시겠습니까?") == true) {
 			makeForm("idx", "hidden", btn.value, "post", "/board/delete").submit();
 		} else {
 			return;
 		}
 	}
-}
 
 function isChecked(cb) {
 	return cb.checked === true;
 }
 
-function confirmDelete(cbArr) {
-	if (confirm("정말 삭제하시겠습니까?") == true) {
-		var idxArr = [];
-
-		for (var i=0 ; i < cbArr.length ; i++){
-			idxArr.push(cbArr[i].nextElementSibling.value);
-		}
-		
-		var obj = {"idxArr": idxArr};
-		
-		$.ajax({
-			url: '/board/delete/group'
-			, data: obj
-			, method: 'get'
-			, success: function(data) {
-				data = 1 ? alert("삭제 성공") : alert("삭제 실패");
-				location.href = "javascript:location.reload()";
-			}, error: function(e) {
-				alert("error" + e);
+$("#deleteBtn").click(function (){
+	let cbArr = [];
+	 $("input[name='cb']:checked").each(function(i) {
+		 cbArr.push($(this));
+	});
+	
+	if(cbArr.length>0){
+		if (confirm("정말 삭제하시겠습니까?") == true) {
+			var idxArr = [];
+	
+			for (var i=0 ; i < cbArr.length ; i++){
+				idxArr.push(cbArr[i].next().val());
 			}
-		});//end of ajax
-	} else {
-		return;
+			
+			var obj = {"idxArr": idxArr};
+			
+			$.ajax({
+				url: '/board/delete/group'
+				, data: obj
+				, method: 'get'
+				, success: function(data) {
+					data = 1 ? alert("삭제 성공") : alert("삭제 실패");
+					location.href = "javascript:location.reload()";
+				}, error: function(e) {
+					alert("error" + e);
+				}
+			});//end of ajax
+		} else {
+			return;
+		}
+	} else{
+		alert("삭제할 글을 선택해 주세요");
 	}
-}
+});
 
 function makeForm(name, type, value, method, action) {
 	const form = document.createElement("form");
@@ -183,13 +173,17 @@ function makeForm(name, type, value, method, action) {
 	return form;
 } 
 
+function hideButtons(){
+	 $("[name='tableBtns']").each(function(i) {
+		 if($(this).children("[name='customerNum']").val() != "${customerNumber}"){
+			$(this).css("display", "none");			 
+		 }
+	});
+}
+
 function modify(obj, event) {
 	event.preventDefault();
-	if(obj.nextElementSibling.nextElementSibling.value != "${customerNumber}"){
-		alert("작성자만 수정가능합니다");
-	} else{
-		location.href = '/board/view?idx=' + obj.value;
-	}
+	location.href = '/board/view?idx=' + obj.value;
 }
 
 function insert() {
@@ -210,6 +204,12 @@ cbSelectAll.change(function() {
 	}
 });
 
+function cbValidation(cb){
+	let author = cb.value;
+		if(cb.value != "${customerNumber}"){
+			cb.checked = false;
+		}
+	}
 
 init();
 

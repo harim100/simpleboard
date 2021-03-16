@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
 <html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <head>
 	<title>로그인</title>
 	<link rel="stylesheet" href="../../resources/login.css">
@@ -16,26 +17,26 @@
 	<h1>
 		로그인
 	</h1>
-	<form action="/do/login" method="post" id="loginForm" class="loginForm">
+	<form action="/do/login" method="post" id="loginForm">
 	<table>
 		<tr>
 		<td>
-			<input class="js-id form-control" type="text" id="Id" name="Id" placeholder="아이디"/>
+			<input class="input" type="text" id="loginId" name="Id" placeholder="아이디"/>
 		</td>
 		</tr>	
 		<tr>
 		<td>
-			<input class="form-control" type="password" id="Pw" name="Pw" placeholder="패스워드" />
+			<input class="input" type="password" id="loginPw" name="Pw" placeholder="패스워드" />
 		</td>
 		</tr>
 		<tr>
 			<td>
-			<label><input type="checkbox" id="cbId" name="cbId" class="cbId">아이디 저장하기</label>
+			<label><input type="checkbox" id="cbId" name="cbId"/>아이디 저장하기</label>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<input id="loginBtn" class="loginBtn btn" type="submit" value="로그인" />
+				<input id="loginBtn" class="loginBtn btn" type="submit" value="로그인" />
 			</td>
 		</tr>
 	</table>
@@ -45,7 +46,6 @@
 		</div>
 	</c:if>
 	</form>
-	<div id="loginWarning" class="js-warning"></div>
 	<button id="joinBtn" class="joinBtn btn"> 회원가입 </button>
 	</div>
 

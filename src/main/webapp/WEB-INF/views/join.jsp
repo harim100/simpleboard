@@ -22,7 +22,7 @@
 					<tr>
 						<th><span class="required"> 아이디</span></th>
 						<td>
-							<input id="cuId" name="Id" type="text">
+							<input id="cuId" name="Id" type="text"/>
 							<div id="warningTxt" ></div></td>
 						<td><a id="idCheckBtn" href="javascript:checkId()">중복확인</a>
 						</td>

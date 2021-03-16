@@ -1,6 +1,7 @@
 package com.rad.board.controller;
 
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +23,8 @@ import com.rad.board.dto.BoardDto;
 import com.rad.board.logic.BoardLogic;
 import com.rad.board.util.Pagination;
 
-/**
- * Handles requests for the application home page.
- */ 
 @Controller 
-public class BoardController {     
+public class BoardController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	 
@@ -72,6 +70,7 @@ public class BoardController {
 	public String write(Model model, @RequestParam Map<String,Object> pMap) {
 		return "boardWrite"; 
 	}
+	
 	@RequestMapping("/error/attachFileOverSizeErr") 
 	public String handleUploadError(Model model, @RequestParam Map<String,Object> pMap) {
 		return "handleUploadError"; 
@@ -85,7 +84,7 @@ public class BoardController {
 	}     
 	  
 	@RequestMapping("/board/delete/group")  
-	public String deleteGroup(Model model, @RequestParam String[] idxArr) {
+	public String deleteGroup(Model model, @RequestParam(value = "idxArr[]") String[] idxArr) {
 		int result = bLogic.boardDeleteGroup(idxArr);   
 		model.addAttribute("result", result); 
 		return "redirect:/board/list";

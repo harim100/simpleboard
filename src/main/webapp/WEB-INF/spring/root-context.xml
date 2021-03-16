@@ -8,12 +8,15 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-     <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-     <property name="url" value="jdbc:sqlserver://10.2.1.249:1433;databaseName=HRBOARD;encrypt=true;trustServerCertificate=true"/>
-      <property name="username" value="jung_harim"/>
-      <property name="password" value="as072716**"/>
-   	</bean>
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url"
+			value="jdbc:sqlserver://10.2.1.249:1433;databaseName=HRBOARD;encrypt=true;trustServerCertificate=true" />
+		<property name="username" value="jung_harim" />
+		<property name="password" value="as072716**" />
+	</bean>
 
    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
       <property name="configLocation" value="WEB-INF/spring/appServlet/mybatis-config.xml"/>

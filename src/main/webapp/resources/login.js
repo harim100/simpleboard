@@ -1,28 +1,25 @@
-const joinBtn = document.querySelector(".joinBtn");
-const cbId = document.querySelector(".cbId");
-const loginForm = document.querySelector(".loginForm");
-const memberId = document.querySelector(".js-id");
+const joinBtn = $("#joinBtn");
+const cbId = $("#cbId");
+const loginForm = $("#loginForm");
+const memberId = $("#loginId");
 
 window.onload = function() {
 	cookieId = getCookieValue("memberId");
 	if(cookieId != null){
-		memberId.value = cookieId;
-		cbId.checked = true;		
+		memberId.val(cookieId);
+		cbId.attr("checked", true);		
 	}
 }
 
-function handleJoin(){
+joinBtn.click(function (){
 	location.href = "/join";
-}
+});
 
-function handleSubmit(event){
-    event.preventDefault();
+loginForm.submit(function(){
 	if(cbId.checked){
-		console.log("checked ==>" + cbId.checked);
-		setCookie("memberId", memberId.value, 7)
+		setCookie("memberId", memberId.val(), 7)
 	}
-	loginForm.submit();
-}
+});
 
 function setCookie(name, value, period){
 	var date = new Date();
@@ -30,7 +27,7 @@ function setCookie(name, value, period){
 		document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
 }
 
-const getCookieValue = (key) => {
+function getCookieValue(key){
   let cookieKey = key + "="; 
   let result = "";
   const cookieArr = document.cookie.split(";");
@@ -47,6 +44,3 @@ const getCookieValue = (key) => {
   }
   return result;
 }
-
-loginForm.addEventListener("submit", handleSubmit, true);
-joinBtn.addEventListener("click", handleJoin);
