@@ -1,4 +1,4 @@
-package com.rad.board.logic;
+package com.board.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,12 +16,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.rad.board.dao.BoardDao;
-import com.rad.board.dto.BoardDto;
+import com.board.dao.BoardDao;
+import com.board.dto.BoardDto;
  
 @Service
-public class BoardLogic {
-	private static final Logger logger = LoggerFactory.getLogger(BoardLogic.class);
+public class BoardService {
+	private static final Logger logger = LoggerFactory.getLogger(BoardService.class);
 	
 	private final String DOWNLOAD_PATH = "C:\\work";
 	private final String URL_PATH = "/simpleboard/upload/";
@@ -37,13 +37,16 @@ public class BoardLogic {
 	}
 	
 	public int boardInsert(Map<String, Object> pMap, MultipartFile file) throws IllegalStateException, IOException {
-		if(file.isEmpty()) {
-			pMap.put("imagePath", null);
-		} else {
+		if(file != null && !file.isEmpty()) 
+		{
 			String path = fileUpload(file);
 			pMap.put("imagePath", path);
 		}
-		
+		else
+		{
+			pMap.put("imagePath", null);
+		}
+		logger.info("pMap" + pMap);
 		return bDao.boardInsert(pMap);
 	}
 	
@@ -56,13 +59,15 @@ public class BoardLogic {
 	}
 	
 	public int boardUpdate(Map<String, Object> pMap, MultipartFile file) throws IllegalStateException, IOException{
-		if(file.isEmpty()) {
-			pMap.put("imagePath", pMap.get("oriImagePath"));
-		} else {
+		if(file != null) 
+		{
 			String path = fileUpload(file);
 			pMap.put("imagePath", path);
 		}
-		
+		else
+		{
+			pMap.put("imagePath", pMap.get("oriImagePath"));
+		}
 		return bDao.boardUpdate(pMap);
 	}
 	

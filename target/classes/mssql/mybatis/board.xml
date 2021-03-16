@@ -15,8 +15,15 @@
 	VALUES ( 
 		 #{title}
 		,#{content}
-		,#{imagePath}
-		, getdate()
+		<choose>
+			<when test="imagePath!=null">
+			,#{imagePath}
+			</when>
+			<otherwise>
+			,DEFAULT
+			</otherwise>
+		</choose>
+		,getdate()
 		,'Y'
 		,#{customerNum}
 	 	)
@@ -32,13 +39,13 @@
 			,IsUse
 			,CONVERT(varchar(10), UpdateDate, 23) AS UpdateDate
 			,CustomerNum
-	FROM  Bd_Board
+	FROM  Bd_Board WITH(NOLOCK)
 	ORDER BY BrdIdx desc
 	OFFSET #{offset} ROWS
 	FETCH NEXT 5 ROWS ONLY
 </select>
 
-<select id="boardSelect" resultType="com.rad.board.dto.BoardDto">
+<select id="boardSelect" resultType="com.board.dto.BoardDto">
 	SELECT
 		BrdIdx
 		,Title

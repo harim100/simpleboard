@@ -6,10 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="../../resources/jquery-3.6.0.min.js"></script>
 <title>게시판 수정</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-	crossorigin="anonymous"></script>
 <link rel="stylesheet" href="../../resources/boardModify.css">
 </head>
 <body>
@@ -29,14 +27,13 @@
 				<tr>
 					<th>내용</th>
 					<td>
-					<textarea id="textarea" name="content" 
-					class="input textarea" cols="50" rows="10">${bVO.getContent()}</textarea>
+					<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10">${bVO.getContent()}</textarea>
 					</td>
 				</tr>
 				<tr>
 					<th>이미지</th>
 					<td>
-						<input type="file" accept=".gif, .jpg, .png" name="imagePath" id="fileUploadBtn" class="fileUploadBtn" onChange="imageChanger(this)"/> 
+						<input type="file" accept=".gif, .jpg, .png" name="imagePath" id="fileUploadBtn" onChange="imageChanger(this)"/> 
 						<input type="hidden" name="oriImagePath" value="${bVO.getImagePath()}"/>
 					</td>
 				</tr>
@@ -49,86 +46,88 @@
 				</tr>
 			</table>
 			<input type="hidden" name="idx" value="${bVO.getBrdIdx()}"/>
-			<div class="btnGroup">
-				<button class="btn" onclick="cancel(event)">취소</button>
-				<button class="deleteBtn btn" onClick="deleteBoard(event)">삭제</button>
-				<button class="insertBtn btn" onClick="update(event)">등록</button>
-			</div>
 		</form>
+			<div class="btnGroup">
+				<button class="btn" onClick="cancel()">취소</button>
+				<button class="btn" onClick="deleteBoard()">삭제</button>
+				<button class="btn" onClick="update()">등록</button>
+			</div>
 	</div>
 	<div class="space"></div>
-	<script>
-		const updateForm = $("#updateForm");
-		const textArea = $("#textarea");
-		const title = $("#title");
+<script>
+const updateForm = $("#updateForm");
+const textArea = $("#textarea");
+const title = $("#title");
 
-		function cancel(event) {
-			event.preventDefault();
+function cancel() {
+	location.href = `${pageContext.request.contextPath}/board/list`;
+}
+
+function deleteBoard() {
+	if (confirm("정말 삭제하시겠습니까?") == true) 
+	{	
+		$.get(`/board/delete?idx=${bVO.getBrdIdx()}`, function(result) {
+			result = 1 ? alert("삭제 성공") : alert("삭제 실패");
 			location.href = `${pageContext.request.contextPath}/board/list`;
-		}
+		});
+	}
+	else 
+	{
+		return;
+	}
+}
 
-		function deleteBoard(event) {
-			event.preventDefault();
-			if (confirm("정말 삭제하시겠습니까?") == true) {
-				$
-						.ajax({
-							url : `/board/delete?idx=${bVO.getBrdIdx()}`,
-							data : obj,
-							method : 'GET',
-							success : function(data) {
-								text = 1 ? alert("삭제 성공") : alert("삭제 실패");
-								location.href = `${pageContext.request.contextPath}/board/list`;
-							},
-							error : function(e) {
-								alert("error" + e);
-							}
-						});//end of ajax
-			} else {
-				return;
-			}
-		}
+function update() {
+	if (writeValidation(title, 30) && writeValidation(textArea, 100)) 
+	{
+		updateForm.submit();
+	}
+}
 
-		function update(event) {
-			event.preventDefault();
-			if (writeValidation(title, 30) && writeValidation(textArea, 100)) {
-				updateForm.submit();
-			}
-		}
+function writeValidation(what, limit) {
+	if(what.val().length == 0)
+	{
+		alert('내용을 입력해주세요.');
+		what.focus();
+		return false;
+	}
+	else if (what.val().length <= limit)
+	{
+		return true;
+	}
+	else 
+	{
+		alert('최대 ' + limit + '자 까지만 입력가능합니다');
+		what.val(what.val().substring(0, limit));
+		what.focus();
+		return false;
+	}
+}
 
-		function writeValidation(what, limit) {
-			if (what.val().length <= limit)
-				return true;
-			else {
-				alert('최대 ' + limit + '자 까지만 입력가능합니다');
-				what.val(what.val().substring(0, limit));
-				what.focus();
-				return false;
-			}
-		}
+function imageChanger(file) {
+	const imagePreview = $("#imagePreview");
 
-		function imageChanger(file) {
-			const imagePreview = $("#imagePreview");
+	let reader = new FileReader();
 
-			let reader = new FileReader();
+	reader.readAsDataURL(event.target.files[0]);
+	reader.onload = (function(e) {
+		imagePreview.attr("src", e.target.result);
+	})
+}
 
-			reader.readAsDataURL(event.target.files[0]);
-			reader.onload = (function(e) {
-				imagePreview.attr("src", e.target.result);
-			})
-		}
+function getFileName() {
+	const file = `${bVO.getImagePath()}`.split('/');
 
-		function getFileName() {
-			const file = `${bVO.getImagePath()}`.split('/');
+	if (file[file.length - 1] != 'default.png') 
+	{
+		$("#filename").text(file[file.length - 1]);
+	}
+}
 
-			if (file[file.length - 1] != 'default.png') {
-				$("#filename").text(file[file.length - 1]);
-			}
-		}
-
-		function init() {
-			getFileName();
-		}
-		init();
-	</script>
+function init() {
+	getFileName();
+}
+init();
+</script>
 </body>
 </html>

@@ -20,7 +20,7 @@
 				,getdate()
 		 		)
 </insert>
-<select id="login" resultType="com.rad.board.dto.MemberDto">
+<select id="login" resultType="com.board.dto.MemberDto">
 	SELECT 
 		CustomerNum
       ,Id
@@ -29,7 +29,7 @@
 	  FROM Cu_Customer
 	  WHERE Id = #{Id} AND Pw = #{Pw}
 </select>
-<select id="loginBcrypt" resultType="com.rad.board.dto.MemberDto">
+<select id="loginBcrypt" resultType="com.board.dto.MemberDto">
 	SELECT 
 		CustomerNum
       ,Id

@@ -4,8 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<meta charset="UTF-8">
+<script src="../../resources/jquery-3.6.0.min.js"></script><meta charset="UTF-8">
 <title>회원가입</title>
 <link rel="stylesheet" href="./resources/join.css">
 </head>
@@ -47,8 +46,8 @@
 			</table>
 		</form>
 		<div class="btn_wrap">
-			<a id="cancelJoinBtn" href="/login">취소</a> 
-			<a id="doJoinBtn" href="javascript:handleSubmit(event)">가입</a>
+			<a class="cancel" id="cancelJoinBtn" href="/login">취소</a> 
+			<a class="join" id="doJoinBtn" href="javascript:handleSubmit(event)">가입</a>
 		</div>
 	</div>
 </body>

@@ -1,4 +1,4 @@
-package com.rad.board.logic;
+package com.board.service;
 
 import java.util.Map;
 
@@ -7,12 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.rad.board.dao.MemberDao;
-import com.rad.board.dto.MemberDto;
+import com.board.dao.MemberDao;
+import com.board.dto.MemberDto;
 
 @Service
-public class MemberLogic {
-	private static final Logger logger = LoggerFactory.getLogger(MemberLogic.class);
+public class MemberService {
+	private static final Logger logger = LoggerFactory.getLogger(MemberService.class);
 	@Autowired(required=false)
 	private MemberDao memDao;
 

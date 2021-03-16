@@ -1,4 +1,4 @@
-package com.rad.board.controller;
+package com.board.controller;
 
 import java.io.IOException;
 
@@ -19,20 +19,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.rad.board.dto.BoardDto;
-import com.rad.board.logic.BoardLogic;
-import com.rad.board.util.Pagination;
+import com.board.dto.BoardDto;
+import com.board.service.BoardService;
+import com.board.util.Pagination;
 
-@Controller 
-public class BoardController {
-	
+@Controller   
+public class BoardController {    
+	 
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	 
-	@Inject
-    SqlSession sqlSession;
+	@Inject 
+    SqlSession sqlSession; 
 	
 	@Autowired(required=false) 
-	BoardLogic bLogic;  
+	BoardService bLogic;  
 	
 	Pagination pagination;
 	
@@ -56,11 +56,11 @@ public class BoardController {
 		bVO = bLogic.boardSelect(pMap);
 		model.addAttribute("bVO", bVO);
 		return "boardModify";  
-	} 
-	  
-	@RequestMapping("/board/insert") 
+	}    
+	      
+	@RequestMapping("/board/insert")   
 	public String insert(Model model, @RequestParam Map<String,Object> pMap
-			, @RequestParam(value = "imageFile",required = false) MultipartFile file) throws IllegalStateException, IOException {
+			, @RequestParam(value = "imagePath",required = false) MultipartFile file) throws IllegalStateException, IOException {
 		int result = bLogic.boardInsert(pMap, file);
 		model.addAttribute("result", result);
 		return "redirect:/board/list";  
@@ -69,7 +69,7 @@ public class BoardController {
 	@RequestMapping("/board/write") 
 	public String write(Model model, @RequestParam Map<String,Object> pMap) {
 		return "boardWrite"; 
-	}
+	} 
 	
 	@RequestMapping("/error/attachFileOverSizeErr") 
 	public String handleUploadError(Model model, @RequestParam Map<String,Object> pMap) {

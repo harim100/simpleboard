@@ -12,8 +12,7 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
 			value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-		<property name="url"
-			value="jdbc:sqlserver://10.2.1.249:1433;databaseName=HRBOARD;encrypt=true;trustServerCertificate=true" />
+		<property name="url" value="jdbc:sqlserver://10.2.1.249:1433;databaseName=HRBOARD;encrypt=true;trustServerCertificate=true" />
 		<property name="username" value="jung_harim" />
 		<property name="password" value="as072716**" />
 	</bean>
@@ -45,7 +44,7 @@
 </bean>
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<context:component-scan base-package="com.rad.board.dao, com.rad.board.logic">
+	<context:component-scan base-package="com.board.dao, com.board.service">
     	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	

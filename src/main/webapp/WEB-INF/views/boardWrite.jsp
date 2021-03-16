@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="../../resources/jquery-3.6.0.min.js"></script>
 <title>게시판 등록</title>
 <link rel="stylesheet" href="../../resources/boardModify.css">
 </head>
@@ -13,7 +14,7 @@
 
 <div class="container">
 	<div class="space"></div>
-<form class="insertForm" action="/board/insert" method="post" enctype="multipart/form-data">
+<form id="insertForm" action="/board/insert" method="post" enctype="multipart/form-data">
 <table class="bTable">
 	 <colgroup>
 	      <col width="20%"/>
@@ -23,79 +24,80 @@
 			<th>제목</th>
 			<td>
 				<input type="hidden" value="${sessionScope.customerNumber}" name="customerNum"/>
-				<input name="title" class="input title" type="text"/>
+				<input id="title" name="title" class="input title" type="text"/>
 			</td>
 		</tr>
 		<tr>
 			<th>내용</th>
 			<td>
-			<textarea name="content" class="input textarea" cols="50" rows="10">
-			
-			</textarea>
+			<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10"></textarea>
 			</td>
 		</tr>
 		<tr>
 			<th>이미지</th>
 			<td>
-				<input type="file" accept=".gif, .jpg, .png" name="imageFile" 
-					id="fileUploadBtn" class="fileUploadBtn" 
-					onChange="imageChanger(this)"/>
+				<input type="file" accept=".gif, .jpg, .png" name="imagePath" id="fileUploadBtn" onChange="imageChanger(this)"/>
 			</td>
 		</tr>
 		<tr>
 			<td></td>
 			<td>
-			<img id="imagePreview" class="imagePreview" width="50" height="50">
+			<img id="imagePreview" width="50" height="50">
 			</td>
 		</tr>
 	</table>
 	<div class="btnGroup">
 		 <button class="btn" onclick="cancel()">취소</button>
-		 <button id="insertBtn" class="js-insertBtn btn" onclick="insert()">등록</button>
+		 <button id="insertBtn" class="btn" onclick="insert()">등록</button>
 	</div>
 </form>
 </div>
 <div class="space"></div>
 <script>
-console.log(`customerNumber = + ${customerNumber}`);
-
-const insertForm = document.querySelector(".insertForm");
-const textArea = document.querySelector(".textarea");
-const title = document.querySelector(".title");
+const insertForm = $("#insertForm");
+const textArea = $("#textarea");
+const title = $("#title");
 
 function cancel(){
-	event.preventDefault();
     location.href = `${pageContext.request.contextPath}/board/list`;
 }
 
 function insert(){
-	event.preventDefault();
 	
-	if(writeValidation(title, 30) && writeValidation(textArea, 100)){
+	if(writeValidation(title, 30) && writeValidation(textArea, 100))
+	{
 		insertForm.submit();
 	}
 }
 
 function writeValidation(what, limit) {
-    if(what.value.length < limit) return true;
-    else{
-	       alert('최대 ' + limit + '자 까지만 입력가능합니다');
-	       what.value = "";
-	       what.focus();
-	       return false;
-		}
+	if(what.val().length == 0){
+		alert('내용을 입력해주세요.');
+		what.focus();
+		return false;
+	}
+	else if(what.val().length <= limit)
+    {
+    	return true;
+    }
+    else
+    {
+		alert('최대 ' + limit + '자 까지만 입력가능합니다');
+		what.val(what.val().substring(0, limit));
+		what.focus();
+		return false;
+	}
 }
 
 function imageChanger(file){
-	const imagePreview = document.querySelector(".imagePreview");
+	const imagePreview = $("#imagePreview");
 	
 	let reader = new FileReader(); 
 	
 	reader.readAsDataURL(event.target.files[0]); 
 	reader.onload = (function (e) {
-            imagePreview.src = e.target.result;
+            imagePreview.attr("src", e.target.result);
     })
-	console.log(event.target.files[0]);
 }
 
 </script>

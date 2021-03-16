@@ -6,9 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-	crossorigin="anonymous"></script>
+<script src="../../resources/jquery-3.6.0.min.js"></script>
 <meta charset="UTF-8">
 <title>게시판 목록</title>
 <link rel="stylesheet" href="../../resources/boardList.css">
@@ -16,8 +14,8 @@
 <body>
 	<div class="container">
 		<div class="navBar">
-			<span> ${customerName} | </span> <a href="/logout"><span
-				class="logoutTxt">로그아웃 </span></a>
+			<span> ${customerName} | </span> <a href="/logout">
+			<span>로그아웃 </span></a>
 		</div>
 		<div class="space"></div>
 		<div class="btnGroup">
@@ -43,7 +41,7 @@
 				<c:forEach var="bList" items="${bList}" varStatus="status">
 					<tr>
 						<td><input type="checkbox" name="cb" value="${bList.CustomerNum}"/> 
-							<input type="hidden" class="cbIdx" value="${bList.BrdIdx}"/></td>
+							<input type="hidden" value="${bList.BrdIdx}"/></td>
 						<!-- 이미지 -->
 						<td><img src="${bList.ImagePath}" width="50" height="50"></td>
 						<!-- 제목 -->
@@ -60,10 +58,8 @@
 						<!-- 버튼 -->
 						<td>
 							<div name="tableBtns">
-								<button class="modifyOneBtn tableBtn modify"
-									onclick="modify(this, event)" value="${bList.BrdIdx}">수정</button>
-								<button class="deleteOneBtn tableBtn"
-									onclick="deleteBoard(this, event)" value="${bList.BrdIdx}">삭제</button>
+								<button class="modifyOneBtn tableBtn modify" onclick="modify(this, event)" value="${bList.BrdIdx}">수정</button>
+								<button class="deleteOneBtn tableBtn" onclick="deleteBoard(this, event)" value="${bList.BrdIdx}">삭제</button>
 								<input type="hidden" value="${bList.CustomerNum}" name="customerNum"/>
 							</div>
 						</td>
@@ -99,7 +95,7 @@ const tableBtns = $("[name=tableBtns]");
 const cbArr = [];
 
 function init(){
-	let customerNum = "${customerNumber}";
+	var customerNum = "${customerNumber}";
 	customerNum.length <= 0 ? (
 		alert("로그인이 필요합니다"),
 		location.href ="/login"
@@ -121,7 +117,7 @@ function isChecked(cb) {
 }
 
 $("#deleteBtn").click(function (){
-	let cbArr = [];
+	var cbArr = [];
 	 $("input[name='cb']:checked").each(function(i) {
 		 cbArr.push($(this));
 	});
@@ -193,20 +189,21 @@ function insert() {
 cbSelectAll.change(function() {
 	
 	if(this.checked) {
-		for (let cbs of cbList) {
+		for (var cbs of cbList) {
 			cbs.checked = true;
 			cbValidation(cbs);
 		} 
 	} else {
-		for (let cbs of cbList) {
+		for (var cbs of cbList) {
 			cbs.checked = false;
 		}
 	}
 });
 
 function cbValidation(cb){
-	let author = cb.value;
-		if(cb.value != "${customerNumber}"){
+	var author = cb.value;
+		if(cb.value != "${customerNumber}")
+		{
 			cb.checked = false;
 		}
 	}

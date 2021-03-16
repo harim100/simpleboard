@@ -1,13 +1,14 @@
 const joinBtn = $("#joinBtn");
 const cbId = $("#cbId");
 const loginForm = $("#loginForm");
-const memberId = $("#loginId");
+const loginId = $("#loginId");
 
 window.onload = function() {
-	cookieId = getCookieValue("memberId");
-	if(cookieId != null){
-		memberId.val(cookieId);
-		cbId.attr("checked", true);		
+	cookieId = getCookieValue("loginId");
+	if(cookieId != null)
+	{
+		loginId.val(cookieId);
+		cbId.prop("checked", true);		
 	}
 }
 
@@ -16,8 +17,9 @@ joinBtn.click(function (){
 });
 
 loginForm.submit(function(){
-	if(cbId.checked){
-		setCookie("memberId", memberId.val(), 7)
+	if(cbId.prop("checked"))
+	{
+		setCookie("loginId", loginId.val(), 7);
 	}
 });
 
@@ -28,19 +30,20 @@ function setCookie(name, value, period){
 }
 
 function getCookieValue(key){
-  let cookieKey = key + "="; 
-  let result = "";
+  var cookieKey = key + "="; 
+  var result = "";
   const cookieArr = document.cookie.split(";");
-  
-  for(let i = 0; i < cookieArr.length; i++) {
-    if(cookieArr[i][0] === " ") {
-      cookieArr[i] = cookieArr[i].substring(1);
-    }
-    
-    if(cookieArr[i].indexOf(cookieKey) === 0) {
-      result = cookieArr[i].slice(cookieKey.length, cookieArr[i].length);
-      return result;
-    }
+  for(var i = 0; i < cookieArr.length; i++) {
+	if(cookieArr[i][0] === " ") 
+	{
+	  cookieArr[i] = cookieArr[i].substring(1);
+	}
+	
+	if(cookieArr[i].indexOf(cookieKey) === 0) 
+	{
+	  result = cookieArr[i].slice(cookieKey.length, cookieArr[i].length);
+	  return result;
+	}
   }
   return result;
 }

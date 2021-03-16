@@ -1,4 +1,4 @@
-package com.rad.board.controller;
+package com.board.controller;
 
 import java.util.Map;
 
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.rad.board.dto.MemberDto;
-import com.rad.board.logic.MemberLogic;
+import com.board.dto.MemberDto;
+import com.board.service.MemberService;
   
 /** 
  * Handles requests for the application home page.
@@ -33,7 +33,7 @@ public class MemberController {
 	int result = 0;
 	
 	@Autowired(required=false)
-	MemberLogic memLogic; 
+	MemberService memLogic; 
 	
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
@@ -63,7 +63,7 @@ public class MemberController {
 		return mv;
 	}
 	
-	@RequestMapping("/login")
+	@RequestMapping(value={"/", "/login"})
 	public String loginView(HttpSession session) throws Exception{
 		return "login";
 	}

@@ -14,7 +14,7 @@
 	<logger name="com.board.controller">
 		<level value="info" />
 	</logger>
-	<logger name="com.board.logic">
+	<logger name="com.board.service">
 		<level value="info" />
 	</logger>
 	<logger name="com.board.util">

@@ -1,4 +1,4 @@
-package com.rad.board.dto;
+package com.board.dto;
 
 public class MemberDto {
 	private String CustomerNum   ;
