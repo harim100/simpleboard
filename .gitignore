@@ -4,6 +4,12 @@ pom.xml.*
 release.properties
 coverage.ec
 
+# Eclipse
+.classpath
+.project
+.settings
+eclipsebin
+
 #images
 .jpg
 .gif
