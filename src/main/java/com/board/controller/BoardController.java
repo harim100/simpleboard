@@ -1,15 +1,11 @@
 package com.board.controller;
 
 import java.io.IOException;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,29 +19,22 @@ import com.board.dto.BoardDto;
 import com.board.service.BoardService;
 import com.board.util.Pagination;
 
+/*
+ * 
+ */
 @Controller   
 public class BoardController {    
 	 
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	 
-	@Inject 
-    SqlSession sqlSession; 
-	
 	@Autowired(required=false) 
 	BoardService bLogic;  
 	
-	Pagination pagination;
-	
 	@RequestMapping("/board/list")  
 	public String boardList(Model model, BoardDto bVO, @RequestParam(defaultValue="1") int page) {
-		int totalRows = bLogic.getTotal();
-		pagination = new Pagination(totalRows, page-1);
-		Map<String, Integer> offset = new HashMap<>();
-		offset.put("offset", pagination.getOffset(page-1)); 
-		 
-		List<Map<String,Object>> bList = null;  
-		bList = bLogic.boardList(offset);
-		   
+		Pagination pagination = bLogic.getPages(page);
+		List<Map<String,Object>> bList = bLogic.boardList(pagination.getOffset(page-1));
+		
 		model.addAttribute("bList", bList);
 		model.addAttribute("pagination", pagination);     
 		return "boardList";  

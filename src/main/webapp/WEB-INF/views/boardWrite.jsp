@@ -46,11 +46,11 @@
 			</td>
 		</tr>
 	</table>
+</form>
 	<div class="btnGroup">
 		 <button class="btn" onclick="cancel()">취소</button>
 		 <button id="insertBtn" class="btn" onclick="insert()">등록</button>
 	</div>
-</form>
 </div>
 <div class="space"></div>
 <script>
@@ -63,28 +63,27 @@ function cancel(){
 }
 
 function insert(){
-	
 	if(writeValidation(title, 30) && writeValidation(textArea, 100))
 	{
 		insertForm.submit();
 	}
 }
 
-function writeValidation(what, limit) {
-	if(what.val().length == 0){
+function writeValidation(target, limit) {
+	if(target.val().length == 0){
 		alert('내용을 입력해주세요.');
-		what.focus();
+		target.focus();
 		return false;
 	}
-	else if(what.val().length <= limit)
+	else if(target.val().length <= limit)
     {
     	return true;
     }
     else
     {
 		alert('최대 ' + limit + '자 까지만 입력가능합니다');
-		what.val(what.val().substring(0, limit));
-		what.focus();
+		target.val(target.val().substring(0, limit));
+		target.focus();
 		return false;
 	}
 }
@@ -96,7 +95,7 @@ function imageChanger(file){
 	
 	reader.readAsDataURL(event.target.files[0]); 
 	reader.onload = (function (e) {
-            imagePreview.attr("src", e.target.result);
+		imagePreview.attr("src", e.target.result);
     })
 }
 

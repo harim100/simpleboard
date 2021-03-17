@@ -22,7 +22,8 @@
 						<th><span class="required"> 아이디</span></th>
 						<td>
 							<input id="cuId" name="Id" type="text"/>
-							<div id="warningTxt" ></div></td>
+							<div id="warningTxt" ></div>
+						</td>
 						<td><a id="idCheckBtn" href="javascript:checkId()">중복확인</a>
 						</td>
 					</tr>
@@ -47,7 +48,7 @@
 		</form>
 		<div class="btn_wrap">
 			<a class="cancel" id="cancelJoinBtn" href="/login">취소</a> 
-			<a class="join" id="doJoinBtn" href="javascript:handleSubmit(event)">가입</a>
+			<a class="join" id="doJoinBtn" href="javascript:handleSubmit()">가입</a>
 		</div>
 	</div>
 </body>

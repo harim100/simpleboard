@@ -1,10 +1,18 @@
 @charset "UTF-8";
-body {height:100%; font-family: 'Noto Sans KR';}
+body {
+	height: 100%;
+	font-family: 'Noto Sans KR';
+}
+
+a {
+	text-decoration: none;
+}
 
 .container{
 	width: 60%;
 	margin: 0 auto 0 auto;
-} 
+}
+
 .bListTable{
 	width: 100%;
 	text-align: center;

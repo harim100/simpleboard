@@ -1,0 +1,13 @@
+# Maven
+target
+pom.xml.*
+release.properties
+coverage.ec
+
+#images
+.jpg
+.gif
+.png
+
+#erd
+.exerd

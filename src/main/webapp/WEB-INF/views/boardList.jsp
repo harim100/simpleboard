@@ -14,8 +14,8 @@
 <body>
 	<div class="container">
 		<div class="navBar">
-			<span> ${customerName} | </span> <a href="/logout">
-			<span>로그아웃 </span></a>
+			<span> ${customerName} | </span> 
+			<a href="/logout"><span>로그아웃</span></a>
 		</div>
 		<div class="space"></div>
 		<div class="btnGroup">
@@ -42,24 +42,22 @@
 					<tr>
 						<td><input type="checkbox" name="cb" value="${bList.CustomerNum}"/> 
 							<input type="hidden" value="${bList.BrdIdx}"/></td>
-						<!-- 이미지 -->
 						<td><img src="${bList.ImagePath}" width="50" height="50"></td>
-						<!-- 제목 -->
-						<td class="tdTitle"><c:choose>
+						<td class="tdTitle">
+						<c:choose>
 								<c:when test="${fn:length(bList.Title) gt 11}">
 									<c:out value="${fn:substring(bList.Title, 0, 10)}" />...
 		        				</c:when>
 								<c:otherwise>
 									<c:out value="${bList.Title}" />
 								</c:otherwise>
-							</c:choose></td>
-						<!-- 등록일 -->
+						</c:choose>
+						</td>
 						<td>${bList.InsDate}</td>
-						<!-- 버튼 -->
 						<td>
 							<div name="tableBtns">
-								<button class="modifyOneBtn tableBtn modify" onclick="modify(this, event)" value="${bList.BrdIdx}">수정</button>
-								<button class="deleteOneBtn tableBtn" onclick="deleteBoard(this, event)" value="${bList.BrdIdx}">삭제</button>
+								<button class="modifyOneBtn tableBtn modify" onclick="modify(this)" type="button" value="${bList.BrdIdx}">수정</button>
+								<button class="deleteOneBtn tableBtn" onclick="deleteOne(this)" type="button" value="${bList.BrdIdx}">삭제</button>
 								<input type="hidden" value="${bList.CustomerNum}" name="customerNum"/>
 							</div>
 						</td>
@@ -72,16 +70,25 @@
 		<table class="pagination">
 			<tr>
 				<c:if test="${pagination.isBefore}">
-					<td><a
-						href="${pageContext.request.contextPath}/board/list?page=${pagination.startPage}">이전</a></td>
+					<td>
+					<a href="${pageContext.request.contextPath}/board/list?page=${pagination.startPage}">
+					이전
+					</a>
+					</td>
 				</c:if>
 				<c:forEach var="curPage" items="${pagination.pages}">
-					<td><a
-						href="${pageContext.request.contextPath}/board/list?page=${curPage+1}">${curPage+1}</a></td>
+					<td>
+					<a href="${pageContext.request.contextPath}/board/list?page=${curPage+1}">
+					${curPage+1}
+					</a>
+					</td>
 				</c:forEach>
 				<c:if test="${pagination.isNext}">
-					<td><a
-						href="${pageContext.request.contextPath}/board/list?page=${pagination.endPage+1}">다음</a></td>
+					<td>
+					<a href="${pageContext.request.contextPath}/board/list?page=${pagination.endPage+1}">
+					다음
+					</a>
+					</td>
 				</c:if>
 			</tr>
 		</table>
@@ -92,21 +99,24 @@
 const cbSelectAll = $("#selectAll");
 const cbList = $("[name=cb]");
 const tableBtns = $("[name=tableBtns]");
-const cbArr = [];
 
 function init(){
 	var customerNum = "${customerNumber}";
-	customerNum.length <= 0 ? (
+	if (customerNum.length <= 0) 
+	{
 		alert("로그인이 필요합니다"),
 		location.href ="/login"
-	) : true
+	}
 	hideButtons();
 }
 
-function deleteBoard(btn) {
-	event.preventDefault();
-		if (confirm("정말 삭제하시겠습니까?") == true) {
-			makeForm("idx", "hidden", btn.value, "post", "/board/delete").submit();
+function deleteOne(btn) {
+		if (confirm("정말 삭제하시겠습니까?") == true) 
+		{
+			$.get('/board/delete?idx='+btn.value, function(result) {
+				result = 1 ? alert("삭제 성공") : alert("삭제 실패");
+				location.href = `${pageContext.request.contextPath}/board/list`;
+			});
 		} else {
 			return;
 		}
@@ -118,12 +128,14 @@ function isChecked(cb) {
 
 $("#deleteBtn").click(function (){
 	var cbArr = [];
-	 $("input[name='cb']:checked").each(function(i) {
+	$("input[name='cb']:checked").each(function(i) {
 		 cbArr.push($(this));
 	});
 	
-	if(cbArr.length>0){
-		if (confirm("정말 삭제하시겠습니까?") == true) {
+	if(cbArr.length>0)
+	{
+		if (confirm("정말 삭제하시겠습니까?") == true) 
+		{
 			var idxArr = [];
 	
 			for (var i=0 ; i < cbArr.length ; i++){
@@ -151,24 +163,6 @@ $("#deleteBtn").click(function (){
 	}
 });
 
-function makeForm(name, type, value, method, action) {
-	const form = document.createElement("form");
-	const input = document.createElement("input");
-	input.name = name;
-	input.type = type;
-	input.value = value;
-
-	form.appendChild(input);
-
-	form.charset = "UTF-8";
-	form.method = method;
-	form.action = action;
-
-	document.body.appendChild(form);
-
-	return form;
-} 
-
 function hideButtons(){
 	 $("[name='tableBtns']").each(function(i) {
 		 if($(this).children("[name='customerNum']").val() != "${customerNumber}"){
@@ -177,8 +171,7 @@ function hideButtons(){
 	});
 }
 
-function modify(obj, event) {
-	event.preventDefault();
+function modify(obj) {
 	location.href = '/board/view?idx=' + obj.value;
 }
 
@@ -187,7 +180,6 @@ function insert() {
 }
 
 cbSelectAll.change(function() {
-	
 	if(this.checked) {
 		for (var cbs of cbList) {
 			cbs.checked = true;

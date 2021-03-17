@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.my</groupId>
+	<groupId>com.board</groupId>
 	<artifactId>board</artifactId>
-	<name>BoardTest</name>
+	<name>board</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -75,13 +75,6 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
-
-		<!-- @Inject -->
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
-		</dependency>
 				
 		<!-- Servlet -->
 		<dependency>
@@ -145,7 +138,7 @@
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-jdbc</artifactId>
 		    <version>5.2.12.RELEASE</version>
-		</dependency>     
+		</dependency>
 		
 		<!-- fileupload -->
 		<dependency>

@@ -17,7 +17,6 @@ public class Pagination {
 	int endPage;
 	
 	public Pagination(int totalRows, int currentPage) {
-		super();
 		this.totalRows = totalRows;
 		this.currentPage = currentPage;
 		

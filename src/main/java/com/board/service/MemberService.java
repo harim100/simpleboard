@@ -18,18 +18,15 @@ public class MemberService {
 
 //==================================== [[join]] ==========================================
 	public MemberDto login(MemberDto vo) {
-		logger.info("member_login 호출 성공");
 		return memDao.login(vo);
 	}
 	
 	public int member_id_check(Map<String,Object> pMap) {
-		logger.info("member_id_check 호출 성공");
 		return memDao.member_id_check(pMap);
 	}
 
 //==================================== [[login]] ==========================================
 	public int insertMember(Map<String,Object> pMap) {
-		logger.info("member_join 호출 성공");
 		return memDao.insertMember(pMap);
 	}
 }

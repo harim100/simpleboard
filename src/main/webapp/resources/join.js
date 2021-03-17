@@ -12,6 +12,10 @@ const nameReg = /^[a-zA-Z가-힣]{2,30}$/
 const cellReg = /^[0-9]{11,15}$/
 var isIdChecked = false;
 
+id.change(function(){
+	isIdChecked = false;
+})
+
 function checkId() {
 	var requestedId = { requestedId: id.val() }
 
@@ -61,8 +65,6 @@ function check(re, target, message) {
 		alert(target.parent().siblings("th").children("span").text() + '를(을) 입력해주세요.');
 	}
 }
-
-
 function validation() {
 	var valObj = {
 		target: [id, pw, name],
@@ -70,36 +72,16 @@ function validation() {
 		message: ["아이디는 최소 4자리~최대 20자리, 영문, 숫자만 허용됩니다."
 			, "비밀번호는 길이 최소 8자리 ~ 최대 20자리, 영문/숫자/특문 조합만 허용됩니다."
 			, "이름은 한글 또는 영문만 최소 두 자부터 30자 까지 허용됩니다."
-		]
+			]
 	};
 
 	if (cell.val().length > 0) 
 	{
 		valObj.reg.push(cellReg);
 		valObj.target.push(cell);
-		valObj.messege.push("하이픈을 제외한 15자리 숫자만 허용됩니다.");
+		valObj.message.push("하이픈을 제외한 15자리 숫자만 허용됩니다.");
 	}
 	
-	var pwCheck = false;
-	if (pw2.val().length > 0) 
-	{
-		if (pw.val() == pw2.val()) 
-		{
-			alert("비밀번호 확인이 일치하지 않습니다.");
-			pwCheck = false;
-			pwCheck.val("");
-			pwCheck.focus();
-		} 
-		else 
-		{
-			pwCheck = true;
-		}
-	}
-	else
-	{
-	alert("비밀번호 확인을 입력해주세요.");
-	}
-
 	for (var i = 0; i < valObj.target.length; i++) {
 		if (check(valObj.reg[i], valObj.target[i], valObj.message[i])) 
 		{
@@ -110,7 +92,32 @@ function validation() {
 			return false;
 		}
 	}
-
+	
+	var pwCheck = false;
+	if (pw2.val().length == 0) 
+	{
+		alert("비밀번호 확인을 입력해주세요.");
+	}
+	else
+	{
+		if (pw.val() != pw2.val()) 
+		{
+			alert("비밀번호 확인이 일치하지 않습니다.");
+			pwCheck = false;
+			pw2.val("");
+			pw2.focus();
+		} 
+		else 
+		{
+			pwCheck = true;
+		}
+	}
+	
+	if(!isIdChecked){
+		alert("아이디 중복확인이 필요합니다.");
+		return false;	
+	}
+	
 	return isIdChecked, pwCheck;
 }
 

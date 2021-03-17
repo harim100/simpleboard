@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -41,7 +41,6 @@ public class MemberController {
 	@RequestMapping("/do/login")
 	public ModelAndView member_login(@RequestParam Map<String,Object> pMap
 			,MemberDto vo, HttpServletRequest req, RedirectAttributes rttr) {
-		logger.info("member_login  " + pMap);
 		
 		MemberDto login = null; 
 		login = memLogic.login(vo);
@@ -54,7 +53,7 @@ public class MemberController {
 			session.setAttribute("customerName", login.getCustomerName());
 			session.setAttribute("customerNumber", login.getCustomerNum());
 			mv.setViewName("redirect:/board/list");
-		} else {
+		} else { 
 			session.setAttribute("customerName", null);
 			rttr.addFlashAttribute("msg", false);
 			mv.setViewName("redirect:/login");
@@ -100,7 +99,6 @@ public class MemberController {
 		
 		//insert
 		result = memLogic.insertMember(pMap);
-		logger.info("결과 : "+result);
 		 
 		//이름 세션에 담기
 		session = req.getSession();
