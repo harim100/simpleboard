@@ -22,7 +22,7 @@ import com.board.dto.MemberDto;
 import com.board.service.MemberService;
   
 /** 
- * Handles requests for the application home page.
+ * 
  */ 
 @Controller
 public class MemberController {
@@ -33,7 +33,7 @@ public class MemberController {
 	int result = 0;
 	
 	@Autowired(required=false)
-	MemberService memLogic; 
+	MemberService memService; 
 	
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
@@ -43,7 +43,7 @@ public class MemberController {
 			,MemberDto vo, HttpServletRequest req, RedirectAttributes rttr) {
 		
 		MemberDto login = null; 
-		login = memLogic.login(vo);
+		login = memService.login(vo);
 		session = req.getSession(); 
 		ModelAndView mv = new ModelAndView(); 
 		
@@ -76,9 +76,9 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping("/check/id")
 	public int member_id_check(Model mod, @RequestParam Map<String,Object> pMap) {
-		result = memLogic.member_id_check(pMap);
+		result = memService.member_id_check(pMap);
 		return result;
-	} 
+	}
 	
 	@RequestMapping("/logout")  
 	public String member_logout(Model mod, @RequestParam Map<String,Object> pMap) {
@@ -98,7 +98,7 @@ public class MemberController {
 		pMap.put("Pw", passEncoder.encode(password));
 		
 		//insert
-		result = memLogic.insertMember(pMap);
+		result = memService.insertMember(pMap);
 		 
 		//이름 세션에 담기
 		session = req.getSession();

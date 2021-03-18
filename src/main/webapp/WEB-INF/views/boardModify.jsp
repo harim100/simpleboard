@@ -6,9 +6,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="../../resources/jquery-3.6.0.min.js"></script>
+<script src="../../resources/js/jquery-3.6.0.min.js"></script>
 <title>게시판 수정</title>
-<link rel="stylesheet" href="../../resources/boardModify.css">
+<link rel="stylesheet" href="../../resources/css/boardModify.css">
 </head>
 <body>
 	<div class="container">
@@ -54,80 +54,90 @@
 			</div>
 	</div>
 	<div class="space"></div>
-<script>
-const updateForm = $("#updateForm");
-const textArea = $("#textarea");
-const title = $("#title");
-
-function cancel() {
-	location.href = `${pageContext.request.contextPath}/board/list`;
-}
-
-function deleteBoard() {
-	if (confirm("정말 삭제하시겠습니까?") == true) 
-	{	
-		$.get(`/board/delete?idx=${bVO.getBrdIdx()}`, function(result) {
-			result = 1 ? alert("삭제 성공") : alert("삭제 실패");
-			location.href = `${pageContext.request.contextPath}/board/list`;
-		});
-	}
-	else 
+<script type="text/javascript">
+	function cancel() 
 	{
-		return;
+		location.href = `${pageContext.request.contextPath}/board/list`;
 	}
-}
-
-function update() {
-	if (writeValidation(title, 30) && writeValidation(textArea, 100)) 
+	
+	function deleteBoard()
 	{
-		updateForm.submit();
+		if (confirm("정말 삭제하시겠습니까?") == true) 
+		{	
+			$.get(`/board/delete?idx=${bVO.getBrdIdx()}`, function(result)
+			{
+				result = 1 ? alert("삭제 성공") : alert("삭제 실패");
+				location.href = `${pageContext.request.contextPath}/board/list`;
+			});
+		}
+		else 
+		{
+			return;
+		}
 	}
-}
-
-function writeValidation(target, limit) {
-	if(target.val().length == 0)
+	
+	function update() 
 	{
-		alert('내용을 입력해주세요.');
-		target.focus();
-		return false;
+		const updateForm = $("#updateForm");
+		const textArea = $("#textarea");
+		const title = $("#title");
+		
+		if (writeValidation(title, 30) && writeValidation(textArea, 100)) 
+		{
+			updateForm.submit();
+		}
 	}
-	else if (target.val().length <= limit)
+	
+	function writeValidation(target, limit)
 	{
-		return true;
+		if(target.val().length == 0)
+		{
+			alert('내용을 입력해주세요.');
+			target.focus();
+			return false;
+		}
+		else if (target.val().length <= limit)
+		{
+			return true;
+		}
+		else 
+		{
+			alert('최대 ' + limit + '자 까지만 입력가능합니다');
+			target.val(target.val().substring(0, limit));
+			target.focus();
+			return false;
+		}
 	}
-	else 
+	
+	function imageChanger(file)
 	{
-		alert('최대 ' + limit + '자 까지만 입력가능합니다');
-		target.val(target.val().substring(0, limit));
-		target.focus();
-		return false;
+		const imagePreview = $("#imagePreview");
+	
+		let reader = new FileReader();
+	
+		reader.readAsDataURL(event.target.files[0]);
+		reader.onload = (function(e)
+		{
+			imagePreview.attr("src", e.target.result);
+		})
 	}
-}
-
-function imageChanger(file) {
-	const imagePreview = $("#imagePreview");
-
-	let reader = new FileReader();
-
-	reader.readAsDataURL(event.target.files[0]);
-	reader.onload = (function(e) {
-		imagePreview.attr("src", e.target.result);
-	})
-}
-
-function getFileName() {
-	const file = `${bVO.getImagePath()}`.split('/');
-
-	if (file[file.length - 1] != 'default.png') 
+	
+	function getFileName()
 	{
-		$("#filename").text(file[file.length - 1]);
+		const file = `${bVO.getImagePath()}`.split('/');
+	
+		if (file[file.length - 1] != 'default.png') 
+		{
+			$("#filename").text(file[file.length - 1]);
+		}
 	}
-}
-
-function init() {
-	getFileName();
-}
-init();
+	
+	function init()
+	{
+		getFileName();
+	}
+	
+	init();
 </script>
 </body>
 </html>

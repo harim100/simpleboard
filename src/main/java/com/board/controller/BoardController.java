@@ -19,7 +19,7 @@ import com.board.dto.BoardDto;
 import com.board.service.BoardService;
 import com.board.util.Pagination;
 
-/*
+/**
  * 
  */
 @Controller   
@@ -28,12 +28,12 @@ public class BoardController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	 
 	@Autowired(required=false) 
-	BoardService bLogic;  
+	BoardService bService;  
 	
 	@RequestMapping("/board/list")  
 	public String boardList(Model model, BoardDto bVO, @RequestParam(defaultValue="1") int page) {
-		Pagination pagination = bLogic.getPages(page);
-		List<Map<String,Object>> bList = bLogic.boardList(pagination.getOffset(page-1));
+		Pagination pagination = bService.getPages(page);
+		List<Map<String,Object>> bList = bService.boardList(pagination.getOffset(page-1));
 		
 		model.addAttribute("bList", bList);
 		model.addAttribute("pagination", pagination);     
@@ -42,7 +42,7 @@ public class BoardController {
 	  
 	@RequestMapping("/board/view") 
 	public String modify(Model model, @RequestParam Map<String,Object> pMap, BoardDto bVO) {
-		bVO = bLogic.boardSelect(pMap);
+		bVO = bService.boardSelect(pMap);
 		model.addAttribute("bVO", bVO);
 		return "boardModify";  
 	}    
@@ -50,7 +50,7 @@ public class BoardController {
 	@RequestMapping("/board/insert")   
 	public String insert(Model model, @RequestParam Map<String,Object> pMap
 			, @RequestParam(value = "imagePath",required = false) MultipartFile file) throws IllegalStateException, IOException {
-		int result = bLogic.boardInsert(pMap, file);
+		int result = bService.boardInsert(pMap, file);
 		model.addAttribute("result", result);
 		return "redirect:/board/list";  
 	}
@@ -67,14 +67,14 @@ public class BoardController {
 	
 	@RequestMapping("/board/delete") 
 	public String delete(Model model, @RequestParam Map<String,Object> pMap) {
-		int result = bLogic.boardDelete(pMap);
+		int result = bService.boardDelete(pMap);
 		model.addAttribute("result", result);
 		return "redirect:/board/list";  
 	}     
 	  
 	@RequestMapping("/board/delete/group")  
 	public String deleteGroup(Model model, @RequestParam(value = "idxArr[]") String[] idxArr) {
-		int result = bLogic.boardDeleteGroup(idxArr);   
+		int result = bService.boardDeleteGroup(idxArr);   
 		model.addAttribute("result", result); 
 		return "redirect:/board/list";
 	}  
@@ -83,7 +83,7 @@ public class BoardController {
 	public String update(Model model, HttpServletRequest request, @RequestParam Map<String,Object> pMap
 			, @RequestParam(value = "imagePath" , required = false) MultipartFile file) throws IOException {
 		
-		int result = bLogic.boardUpdate(pMap, file);
+		int result = bService.boardUpdate(pMap, file);
 		model.addAttribute("result", result); 
 		return "redirect:/board/view?idx=" + pMap.get("idx"); 
 	} 

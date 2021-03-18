@@ -4,9 +4,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="../../resources/jquery-3.6.0.min.js"></script><meta charset="UTF-8">
+<meta charset="UTF-8">
+<script src="../../resources/js/jquery-3.6.0.min.js"></script>
 <title>회원가입</title>
-<link rel="stylesheet" href="./resources/join.css">
+<link rel="stylesheet" href="./resources/css/join.css">
 </head>
 <body>
 	<div class="container">
@@ -24,7 +25,8 @@
 							<input id="cuId" name="Id" type="text"/>
 							<div id="warningTxt" ></div>
 						</td>
-						<td><a id="idCheckBtn" href="javascript:checkId()">중복확인</a>
+						<td>
+							<a id="idCheckBtn" href="javascript:checkId()">중복확인</a>
 						</td>
 					</tr>
 					<tr>
@@ -51,6 +53,7 @@
 			<a class="join" id="doJoinBtn" href="javascript:handleSubmit()">가입</a>
 		</div>
 	</div>
+	
+	<script src="./resources/js/join.js"></script>
 </body>
-<script src="./resources/join.js"></script>
 </html>

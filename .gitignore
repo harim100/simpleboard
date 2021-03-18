@@ -17,3 +17,7 @@ eclipsebin
 
 #erd
 .exerd
+board.exerd
+
+#java doc
+doc/*

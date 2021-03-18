@@ -1,43 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mssql.mybatis.boardMapper">
 <insert id="boardInsert"  parameterType="map">
 	INSERT INTO Bd_Board
-	           (Title
-	           ,Content
-	           ,ImagePath
-	           ,InsDate
-	           ,IsUse
-	           ,CustomerNum
-	           )
-	VALUES ( 
-		 #{title}
+	(
+		Title
+		,Content
+		,ImagePath
+		,CustomerNum
+	)
+	VALUES 
+	( 
+		#{title}
 		,#{content}
 		<choose>
 			<when test="imagePath!=null">
-			,#{imagePath}
+				,#{imagePath}
 			</when>
 			<otherwise>
-			,DEFAULT
+				,DEFAULT
 			</otherwise>
 		</choose>
-		,getdate()
-		,'Y'
 		,#{customerNum}
-	 	)
+	)
 </insert>
 
 <select id="boardList" parameterType="int" resultType="map">
-	SELECT 	BrdIdx
-			,Title
-			,Content
-			,ImagePath
-			,CONVERT(varchar(10), InsDate, 23) AS InsDate
-			,IsUse
-			,CONVERT(varchar(10), UpdateDate, 23) AS UpdateDate
-			,CustomerNum
+	SELECT 
+		BrdIdx
+		,Title
+		,Content
+		,ImagePath
+		,CONVERT(varchar(10), InsDate, 23) AS InsDate
+		,UseYN
+		,CONVERT(varchar(10), UpdateDate, 23) AS UpdateDate
+		,CustomerNum
 	FROM  Bd_Board WITH(NOLOCK)
 	ORDER BY BrdIdx desc
 	OFFSET #{offset} ROWS
@@ -53,7 +50,7 @@
 		,CONVERT(varchar(10), InsDate, 23) AS InsDate
 		,CONVERT(varchar(10), UpdateDate, 23) AS UpdateDate
 		,CustomerNum
-	FROM Bd_Board
+	FROM Bd_Board WITH(NOLOCK)
 	WHERE BrdIdx = #{idx}
 </select>
 
@@ -72,7 +69,8 @@
 
 <update id="boardUpdate" parameterType="map">
 	UPDATE Bd_Board
-	SET  Title = #{title}
+	SET  
+		Title = #{title}
 		,Content = #{content}
 		,ImagePath = #{imagePath}
 		,UpdateDate = getDate()
@@ -81,7 +79,9 @@
 </update>
 
 <select id="getTotal" parameterType="map" resultType="Integer">
-	SELECT count(BrdIdx) FROM Bd_Board WHERE IsUse = 'Y';
+	SELECT count(BrdIdx) 
+	FROM Bd_Board WITH(NOLOCK)
+	WHERE UseYN = 'Y';
 </select>
 
 </mapper>

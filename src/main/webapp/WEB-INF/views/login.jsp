@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
 <html>
-<script src="../../resources/jquery-3.6.0.min.js"></script>
 <head>
+<meta charset="UTF-8">
+<script src="../../resources/js/jquery-3.6.0.min.js"></script>
 <title>로그인</title>
-<link rel="stylesheet" href="../../resources/login.css">
+<link rel="stylesheet" href="../../resources/css/login.css">
 </head>
 <body>
 	<div class="container">
@@ -32,6 +34,6 @@
 		<button id="joinBtn" class="joinBtn btn">회원가입</button>
 	</div>
 	
-	<script src="./resources/login.js"></script>
+	<script src="./resources/js/login.js"></script>
 </body>
 </html>

@@ -20,7 +20,6 @@ public class BoardDao {
 	private SqlSessionTemplate sqlSessionTemplate;
 	int result = 0; 
 	
-
 	public List<Map<String, Object>> boardList(int offset) {
 		return sqlSessionTemplate.selectList("boardList", offset);
 	}

@@ -1,12 +1,18 @@
 package com.board.dto;
 
+/**
+ * 
+ * @author Jung.Harim
+ * @see com.board.dao.MemberDao#login(MemberDto dto)
+ * 
+ */
 public class MemberDto {
-	private String CustomerNum   ;
-	private String Id            ;
-	private String Pw            ;
-	private String CustomerName  ;
-	private String CellNum       ;
-	private String InsDate       ;
+	private String CustomerNum;
+	private String Id;
+	private String Pw;
+	private String CustomerName;
+	private String CellNum;
+	private String InsDate;
 	
 	public String getCustomerNum() {
 		return CustomerNum;

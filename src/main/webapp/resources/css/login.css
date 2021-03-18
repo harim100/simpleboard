@@ -27,7 +27,7 @@
 }
 
 table, .input{
-	width: 100%;
+	width: -webkit-fill-available;
 	border: 1px solid #ececec;
     font-size: 14px;
     color: #4c4c4c;

@@ -1,14 +1,26 @@
 package com.board.dto;
-
+/**
+ * 
+ * @author Jung.Harim
+ *
+ */
 public class BoardDto {
-	private String BrdIdx     ;
-	private String Title      ;
-	private String Content    ;
-	private String ImagePath  ;
-	private String InsDate    ;
-	private String IsUse      ;
-	private String UpdateDate ;
+	/** 글번호*/
+	private String BrdIdx;
+	/** 작성자의 고객번호*/
 	private String CustomerNum;
+	/** 글제목*/
+	private String Title;
+	/** 글내용*/
+	private String Content;
+	/** 이미지 경로*/
+	private String ImagePath;
+	/** 작성일*/
+	private String InsDate;
+	/** 글 사용여부*/
+	private String UseYN;
+	/** 수정일*/
+	private String UpdateDate;
 	
 
 	public String getCustomerNum() {
@@ -47,11 +59,11 @@ public class BoardDto {
 	public void setInsDate(String insDate) {
 		InsDate = insDate;
 	}
-	public String getIsUse() {
-		return IsUse;
+	public String getUseYN() {
+		return UseYN;
 	}
-	public void setIsUse(String isUse) {
-		IsUse = isUse;
+	public void setUseYN(String useYN) {
+		UseYN = useYN;
 	}
 	public String getUpdateDate() {
 		return UpdateDate;
@@ -59,5 +71,4 @@ public class BoardDto {
 	public void setUpdateDate(String updateDate) {
 		UpdateDate = updateDate;
 	}
-	
 }

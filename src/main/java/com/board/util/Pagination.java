@@ -2,7 +2,11 @@ package com.board.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * 페이지 처리를 위한 클래스
+ * @author Jung.Harim
+ * @see BoardService#getPages(int page)
+ */
 public class Pagination {
 	private static final Logger logger = LoggerFactory.getLogger(Pagination.class);
 	
@@ -22,17 +26,17 @@ public class Pagination {
 		
 		getPagesArr();
 	}
-
+	
 	public void getPagesArr() {
 		int totalPageNum = (int) Math.ceil(totalRows/ROWS_PER_PAGE);
 		double currGroup = Math.floor(currentPage/DISPLAY_PAGE_NUMBER);
 		
-		startPage = (int) currGroup*5;
+		startPage = (int) currGroup*DISPLAY_PAGE_NUMBER;
 		if(startPage<5) {
 			setIsBefore(false);
 		}
 		
-		endPage = (int) (currGroup+1)*5;
+		endPage = (int) (currGroup+1)*DISPLAY_PAGE_NUMBER;
 		if(endPage > totalPageNum) {
 			endPage = totalPageNum;
 			setIsNext(false);
@@ -44,6 +48,13 @@ public class Pagination {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param currentPage 현재 사용자가 위치한 페이지
+	 * @return offset 불러올 게시판 글 목록 중 첫번째 로우
+	 * @see BoardService#boardList(int offset)
+	 * 
+	 */
 	public int getOffset(int currentPage) {
 		int offset = ROWS_PER_PAGE*currentPage;
 		return offset;
