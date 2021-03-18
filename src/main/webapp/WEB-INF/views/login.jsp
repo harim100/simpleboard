@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -15,23 +14,23 @@
 		<form action="/do/login" method="post" id="loginForm">
 			<table>
 				<tr>
-					<td><input class="input" type="text" id="loginId" name="Id" placeholder="아이디" /></td>
+					<td><input class="input" type="text" id="loginId" name="id" placeholder="아이디" /></td>
 				</tr>
 				<tr>
-					<td><input class="input" type="password" id="loginPw" name="Pw" placeholder="패스워드" /></td>
+					<td><input class="input" type="password" id="loginPw" name="pw" placeholder="패스워드" /></td>
 				</tr>
 				<tr>
-					<td><label><input type="checkbox" id="cbId" name="cbId" />아이디 저장하기</label></td>
+					<td><label><input type="checkbox" id="cbId" name="cbId"/>아이디 저장하기</label></td>
 				</tr>
 				<tr>
-					<td><input id="loginBtn" class="loginBtn btn" type="submit" value="로그인" /></td>
+					<td><input id="loginBtn" class="loginBtn btn" type="submit" value="로그인"/></td>
 				</tr>
 			</table>
 			<c:if test="${msg == false}">
 				<div style="color: red;">아이디, 비밀번호가 틀렸습니다.</div>
 			</c:if>
 		</form>
-		<button id="joinBtn" class="joinBtn btn">회원가입</button>
+		<button id="joinBtn" class="joinBtn btn" type="button">회원가입</button>
 	</div>
 	
 	<script src="./resources/js/login.js"></script>

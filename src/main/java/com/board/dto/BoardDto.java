@@ -6,69 +6,79 @@ package com.board.dto;
  */
 public class BoardDto {
 	/** 글번호*/
-	private String BrdIdx;
+	private int brdIdx;
 	/** 작성자의 고객번호*/
-	private String CustomerNum;
+	private int customerNum;
 	/** 글제목*/
-	private String Title;
+	private String title;
 	/** 글내용*/
-	private String Content;
+	private String content;
 	/** 이미지 경로*/
-	private String ImagePath;
+	private String imagePath;
 	/** 작성일*/
-	private String InsDate;
+	private String insDate;
 	/** 글 사용여부*/
-	private String UseYN;
+	private String useYN;
 	/** 수정일*/
-	private String UpdateDate;
+	private String updateDate;
+	/** 수정시 사용하는 기존 이미지 주소*/
+	private String oriImagePath;
 	
-
-	public String getCustomerNum() {
-		return CustomerNum;
+	public int getBrdIdx() {
+		return brdIdx;
 	}
-	public void setCustomerNum(String customerNum) {
-		CustomerNum = customerNum;
+	public void setBrdIdx(int brdIdx) {
+		this.brdIdx = brdIdx;
 	}
-	public String getBrdIdx() {
-		return BrdIdx;
+	public int getCustomerNum() {
+		return customerNum;
 	}
-	public void setBrdIdx(String brdIdx) {
-		BrdIdx = brdIdx;
+	public void setCustomerNum(int customerNum) {
+		this.customerNum = customerNum;
 	}
 	public String getTitle() {
-		return Title;
+		return title;
 	}
 	public void setTitle(String title) {
-		Title = title;
+		this.title = title;
 	}
 	public String getContent() {
-		return Content;
+		return content;
 	}
 	public void setContent(String content) {
-		Content = content;
+		this.content = content;
 	}
 	public String getImagePath() {
-		return ImagePath;
+		return imagePath;
 	}
 	public void setImagePath(String imagePath) {
-		ImagePath = imagePath;
+		this.imagePath = imagePath;
 	}
 	public String getInsDate() {
-		return InsDate;
+		return insDate;
 	}
 	public void setInsDate(String insDate) {
-		InsDate = insDate;
+		this.insDate = insDate;
 	}
 	public String getUseYN() {
-		return UseYN;
+		return useYN;
 	}
 	public void setUseYN(String useYN) {
-		UseYN = useYN;
+		this.useYN = useYN;
 	}
 	public String getUpdateDate() {
-		return UpdateDate;
+		return updateDate;
 	}
 	public void setUpdateDate(String updateDate) {
-		UpdateDate = updateDate;
+		this.updateDate = updateDate;
 	}
+	public String getOriImagePath() {
+		return oriImagePath;
+	}
+	public void setOriImagePath(String oriImagePath) {
+		this.oriImagePath = oriImagePath;
+	}
+	
+	
+	
 }

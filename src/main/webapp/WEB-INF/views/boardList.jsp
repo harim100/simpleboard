@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -15,14 +14,13 @@
 	<div class="container">
 		<div class="navBar">
 			<span> ${customerName} | </span> 
-			<a href="/logout"><span>로그아웃</span></a>
-		</div>
-		<div class="space"></div>
-		<div class="btnGroup">
-			<button class="deleteBtn btn" id="deleteBtn">삭제</button>
-			<button class="insertBtn btn" id="insertBtn" onClick="insert()">등록</button>
+			<a href="javascript:doLogout()"><span>로그아웃</span></a>
 		</div>
 		<form>
+			<div class="btnGroup">
+				<button type="button" class="deleteBtn btn" id="deleteBtn">삭제</button>
+				<button type="button" class="insertBtn btn" id="insertBtn" onClick="insert()">등록</button>
+			</div>
 			<table id="bListTable" class="bListTable">
 				<colgroup>
 					<col width="5%" />
@@ -41,62 +39,61 @@
 				<c:forEach var="bList" items="${bList}" varStatus="status">
 					<tr>
 						<td>
-							<input type="checkbox" name="cb" value="${bList.CustomerNum}"/> 
-							<input type="hidden" value="${bList.BrdIdx}"/>
+							<input type="checkbox" name="cb" value="${bList.customerNum}"/> 
+							<input type="hidden" value="${bList.brdIdx}"/>
 						</td>
 						<td>
-							<img src="${bList.ImagePath}" width="50" height="50">
+							<img src="${bList.imagePath}" width="50" height="50">
 						</td>
 						<td class="tdTitle">
 							<c:choose>
-									<c:when test="${fn:length(bList.Title) gt 11}">
-										<c:out value="${fn:substring(bList.Title, 0, 10)}" />...
+									<c:when test="${fn:length(bList.title) gt 11}">
+										<c:out value="${fn:substring(bList.title, 0, 10)}" />...
 			        				</c:when>
 									<c:otherwise>
-										<c:out value="${bList.Title}" />
+										<c:out value="${bList.title}" />
 									</c:otherwise>
 							</c:choose>
 						</td>
-						<td>${bList.InsDate}</td>
+						<td>${bList.insDate}</td>
 						<td>
 							<div name="tableBtns">
-								<button class="modifyOneBtn tableBtn modify" onclick="modify(this)" type="button" value="${bList.BrdIdx}">수정</button>
-								<button class="deleteOneBtn tableBtn" onclick="deleteOne(this)" type="button" value="${bList.BrdIdx}">삭제</button>
-								<input type="hidden" value="${bList.CustomerNum}" name="customerNum"/>
+								<button class="modifyOneBtn tableBtn modify" onclick="modify(this)" type="button" value="${bList.brdIdx}">수정</button>
+								<button class="deleteOneBtn tableBtn" onclick="deleteOne(this)" type="button" value="${bList.brdIdx}">삭제</button>
+								<input type="hidden" value="${bList.customerNum}" name="customerNum"/>
 							</div>
 						</td>
 					</tr>
 				</c:forEach>
 			</table>
+			<table class="pagination">
+				<tr>
+					<c:if test="${pagination.isBefore}">
+						<td>
+							<a href="${pageContext.request.contextPath}/board/list?page=${pagination.startPage}">
+							이전
+							</a>
+						</td>
+					</c:if>
+					<c:forEach var="curPage" items="${pagination.pages}">
+						<td>
+							<a href="${pageContext.request.contextPath}/board/list?page=${curPage+1}">
+							${curPage+1}
+							</a>
+						</td>
+					</c:forEach>
+					<c:if test="${pagination.isNext}">
+						<td>
+							<a href="${pageContext.request.contextPath}/board/list?page=${pagination.endPage+1}">
+							다음
+							</a>
+						</td>
+					</c:if>
+				</tr>
+			</table>
 		</form>
-		<table class="pagination">
-			<tr>
-				<c:if test="${pagination.isBefore}">
-					<td>
-						<a href="${pageContext.request.contextPath}/board/list?page=${pagination.startPage}">
-						이전
-						</a>
-					</td>
-				</c:if>
-				<c:forEach var="curPage" items="${pagination.pages}">
-					<td>
-						<a href="${pageContext.request.contextPath}/board/list?page=${curPage+1}">
-						${curPage+1}
-						</a>
-					</td>
-				</c:forEach>
-				<c:if test="${pagination.isNext}">
-					<td>
-						<a href="${pageContext.request.contextPath}/board/list?page=${pagination.endPage+1}">
-						다음
-						</a>
-					</td>
-				</c:if>
-			</tr>
-		</table>
 	</div>
-<div class="space"></div>
-
+	
 <script type="text/javascript">
 $(document).ready(function()
 {
@@ -144,9 +141,10 @@ $(document).ready(function()
 		}
 	});
 });
+
 	function modify(obj) 
 	{
-		location.href = '/board/view?idx=' + obj.value;
+		location.href = '/board/view?brdIdx=' + obj.value;
 	}
 	
 	function insert() 
@@ -206,7 +204,7 @@ $(document).ready(function()
 	{
 		if (confirm("정말 삭제하시겠습니까?") == true) 
 		{
-			$.get('/board/delete?idx='+btn.value, function(result) 
+			$.get('/board/delete?brdIdx='+btn.value, function(result) 
 			{
 				result = 1 ? alert("삭제 성공") : alert("삭제 실패");
 				location.href = `${pageContext.request.contextPath}/board/list`;
@@ -214,6 +212,14 @@ $(document).ready(function()
 		} else {
 			return;
 		}
+	}
+	
+	function doLogout()
+	{
+		$.post('/logout', function() 
+		{
+			location.href= "/login";
+		});
 	}
 	
 	function isChecked(cb) 
@@ -235,7 +241,6 @@ $(document).ready(function()
 	}
 	
 	init();
-
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@ body {height:100%; font-family: 'Noto Sans KR';}
 
 .container{
 	width: 60%;
-	margin: 0 auto 0 auto;
+	margin: 10em auto 10em auto;
 } 
 .bTable{
 	width: 100%;
@@ -15,9 +15,6 @@ body {height:100%; font-family: 'Noto Sans KR';}
 }
 .bTable th{
 	text-align: center;
-}
-.space{
-	margin-top: 10em;
 }
 .btnGroup{
 	float: right;

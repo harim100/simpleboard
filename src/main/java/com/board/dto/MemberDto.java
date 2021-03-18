@@ -7,48 +7,56 @@ package com.board.dto;
  * 
  */
 public class MemberDto {
-	private String CustomerNum;
-	private String Id;
-	private String Pw;
-	private String CustomerName;
-	private String CellNum;
-	private String InsDate;
+	/**	고객번호 */
+	private int customerNum;
+	/**	고객 아이디 */
+	private String id;
+	/**	고객 비밀번호 */
+	private String pw;
+	/**	고객 이름 */
+	private String customerName;
+	/**	고객 휴대폰번호 */
+	private String cellNum;
+	/**	가입일시 */
+	private String insDate;
 	
-	public String getCustomerNum() {
-		return CustomerNum;
+	public int getCustomerNum() {
+		return customerNum;
 	}
-	public void setCustomerNum(String customerNum) {
-		CustomerNum = customerNum;
+	public void setCustomerNum(int customerNum) {
+		this.customerNum = customerNum;
 	}
 	public String getId() {
-		return Id;
+		return id;
 	}
 	public void setId(String id) {
-		Id = id;
+		this.id = id;
 	}
 	public String getPw() {
-		return Pw;
+		return pw;
 	}
 	public void setPw(String pw) {
-		Pw = pw;
+		this.pw = pw;
 	}
 	public String getCustomerName() {
-		return CustomerName;
+		return customerName;
 	}
 	public void setCustomerName(String customerName) {
-		CustomerName = customerName;
+		this.customerName = customerName;
 	}
 	public String getCellNum() {
-		return CellNum;
+		return cellNum;
 	}
 	public void setCellNum(String cellNum) {
-		CellNum = cellNum;
+		this.cellNum = cellNum;
 	}
 	public String getInsDate() {
-		return InsDate;
+		return insDate;
 	}
 	public void setInsDate(String insDate) {
-		InsDate = insDate;
+		this.insDate = insDate;
 	}
+	
+
 	
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
@@ -24,5 +25,18 @@
 	<context:component-scan base-package="com.board.controller">
 		 <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
+	
+	<!-- 로그아웃 뒤로가기 막기 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/board/list"/>
+			<beans:bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+				<beans:property name="cacheSeconds" value="0"/>
+				<beans:property name="useExpiresHeader" value="true"/>
+				<beans:property name="useCacheControlHeader" value="true"/>
+				<beans:property name="useCacheControlNoStore" value="true"/>
+			</beans:bean>
+		</interceptor>
+	</interceptors>​
 	
 </beans:beans>

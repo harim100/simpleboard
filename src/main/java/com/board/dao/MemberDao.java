@@ -28,9 +28,8 @@ public class MemberDao {
 	/**
 	 * @param pMap = (requestedId, value)
 	 */
-	public int member_id_check(Map<String, Object> pMap) {
-		logger.info("member_id_check 호출성공");
-		return sqlSessionTemplate.selectOne("checkId",pMap);
+	public int member_id_check(String requestedId) {
+		return sqlSessionTemplate.selectOne("checkId", requestedId);
 	}
 	
 	/**
@@ -38,14 +37,12 @@ public class MemberDao {
 	 * @param pMap 가입 시 아이디, 비밀번호, 이름, 연락처
 	 * @return
 	 */
-	public int insertMember(Map<String, Object> pMap) {
-		logger.info("member_join 호출성공");
-		return sqlSessionTemplate.insert("joinMember",pMap);
+	public int insertMember(MemberDto mDto) {
+		return sqlSessionTemplate.insert("joinMember", mDto);
 	}
 	
 //==================================== [[login]] ==========================================
 	public MemberDto login(MemberDto memDto) {
-		logger.info("member_login 호출성공");
 		return sqlSessionTemplate.selectOne("loginBcrypt",memDto);
 	}
 		

@@ -1,7 +1,6 @@
 package com.board.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -20,28 +19,28 @@ public class BoardDao {
 	private SqlSessionTemplate sqlSessionTemplate;
 	int result = 0; 
 	
-	public List<Map<String, Object>> boardList(int offset) {
+	public List<BoardDto> boardList(int offset) {
 		return sqlSessionTemplate.selectList("boardList", offset);
 	}
 	
-	public BoardDto boardSelect(Map<String, Object> pMap) {
-		return sqlSessionTemplate.selectOne("boardSelect", pMap);
+	public BoardDto boardSelect(int idx) {
+		return sqlSessionTemplate.selectOne("boardSelect", idx);
 	}
 	
-	public int boardDelete(Map<String, Object> pMap) {
-		return sqlSessionTemplate.delete("boardDelete", pMap);
+	public int boardDelete(int brdIdx) {
+		return sqlSessionTemplate.delete("boardDelete", brdIdx);
 	}
  
 	public int boardDeleteGroup(String[] idxArr) {
 		return sqlSessionTemplate.delete("boardDeleteGroup", idxArr);
 	}
 	
-	public int boardUpdate(Map<String, Object> pMap) {
-		return sqlSessionTemplate.update("boardUpdate", pMap);
+	public int boardUpdate(BoardDto bDto) {
+		return sqlSessionTemplate.update("boardUpdate", bDto);
 	}
 	
-	public int boardInsert(Map<String, Object> pMap) {
-		return sqlSessionTemplate.insert("boardInsert", pMap);
+	public int boardInsert(BoardDto bDto) {
+		return sqlSessionTemplate.insert("boardInsert", bDto);
 	}
 
 	public int getTotal() {

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
@@ -11,47 +10,45 @@
 <link rel="stylesheet" href="../../resources/css/boardModify.css">
 </head>
 <body>
-<div class="container">
-	<div class="space"></div>
-	<form id="insertForm" action="/board/insert" method="post" enctype="multipart/form-data">
-	<table class="bTable">
-		 <colgroup>
-		      <col width="20%"/>
-		      <col width="80%"/>
-	     </colgroup>
-			<tr>
-				<th>제목</th>
-				<td>
-					<input type="hidden" value="${sessionScope.customerNumber}" name="customerNum"/>
-					<input id="title" name="title" class="input title" type="text"/>
-				</td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td>
-				<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10"></textarea>
-				</td>
-			</tr>
-			<tr>
-				<th>이미지</th>
-				<td>
-					<input type="file" accept=".gif, .jpg, .png" name="imagePath" id="fileUploadBtn" onChange="imageChanger(this)"/>
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-				<img id="imagePreview" width="50" height="50">
-				</td>
-			</tr>
-		</table>
-	</form>
+	<div class="container">
+		<form id="insertForm" name="insertForm" action="/board/insert" method="post" enctype="multipart/form-data">
+			<table class="bTable">
+				<colgroup>
+					<col width="20%"/>
+					<col width="80%"/>
+		     	</colgroup>
+				<tr>
+					<th>제목</th>
+					<td>
+						<input type="hidden" value="${sessionScope.customerNumber}" name="customerNum"/>
+						<input id="title" name="title" class="input title" type="text"/>
+					</td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td>
+						<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>이미지</th>
+					<td>
+						<input type="file" accept=".gif, .jpg, .png" name="imageFile" id="fileUploadBtn" onChange="imageChanger(this)"/>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<img id="imagePreview" width="50" height="50">
+					</td>
+				</tr>
+			</table>
+		</form>
 		<div class="btnGroup">
 			 <button class="btn" onclick="cancel()">취소</button>
 			 <button id="insertBtn" class="btn" onclick="insert()">등록</button>
 		</div>
 	</div>
-<div class="space"></div>
 
 <script type="text/javascript">
 	function cancel()

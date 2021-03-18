@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mssql.mybatis.memberMapper">
-<insert id="joinMember" parameterType="map" >
+<insert id="joinMember" parameterType="com.board.dto.MemberDto" >
 	INSERT INTO Cu_Customer 
 	(
 		Id
@@ -11,35 +11,26 @@
 	)
 	VALUES
 	( 
-		#{Id}  
-		,#{Pw}  
-		,#{CustomerName}
-		,#{CustomerPhone}
+		#{id}  
+		,#{pw}  
+		,#{customerName}
+		,#{cellNum}
 	)
 </insert>
 
-<select id="login" resultType="com.board.dto.MemberDto">
-	SELECT 
-		CustomerNum
-		,Id
-		,Pw
-		,CustomerName
-	FROM Cu_Customer WITH(NOLOCK)
-	WHERE Id = #{Id} AND Pw = #{Pw}
-</select>
-
 <select id="loginBcrypt" resultType="com.board.dto.MemberDto">
 	SELECT 
-		CustomerNum
-		,Id
-		,Pw
-		,CustomerName
+		customerNum
+		,id
+		,pw
+		,customerName
+		,cellNum
 	FROM Cu_Customer WITH(NOLOCK)
-	WHERE Id = #{Id}
+	WHERE Id = #{id}
 </select>
 
-<select id="checkId" parameterType="map" resultType="int">
-	SELECT COUNT(*) 
+<select id="checkId" parameterType="String" resultType="int">
+	SELECT COUNT(*)
 	FROM Cu_Customer WITH(NOLOCK)
 	WHERE Id = #{requestedId}
 </select>

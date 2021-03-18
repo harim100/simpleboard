@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -22,16 +21,14 @@
 					<tr>
 						<th><span class="required"> 아이디</span></th>
 						<td>
-							<input id="cuId" name="Id" type="text"/>
+							<input id="cuId" name="id" type="text"/>
 							<div id="warningTxt" ></div>
 						</td>
-						<td>
-							<a id="idCheckBtn" href="javascript:checkId()">중복확인</a>
-						</td>
+						<td><a id="idCheckBtn" href="javascript:checkId()">중복확인</a></td>
 					</tr>
 					<tr>
 						<th><span class="required"> 비밀번호</span></th>
-						<td><input id="cuPw" name="Pw" type="password"/></td>
+						<td><input id="cuPw" name="pw" type="password"/></td>
 					</tr>
 					<tr>
 						<th><span class="required"> 비밀번호 확인</span></th>
@@ -39,11 +36,11 @@
 					</tr>
 					<tr>
 						<th><span class="required"> 이름</span></th>
-						<td><input id="cuName" name="CustomerName" type="text"/></td>
+						<td><input id="cuName" name="customerName" type="text"/></td>
 					</tr>
 					<tr>
 						<th><span>연락처</span></th>
-						<td><input id="cuCellNum" name="CustomerPhone" type="text"/></td>
+						<td><input id="cuCellNum" name="cellNum" type="text"/></td>
 					</tr>
 				</tbody>
 			</table>

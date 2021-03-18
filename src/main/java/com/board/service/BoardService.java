@@ -2,9 +2,7 @@ package com.board.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +26,7 @@ public class BoardService {
 	
 	Pagination pagination;
 
-	public List<Map<String, Object>> boardList(int offset) {
+	public List<BoardDto> boardList(int offset) {
 		
 		return bDao.boardList(offset);
 	}
@@ -40,42 +38,42 @@ public class BoardService {
 		return pagination;
 	}
 	
-	public BoardDto boardSelect(Map<String, Object> pMap) {
-		return bDao.boardSelect(pMap);
+	public BoardDto boardSelect(int brdIdx) {
+		return bDao.boardSelect(brdIdx);
 	}
 	
-	public int boardInsert(Map<String, Object> pMap, MultipartFile file) throws IllegalStateException, IOException {
+	public int boardInsert(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException {
 		if(file != null && !file.isEmpty()) 
 		{
 			String path = fileUpload(file);
-			pMap.put("imagePath", path);
+			bDto.setImagePath(path);
 		}
 		else
 		{
-			pMap.put("imagePath", null);
+			bDto.setImagePath(null);
 		}
-		return bDao.boardInsert(pMap);
+		return bDao.boardInsert(bDto);
 	}
 	
-	public int boardDelete(Map<String, Object> pMap) {
-		return bDao.boardDelete(pMap);
+	public int boardDelete(int brdIdx) {
+		return bDao.boardDelete(brdIdx);
 	}
 	
 	public int boardDeleteGroup(String[] idxArr) {
 		return bDao.boardDeleteGroup(idxArr);
 	}
 	
-	public int boardUpdate(Map<String, Object> pMap, MultipartFile file) throws IllegalStateException, IOException{
+	public int boardUpdate(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException{
 		if(file != null && !file.isEmpty()) 
 		{
 			String path = fileUpload(file);
-			pMap.put("imagePath", path);
+			bDto.setImagePath(path);
 		}
 		else
 		{
-			pMap.put("imagePath", pMap.get("oriImagePath"));
+			bDto.setImagePath(bDto.getOriImagePath());
 		}
-		return bDao.boardUpdate(pMap);
+		return bDao.boardUpdate(bDto);
 	}
 	
 	public String fileUpload(MultipartFile file) throws IllegalStateException, IOException {
@@ -88,7 +86,13 @@ public class BoardService {
 	   
 	   return path;
 	}
+	
+	/**
+	 * 페이징 처리를 위해 전체 로우 수를 가져오는 메소드
+	 * @return bDao.getTotal() 전체 로우 수
+	 */
 	public int getTotal() {
 		return bDao.getTotal();
 	}
+	
 }

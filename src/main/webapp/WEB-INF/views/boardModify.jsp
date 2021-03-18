@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
@@ -12,9 +11,7 @@
 </head>
 <body>
 	<div class="container">
-		<div class="space"></div>
-		<form id="updateForm" action="/board/update" method="post"
-			enctype="multipart/form-data">
+		<form id="updateForm" action="/board/update" method="post" enctype="multipart/form-data">
 			<table class="bTable">
 				<colgroup>
 					<col width="20%" />
@@ -22,38 +19,37 @@
 				</colgroup>
 				<tr>
 					<th>제목</th>
-					<td><input id="title" name="title" class="input title" type="text" value="${bVO.getTitle()}"/></td>
+					<td><input id="title" name="title" class="input title" type="text" value="${bDto.getTitle()}"/></td>
 				</tr>
 				<tr>
 					<th>내용</th>
 					<td>
-					<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10">${bVO.getContent()}</textarea>
+					<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10">${bDto.getContent()}</textarea>
 					</td>
 				</tr>
 				<tr>
 					<th>이미지</th>
 					<td>
-						<input type="file" accept=".gif, .jpg, .png" name="imagePath" id="fileUploadBtn" onChange="imageChanger(this)"/> 
-						<input type="hidden" name="oriImagePath" value="${bVO.getImagePath()}"/>
+						<input type="file" accept=".gif, .jpg, .png" name="imageFile" id="fileUploadBtn" onChange="imageChanger(this)"/> 
+						<input type="hidden" name="oriImagePath" value="${bDto.getImagePath()}"/>
 					</td>
 				</tr>
 				<tr>
 					<td></td>
 					<td>
 						<div id="filename" class="filename"></div> 
-						<img id="imagePreview" src="${bVO.getImagePath()}" width="50" height="50">
+						<img id="imagePreview" src="${bDto.getImagePath()}" width="50" height="50"/>
 					</td>
 				</tr>
 			</table>
-			<input type="hidden" name="idx" value="${bVO.getBrdIdx()}"/>
+			<input type="hidden" name="brdIdx" value="${bDto.getBrdIdx()}"/>
 		</form>
-			<div class="btnGroup">
-				<button class="btn" onClick="cancel()">취소</button>
-				<button class="btn" onClick="deleteBoard()">삭제</button>
-				<button class="btn" onClick="update()">등록</button>
-			</div>
+		<div class="btnGroup">
+			<button class="btn" onClick="cancel()">취소</button>
+			<button class="btn" onClick="deleteBoard()">삭제</button>
+			<button class="btn" onClick="update()">등록</button>
+		</div>
 	</div>
-	<div class="space"></div>
 <script type="text/javascript">
 	function cancel() 
 	{
@@ -64,7 +60,7 @@
 	{
 		if (confirm("정말 삭제하시겠습니까?") == true) 
 		{	
-			$.get(`/board/delete?idx=${bVO.getBrdIdx()}`, function(result)
+			$.get(`/board/delete?brdIdx=${bDto.getBrdIdx()}`, function(result)
 			{
 				result = 1 ? alert("삭제 성공") : alert("삭제 실패");
 				location.href = `${pageContext.request.contextPath}/board/list`;
@@ -124,7 +120,7 @@
 	
 	function getFileName()
 	{
-		const file = `${bVO.getImagePath()}`.split('/');
+		const file = `${bDto.getImagePath()}`.split('/');
 	
 		if (file[file.length - 1] != 'default.png') 
 		{

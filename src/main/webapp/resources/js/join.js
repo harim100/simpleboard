@@ -84,7 +84,7 @@
 		{
 			valObj.reg.push(cellReg);
 			valObj.target.push(cell);
-			valObj.message.push("하이픈을 제외한 15자리 숫자만 허용됩니다.");
+			valObj.message.push("하이픈을 제외한 11~15자리 숫자만 허용됩니다.");
 		}
 		
 		for (var i = 0; i < valObj.target.length; i++) 
