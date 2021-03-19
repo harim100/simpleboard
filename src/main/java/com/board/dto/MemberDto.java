@@ -5,6 +5,9 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.board.util.CellPhoneConstraint;
+import com.board.util.IdDuplicationConstraint;
+
 /**
  * 
  * @author Jung.Harim
@@ -27,7 +30,7 @@ public class MemberDto {
 	@Pattern(regexp="^[a-zA-Z가-힣]{2,30}$", message = "{Pattern.memberDto.customerName}")
 	private String customerName;
 	/**	고객 휴대폰번호 */
-	@Pattern(regexp="^[0-9]{11,15}$", message = "{Pattern.memberDto.cellNum}")
+	@CellPhoneConstraint(message = "{Pattern.memberDto.cellNum}")
 	private String cellNum;
 	/**	가입일시 */
 	private String insDate;
