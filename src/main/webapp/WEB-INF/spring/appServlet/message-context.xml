@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	<property name="defaultEncoding" value="UTF-8"/>
+	<property name="cacheSeconds" value="5"/>
+	<property name="basenames">
+	<list>
+		<value>/resources/message</value>
+	</list>
+	</property>
+</bean>

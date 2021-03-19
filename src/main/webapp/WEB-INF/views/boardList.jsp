@@ -47,12 +47,12 @@
 						</td>
 						<td class="tdTitle">
 							<c:choose>
-									<c:when test="${fn:length(bList.title) gt 11}">
-										<c:out value="${fn:substring(bList.title, 0, 10)}" />...
-			        				</c:when>
-									<c:otherwise>
-										<c:out value="${bList.title}" />
-									</c:otherwise>
+								<c:when test="${fn:length(bList.title) gt 11}">
+									<c:out value="${fn:substring(bList.title, 0, 10)}" />...
+		        				</c:when>
+								<c:otherwise>
+									<c:out value="${bList.title}" />
+								</c:otherwise>
 							</c:choose>
 						</td>
 						<td>${bList.insDate}</td>
@@ -155,8 +155,10 @@ $(document).ready(function()
 	const cbSelectAll = $("#selectAll");
 	const cbList = $("[name=cb]");
 	
-	cbList.each(function (){
-		$(this).change(function(){
+	cbList.each(function ()
+	{
+		$(this).change(function()
+		{
 			cbValidation(this);
 		});
 	});

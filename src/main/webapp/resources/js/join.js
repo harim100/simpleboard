@@ -11,8 +11,13 @@
 	const cellReg = /^[0-9]{11,15}$/
 	var isIdChecked = false;
 	
-	id.change(function(){
+	id.keydown(function()
+	{
 		isIdChecked = false;
+		if(warning.text().length > 0)
+		{
+			warning.text("아이디를 다시 확인해주세요.")
+		}
 	})
 	
 	function checkId()
@@ -51,7 +56,7 @@
 	{
 		if (target.val().length > 0) 
 		{
-			if (re.test(target.val())) 
+			if (re.test(target.val()))
 			{
 				return true;
 			}
@@ -69,7 +74,7 @@
 		}
 	}
 	
-	function validation()
+	function defineTargets()
 	{
 		var valObj = {
 			target: [id, pw, name],
@@ -87,10 +92,49 @@
 			valObj.message.push("하이픈을 제외한 11~15자리 숫자만 허용됩니다.");
 		}
 		
+		return valObj
+	}
+	
+	function pwCheck()
+	{
+		if (pw2.val().length == 0) 
+		{
+			alert("비밀번호 확인을 입력해주세요.");
+			pw2.focus();
+			return false;
+		}
+		else
+		{
+			if (pw.val() != pw2.val()) 
+			{
+				alert("비밀번호 확인이 일치하지 않습니다.");
+				pw2.val("");
+				pw2.focus();
+				return false;
+			} 
+			else 
+			{
+				return true;
+			}
+		}
+		
+	}
+	
+	function validation()
+	{
+		var valObj = defineTargets();
+		
 		for (var i = 0; i < valObj.target.length; i++) 
 		{
 			if (check(valObj.reg[i], valObj.target[i], valObj.message[i])) 
 			{
+				if($(valObj.target[i]).attr('id') == 'cuPw')
+				{
+					if(pwCheck()==false)
+					{
+						return false;
+					}
+				}
 				continue;
 			} 
 			else 
@@ -99,33 +143,7 @@
 			}
 		}
 		
-		var pwCheck = false;
-		if (pw2.val().length == 0) 
-		{
-			alert("비밀번호 확인을 입력해주세요.");
-		}
-		else
-		{
-			if (pw.val() != pw2.val()) 
-			{
-				alert("비밀번호 확인이 일치하지 않습니다.");
-				pwCheck = false;
-				pw2.val("");
-				pw2.focus();
-			} 
-			else 
-			{
-				pwCheck = true;
-			}
-		}
-		
-		if(!isIdChecked)
-		{
-			alert("아이디 중복확인이 필요합니다.");
-			return false;	
-		}
-		
-		return isIdChecked, pwCheck;
+		return !isIdChecked ? (alert("아이디 중복확인이 필요합니다."), false) : true
 	}
 	
 	function handleSubmit() 

@@ -1,5 +1,10 @@
 package com.board.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
 /**
  * 
  * @author Jung.Harim
@@ -10,12 +15,19 @@ public class MemberDto {
 	/**	고객번호 */
 	private int customerNum;
 	/**	고객 아이디 */
+	@NotBlank
+	@Pattern(regexp="^[a-zA-Z0-9]{4,20}$")
 	private String id;
 	/**	고객 비밀번호 */
+	@NotBlank
+	@Pattern(regexp="^(?=.+[0-9])(?=.+[A-Za-z])(?=.+[$@!%*#?&])[A-Za-z0-9$@!%*#?&]{8,20}$")
 	private String pw;
 	/**	고객 이름 */
+	@NotBlank
+	@Pattern(regexp="^[a-zA-Z가-힣]{2,30}$")
 	private String customerName;
 	/**	고객 휴대폰번호 */
+	@Pattern(regexp="^[0-9]{11,15}$")
 	private String cellNum;
 	/**	가입일시 */
 	private String insDate;

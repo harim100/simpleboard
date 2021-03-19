@@ -1,5 +1,3 @@
-$(document).ready(function() 
-{
 	const joinBtn = $("#joinBtn");
 	const cbId = $("#cbId");
 	const loginForm = $("#loginForm");
@@ -52,6 +50,5 @@ $(document).ready(function()
 			}
 		}
 		
-	  return result;
+	return result;
 	}
-});

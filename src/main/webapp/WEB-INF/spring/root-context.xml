@@ -44,18 +44,13 @@
         </props>
     </property>
 	</bean>
+
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<context:component-scan base-package="com.board.dao, com.board.service">
     	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-	<mvc:interceptor>
-	<mvc:mapping path="/**/*" />
-		<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
-			<property name="cacheSeconds" value="0" />
-			<property name="useExpiresHeader" value="true" />
-			<property name="useCacheControlHeader" value="true" />
-			<property name="useCacheControlNoStore" value="true" />
-		</bean>
-	</mvc:interceptor>
 </beans>

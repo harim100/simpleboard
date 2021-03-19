@@ -26,12 +26,13 @@ import com.board.dto.BoardDto;
 import com.board.dto.MemberDto;
 import com.board.service.MemberService;
   
-/** 
- * 
- */ 
+/**
+ * 고객 관련 컨트롤러
+ * @author Jung.Harim
+ *
+ */
 @Controller
 public class MemberController {
-	 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	HttpSession session= null;
@@ -43,6 +44,13 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
 	
+	/**
+	 * 로그인 처리를 하는 메소드
+	 * @param mDto 고객정보를 담은 DTO
+	 * @param req session에 고객 이름과 번호를 담음
+	 * @param rttr 로그인 실패시 메시지를 전달할 flash attribute 생성을 위해 사용
+	 * @return mv 로그인 성공시 게시글 목록 페이지, 실패시 로그인 페이지로 리다이렉트
+	 */
 	@RequestMapping("/do/login")
 	public ModelAndView member_login(MemberDto mDto, HttpServletRequest req, RedirectAttributes rttr) {
 		
@@ -66,11 +74,15 @@ public class MemberController {
 		return mv;
 	}
 	
+	/**
+	 * 로그인 페이지로 이동하는 메소드
+	 * @return login 로그인 페이지
+	 */
 	@RequestMapping(value={"/", "/login"})
-	public String loginView(HttpSession session) throws Exception{
+	public String loginView() throws Exception{
 		return "login";
 	}
-
+	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) throws Exception{
 		session.invalidate();
@@ -96,8 +108,6 @@ public class MemberController {
 	 
 	@RequestMapping("/create/member")
 	public String insertMember(Model mod, @ModelAttribute MemberDto mDto, HttpServletRequest req, HttpServletResponse res) throws IOException {
-		//modelandview 로 
-		
 		//패스워드 암호화
 		String password = mDto.getPw();
 		mDto.setPw(passEncoder.encode(password));
@@ -118,7 +128,6 @@ public class MemberController {
 		pw.append("alert('회원가입 성공'); location.href='/login';");
 		pw.append("</script>");
 		
-		//url에 같이
 		return "redirect:/login";
 	}
 	
