@@ -1,8 +1,15 @@
 @charset "UTF-8";
 
 .container {
-    width: 50%;
-    margin: 0 auto 0 auto;
+    width: 60%;
+    margin: 8em auto 8em auto
+}
+
+.error
+{
+	color: red;
+	font-size: 10px;
+	display: block;
 }
 
 #warningTxt{
@@ -17,7 +24,7 @@
 	display: block; 
 	text-align: center; 
 	text-decoration: none;	
-	margin: 3em;
+	margin: 1em;
 }
 .redTxt {
 	color: #ee7272;
@@ -45,7 +52,8 @@ ul, li {
 
 .joinForm table td {
 	padding: 6px 0;
-	position: relative;
+	position: inherit;
+	display: inline-block;
 }
 
 .joinForm table th .required:after {
@@ -71,7 +79,6 @@ ul, li {
 
 .joinForm {
 	width: 100%;
-	max-width: 668px;
 }
 
 .joinForm table {
@@ -88,7 +95,7 @@ ul, li {
 	color: #4c4c4c;
 	height: 35px;
 	padding: 10px;
-	width: 100%;
+	width: 20em;
 	float: left;
 }
 

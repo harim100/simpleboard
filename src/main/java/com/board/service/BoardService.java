@@ -2,6 +2,7 @@ package com.board.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -78,14 +79,17 @@ public class BoardService {
 	
 	public String fileUpload(MultipartFile file) throws IllegalStateException, IOException {
 		String originFileName = file.getOriginalFilename();
+		Date date = new Date();
+		String randomString = String.valueOf(date.getTime());
 		
-	   if (!file.getOriginalFilename().isEmpty()) {
-	      file.transferTo(new File(DOWNLOAD_PATH, originFileName));
-	   }
-	   String path = URL_PATH + originFileName;
-	   
-	   return path;
-	}
+		if (!file.getOriginalFilename().isEmpty()) 
+		{
+			file.transferTo(new File(DOWNLOAD_PATH, randomString+originFileName));
+		}
+		String path = URL_PATH + originFileName;
+		   
+		return path;
+		}
 	
 	/**
 	 * 페이징 처리를 위해 전체 로우 수를 가져오는 메소드

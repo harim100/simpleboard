@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory; 
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -102,33 +105,53 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/join")
-	public String member_join() {
+	public String member_join(Model mod) {
+		mod.addAttribute("mDto", new MemberDto());
 		return "join";
 	}
 	 
 	@RequestMapping("/create/member")
-	public String insertMember(Model mod, @ModelAttribute MemberDto mDto, HttpServletRequest req, HttpServletResponse res) throws IOException {
-		//패스워드 암호화
-		String password = mDto.getPw();
-		mDto.setPw(passEncoder.encode(password));
+	public String insertMember(@Valid @ModelAttribute("mDto") MemberDto mDto
+			, BindingResult bindingResult
+			, HttpServletRequest req, HttpServletResponse res) throws IOException {
 		
-		//insert
-		result = memService.insertMember(mDto);
-		
-		//이름 세션에 담기
-		session = req.getSession();
-		session.setAttribute("customerName", mDto.getCustomerName());
-		
-		mod.addAttribute("result", result);
-		
-		res.setCharacterEncoding("UTF-8");
-		res.setContentType("text/html;charset=UTF-8");
-		PrintWriter pw = res.getWriter();
-		pw.append("<script>");
-		pw.append("alert('회원가입 성공'); location.href='/login';");
-		pw.append("</script>");
-		
-		return "redirect:/login";
+		//에러 발생시
+		if(bindingResult.hasErrors())
+		{
+			return "join";
+		} 
+		else
+		{ 
+			//패스워드 암호화
+			String password = mDto.getPw();
+			mDto.setPw(passEncoder.encode(password));
+			
+			//insert
+			result = memService.insertMember(mDto);
+			
+			//이름 세션에 담기
+			session = req.getSession();
+			session.setAttribute("customerName", mDto.getCustomerName());
+			
+			res.setCharacterEncoding("UTF-8");
+			res.setContentType("text/html;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			
+			if(result == 1) 
+			{
+				pw.append("<script>");
+				pw.append("alert('회원가입 성공'); location.href='/login';");
+				pw.append("</script>");
+			}
+			else
+			{
+				pw.append("<script>");
+				pw.append("alert('회원가입 실패!'); location.href='/login';");
+				pw.append("</script>");
+			}
+			
+			return "redirect:/login";
+		}
 	}
 	
 }
