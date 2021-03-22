@@ -7,7 +7,7 @@ import javax.validation.Payload;
 
 @Documented
 @Constraint(validatedBy = CellPhoneValidator.class)
-@Target( { ElementType.METHOD, ElementType.FIELD })
+@Target({ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CellPhoneConstraint {
 	String message() default "핸드폰번호를 확인해주세요.";

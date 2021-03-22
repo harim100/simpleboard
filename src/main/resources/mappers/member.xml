@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mssql.mybatis.memberMapper">
+<insert id="insertMember" parameterType="com.board.dto.MemberDto" >
+	INSERT INTO CU_CUSTOMER 
+	(
+		ID
+		,PW
+		,CUSTOMER_NAME
+		,CELL_NUM
+	)
+	VALUES
+	( 
+		#{id}  
+		,#{pw}  
+		,#{customer_name}
+		,#{cell_num}
+	)
+</insert>
+
+<select id="login" resultType="com.board.dto.MemberDto">
+	SELECT	CUSTOMER_NUM
+			,ID
+			,PW
+			,CUSTOMER_NAME
+			,CELL_NUM
+	FROM CU_CUSTOMER WITH(NOLOCK)
+	WHERE ID = #{id}
+</select>
+
+<select id="checkId" parameterType="String" resultType="int">
+	SELECT COUNT(ID)
+	FROM CU_CUSTOMER WITH(NOLOCK)
+	WHERE ID = #{requestedId}
+</select>
+
+</mapper>

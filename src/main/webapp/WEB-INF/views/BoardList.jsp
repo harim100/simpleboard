@@ -39,11 +39,11 @@
 				<c:forEach var="bList" items="${bList}" varStatus="status">
 					<tr>
 						<td>
-							<input type="checkbox" name="cb" value="${bList.customerNum}"/> 
-							<input type="hidden" value="${bList.brdIdx}"/>
+							<input type="checkbox" name="cb" value="${bList.customer_num}"/> 
+							<input type="hidden" value="${bList.brd_idx}"/>
 						</td>
 						<td>
-							<img src="${bList.imagePath}" width="50" height="50">
+							<img src="${bList.image_path}" width="50" height="50">
 						</td>
 						<td class="tdTitle">
 							<c:choose>
@@ -55,12 +55,12 @@
 								</c:otherwise>
 							</c:choose>
 						</td>
-						<td>${bList.insDate}</td>
+						<td>${bList.ins_date}</td>
 						<td>
 							<div name="tableBtns">
-								<button class="modifyOneBtn tableBtn modify" onclick="modify(this)" type="button" value="${bList.brdIdx}">수정</button>
-								<button class="deleteOneBtn tableBtn" onclick="deleteOne(this)" type="button" value="${bList.brdIdx}">삭제</button>
-								<input type="hidden" value="${bList.customerNum}" name="customerNum"/>
+								<button class="modifyOneBtn tableBtn modify" onclick="modify(this)" type="button" value="${bList.brd_idx}">수정</button>
+								<button class="deleteOneBtn tableBtn" onclick="deleteOne(this)" type="button" value="${bList.brd_idx}">삭제</button>
+								<input type="hidden" value="${bList.customer_num}" name="customerNum"/>
 							</div>
 						</td>
 					</tr>
@@ -95,6 +95,11 @@
 	</div>
 	
 <script type="text/javascript">
+/* if("${result}" == 0)
+{
+	alert("글 등록 실패!");	
+} */
+	
 $(document).ready(function()
 {
 	$("#deleteBtn").click(function ()

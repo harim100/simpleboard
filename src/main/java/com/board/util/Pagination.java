@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 페이지 처리를 위한 클래스
  * @author Jung.Harim
- * @see BoardService#getPages(int page)
+ * @see BoardBiz#getPages(int page)
  */
 public class Pagination {
 	private static final Logger logger = LoggerFactory.getLogger(Pagination.class);
@@ -52,7 +52,7 @@ public class Pagination {
 	 * 
 	 * @param currentPage 현재 사용자가 위치한 페이지
 	 * @return offset 불러올 게시판 글 목록 중 첫번째 로우
-	 * @see BoardService#boardList(int offset)
+	 * @see BoardBiz#boardList(int offset)
 	 * 
 	 */
 	public int getOffset(int currentPage) {

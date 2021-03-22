@@ -16,10 +16,12 @@ import com.board.util.IdDuplicationConstraint;
  */
 public class MemberDto {
 	/**	고객번호 */
-	private int customerNum;
+	private int customer_num;
+
 	/**	고객 아이디 */
 	@NotBlank(message = "{NotBlank.memberDto.id}")
 	@Pattern(regexp="^[a-zA-Z0-9]{4,20}$", message = "{Pattern.memberDto.id}")
+	@IdDuplicationConstraint
 	private String id;
 	/**	고객 비밀번호 */
 	@NotBlank(message = "{NotBlank.memberDto.pw}")
@@ -28,18 +30,18 @@ public class MemberDto {
 	/**	고객 이름 */
 	@NotBlank(message = "{NotBlank.memberDto.customerName}")
 	@Pattern(regexp="^[a-zA-Z가-힣]{2,30}$", message = "{Pattern.memberDto.customerName}")
-	private String customerName;
+	private String customer_name;
 	/**	고객 휴대폰번호 */
 	@CellPhoneConstraint(message = "{Pattern.memberDto.cellNum}")
-	private String cellNum;
+	private String cell_num;
 	/**	가입일시 */
-	private String insDate;
+	private String ins_date;
 	
-	public int getCustomerNum() {
-		return customerNum;
+	public int getCustomer_num() {
+		return customer_num;
 	}
-	public void setCustomerNum(int customerNum) {
-		this.customerNum = customerNum;
+	public void setCustomer_num(int customer_num) {
+		this.customer_num = customer_num;
 	}
 	public String getId() {
 		return id;
@@ -53,25 +55,23 @@ public class MemberDto {
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
-	public String getCustomerName() {
-		return customerName;
+	public String getCustomer_name() {
+		return customer_name;
 	}
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
+	public void setCustomer_name(String customer_name) {
+		this.customer_name = customer_name;
 	}
-	public String getCellNum() {
-		return cellNum;
+	public String getCell_num() {
+		return cell_num;
 	}
-	public void setCellNum(String cellNum) {
-		this.cellNum = cellNum;
+	public void setCell_num(String cell_num) {
+		this.cell_num = cell_num;
 	}
-	public String getInsDate() {
-		return insDate;
+	public String getIns_date() {
+		return ins_date;
 	}
-	public void setInsDate(String insDate) {
-		this.insDate = insDate;
+	public void setIns_date(String ins_date) {
+		this.ins_date = ins_date;
 	}
-	
-
 	
 }

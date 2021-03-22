@@ -10,7 +10,7 @@
 		<Logger name="com.board.controller" level="INFO">
 			<AppenderRef ref="console"/>
 		</Logger>
-		<Logger name="com.board.service" level="INFO">
+		<Logger name="com.board.biz" level="INFO">
 			<AppenderRef ref="console"/>
 		</Logger>
 		<Logger name="com.board.util" level="INFO">

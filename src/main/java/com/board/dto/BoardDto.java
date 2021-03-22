@@ -1,4 +1,8 @@
 package com.board.dto;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+
 /**
  * 
  * @author Jung.Harim
@@ -6,35 +10,39 @@ package com.board.dto;
  */
 public class BoardDto {
 	/** 글번호*/
-	private int brdIdx;
+	private int brd_idx;
 	/** 작성자의 고객번호*/
-	private int customerNum;
+	private int customer_num;
 	/** 글제목*/
+	@NotBlank(message = "{NotBlank.bDto.title}")
+	@Max(value=30, message = "{Max.bDto.title}")
 	private String title;
 	/** 글내용*/
+	@NotBlank(message = "{NotBlank.bDto.content}")
+	@Max(value=100, message = "{Max.bDto.content}")
 	private String content;
 	/** 이미지 경로*/
-	private String imagePath;
+	private String image_path;
 	/** 작성일*/
-	private String insDate;
+	private String ins_date;
 	/** 글 사용여부*/
-	private String useYN;
+	private String use_yn;
 	/** 수정일*/
-	private String updateDate;
+	private String upt_date;
 	/** 수정시 사용하는 기존 이미지 주소*/
 	private String oriImagePath;
 	
-	public int getBrdIdx() {
-		return brdIdx;
+	public int getBrd_idx() {
+		return brd_idx;
 	}
-	public void setBrdIdx(int brdIdx) {
-		this.brdIdx = brdIdx;
+	public void setBrd_idx(int brd_idx) {
+		this.brd_idx = brd_idx;
 	}
-	public int getCustomerNum() {
-		return customerNum;
+	public int getCustomer_num() {
+		return customer_num;
 	}
-	public void setCustomerNum(int customerNum) {
-		this.customerNum = customerNum;
+	public void setCustomer_num(int customer_num) {
+		this.customer_num = customer_num;
 	}
 	public String getTitle() {
 		return title;
@@ -48,29 +56,29 @@ public class BoardDto {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getImagePath() {
-		return imagePath;
+	public String getImage_path() {
+		return image_path;
 	}
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
+	public void setImage_path(String image_path) {
+		this.image_path = image_path;
 	}
-	public String getInsDate() {
-		return insDate;
+	public String getIns_date() {
+		return ins_date;
 	}
-	public void setInsDate(String insDate) {
-		this.insDate = insDate;
+	public void setIns_date(String ins_date) {
+		this.ins_date = ins_date;
 	}
-	public String getUseYN() {
-		return useYN;
+	public String getUse_yn() {
+		return use_yn;
 	}
-	public void setUseYN(String useYN) {
-		this.useYN = useYN;
+	public void setUse_yn(String use_yn) {
+		this.use_yn = use_yn;
 	}
-	public String getUpdateDate() {
-		return updateDate;
+	public String getUpt_date() {
+		return upt_date;
 	}
-	public void setUpdateDate(String updateDate) {
-		this.updateDate = updateDate;
+	public void setUpt_date(String upt_date) {
+		this.upt_date = upt_date;
 	}
 	public String getOriImagePath() {
 		return oriImagePath;
@@ -78,7 +86,6 @@ public class BoardDto {
 	public void setOriImagePath(String oriImagePath) {
 		this.oriImagePath = oriImagePath;
 	}
-	
-	
+
 	
 }

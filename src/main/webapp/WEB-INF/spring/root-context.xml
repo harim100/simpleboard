@@ -3,9 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 	
 	<!-- dbconfig location -->
 	<context:property-placeholder location="classpath:config/dbconfig.properties"/>
@@ -17,33 +20,39 @@
 		<property name="username" value="${ms.username}"/>
 		<property name="password" value="${ms.password}"/>
 	</bean>
-
-   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-      <property name="configLocation" value="WEB-INF/spring/appServlet/mybatis-config.xml"/>
-      <property name="dataSource" ref="dataSource"/>
-   </bean>
+	
+	<!-- 트랜잭션 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+		
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="WEB-INF/spring/appServlet/mybatis-config.xml"/>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
    
-   <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
-      <constructor-arg index="0" ref="sqlSessionFactory"/>
-   </bean>
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"/>
+	</bean>
 	
 	<!-- fileupload -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	    <property name="maxUploadSize" value="5242880"/> <!-- 5MB 5242880 bytes-->
-	    <property name="maxUploadSizePerFile" value="5242880"/>
-	    <property name="maxInMemorySize" value="0"/>
-	    <property name="defaultEncoding" value="UTF-8"/>
+		<property name="maxUploadSize" value="5242880"/> <!-- 5MB 5242880 bytes-->
+		<property name="maxUploadSizePerFile" value="5242880"/>
+		<property name="maxInMemorySize" value="0"/>
+		<property name="defaultEncoding" value="UTF-8"/>
 	</bean>
 	
 	<!-- fileupload handle size error -->
 	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
     <property name="exceptionMappings">
-        <props>
-            <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">
-            /handleUploadError
-            </prop>
-        </props>
-    </property>
+		<props>
+			<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">
+			/handleUploadError
+			</prop>
+		</props>
+	</property>
 	</bean>
 	
 	<!-- 서버단 유효성검사 -->
@@ -59,7 +68,7 @@
 	</bean>
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<context:component-scan base-package="com.board.dao, com.board.service, com.board.util">
+	<context:component-scan base-package="com.board.dao, com.board.biz, com.board.util">
     	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 </beans>

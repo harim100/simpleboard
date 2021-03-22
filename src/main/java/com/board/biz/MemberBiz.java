@@ -1,4 +1,4 @@
-package com.board.service;
+package com.board.biz;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +9,10 @@ import com.board.dao.MemberDao;
 import com.board.dto.MemberDto;
 
 @Service
-public class MemberService { 
-	private static final Logger logger = LoggerFactory.getLogger(MemberService.class);
-	@Autowired(required=false)
+public class MemberBiz { 
+	private static final Logger logger = LoggerFactory.getLogger(MemberBiz.class);
+	
+	@Autowired
 	private MemberDao memDao;
 
 //==================================== [[join]] ==========================================
@@ -19,8 +20,8 @@ public class MemberService {
 		return memDao.login(mDto);
 	}
 	
-	public int member_id_check(String requestedId) {
-		return memDao.member_id_check(requestedId);
+	public int checkId(String requestedId) {
+		return memDao.checkId(requestedId);
 	}
 
 //==================================== [[login]] ==========================================

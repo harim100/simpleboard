@@ -19,8 +19,9 @@ import com.board.dto.MemberDto;
 public class MemberDao {
 	private static final Logger logger = LoggerFactory.getLogger(MemberDao.class);
 	
-	@Autowired(required=false)
+	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
+	
 	int result = 0;
 	List<Map<String,Object>> memList= null;
 	
@@ -28,7 +29,7 @@ public class MemberDao {
 	/**
 	 * @param pMap = (requestedId, value)
 	 */
-	public int member_id_check(String requestedId) {
+	public int checkId(String requestedId) {
 		return sqlSessionTemplate.selectOne("checkId", requestedId);
 	}
 	
@@ -38,12 +39,12 @@ public class MemberDao {
 	 * @return
 	 */
 	public int insertMember(MemberDto mDto) {
-		return sqlSessionTemplate.insert("joinMember", mDto);
+		return sqlSessionTemplate.insert("insertMember", mDto);
 	}
 	
 //==================================== [[login]] ==========================================
 	public MemberDto login(MemberDto memDto) {
-		return sqlSessionTemplate.selectOne("loginBcrypt",memDto);
+		return sqlSessionTemplate.selectOne("login",memDto);
 	}
 		
 	

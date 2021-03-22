@@ -1,4 +1,4 @@
-package com.board.service;
+package com.board.biz;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.board.dao.BoardDao;
@@ -16,20 +18,21 @@ import com.board.dto.BoardDto;
 import com.board.util.Pagination;
  
 @Service
-public class BoardService {
-	private static final Logger logger = LoggerFactory.getLogger(BoardService.class);
+public class BoardBiz {
+	private static final Logger logger = LoggerFactory.getLogger(BoardBiz.class);
 	
 	private final String DOWNLOAD_PATH = "C:\\work";
 	private final String URL_PATH = "/simpleboard/upload/";
 	
-	@Autowired(required=false)
+	@Autowired
 	private BoardDao bDao;
 	
 	Pagination pagination;
+	int result;
 
-	public List<BoardDto> boardList(int offset) {
+	public List<BoardDto> getBoardList(int offset) {
 		
-		return bDao.boardList(offset);
+		return bDao.getBoardList(offset);
 	}
 	
 	public Pagination getPages(int page) {
@@ -39,42 +42,54 @@ public class BoardService {
 		return pagination;
 	}
 	
-	public BoardDto boardSelect(int brdIdx) {
-		return bDao.boardSelect(brdIdx);
+	public BoardDto getBoardItem(int brdIdx) {
+		return bDao.getBoardItem(brdIdx);
 	}
 	
-	public int boardInsert(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException {
+	@Transactional(rollbackFor=RuntimeException.class)
+	public int insertBoardItem(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException {
 		if(file != null && !file.isEmpty()) 
 		{
-			String path = fileUpload(file);
-			bDto.setImagePath(path);
+			try 
+			{
+				String path = fileUpload(file);
+				bDto.setImage_path(path);
+				result= bDao.insertBoardItem(bDto);
+				throw new RuntimeException("Exception for RuntimeException");
+			}
+			catch (Exception e) 
+			{
+				result = 0;
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			}
 		}
 		else
 		{
-			bDto.setImagePath(null);
+			bDto.setImage_path(null);
+			result= bDao.insertBoardItem(bDto);
 		}
-		return bDao.boardInsert(bDto);
+		return result;
 	}
 	
-	public int boardDelete(int brdIdx) {
-		return bDao.boardDelete(brdIdx);
+	public int deleteBoardItem(int brdIdx) {
+		return bDao.deleteBoardItem(brdIdx);
 	}
 	
-	public int boardDeleteGroup(String[] idxArr) {
-		return bDao.boardDeleteGroup(idxArr);
+	public int deleteBoardGroup(String[] idxArr) {
+		return bDao.deleteBoardGroup(idxArr);
 	}
 	
-	public int boardUpdate(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException{
+	public int updateBoardItem(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException{
 		if(file != null && !file.isEmpty()) 
 		{
 			String path = fileUpload(file);
-			bDto.setImagePath(path);
+			bDto.setImage_path(path);
 		}
 		else
 		{
-			bDto.setImagePath(bDto.getOriImagePath());
+			bDto.setImage_path(bDto.getOriImagePath());
 		}
-		return bDao.boardUpdate(bDto);
+		return bDao.updateBoardItem(bDto);
 	}
 	
 	public String fileUpload(MultipartFile file) throws IllegalStateException, IOException {
@@ -87,7 +102,7 @@ public class BoardService {
 			file.transferTo(new File(DOWNLOAD_PATH, randomString+originFileName));
 		}
 		String path = URL_PATH + originFileName;
-		   
+		
 		return path;
 		}
 	

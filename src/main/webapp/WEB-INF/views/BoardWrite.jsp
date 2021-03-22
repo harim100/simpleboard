@@ -20,14 +20,14 @@
 				<tr>
 					<th>제목</th>
 					<td>
-						<input type="hidden" value="${sessionScope.customerNumber}" name="customerNum"/>
-						<input id="title" name="title" class="input title" type="text"/>
+						<input type="hidden" value="${sessionScope.customerNumber}" name="customer_num"/>
+						<input id="title" name="title" class="input title" type="text" maxlength="60"/>
 					</td>
 				</tr>
 				<tr>
 					<th>내용</th>
 					<td>
-						<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10"></textarea>
+						<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10" maxlength="200"></textarea>
 					</td>
 				</tr>
 				<tr>

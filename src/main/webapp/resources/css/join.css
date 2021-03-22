@@ -5,15 +5,11 @@
     margin: 8em auto 8em auto
 }
 
-.error
+.error, #warningTxt
 {
 	color: red;
 	font-size: 10px;
-	display: block;
-}
-
-#warningTxt{
-	color: red;
+	display: inline-block;
 }
 
 #idCheckBtn{

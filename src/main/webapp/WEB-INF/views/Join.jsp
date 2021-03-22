@@ -12,7 +12,7 @@
 <body>
 	<div class="container">
 		<h2>회원가입</h2>
-		<form:form modelAttribute="mDto" id="joinForm" cssClass="joinForm" action="/create/member" method="post">
+		<form:form modelAttribute="mDto" id="joinForm" cssClass="joinForm" action="/insert/member" method="post">
 			<table>
 				<colgroup>
 					<col width="30%" />
@@ -22,7 +22,7 @@
 					<tr>
 						<th><span class="required"> 아이디</span></th>
 						<td>
-							<form:input path="id" id="cuId" name="id" type="text"/>
+							<form:input path="id" id="cuId" type="text" maxlength="20"/>
 							<form:errors path="id" cssClass="error"/>
 							<div id="warningTxt" ></div>
 						</td>
@@ -31,7 +31,7 @@
 					<tr>
 						<th><span class="required"> 비밀번호</span></th>
 						<td>
-							<form:input path="pw" id="cuPw" name="pw" type="password"/>
+							<form:input path="pw" id="cuPw" type="password" maxlength="20"/>
 							<form:errors path="pw" cssClass="error"/>
 						</td>
 					</tr>
@@ -42,15 +42,15 @@
 					<tr>
 						<th><span class="required"> 이름</span></th>
 						<td>
-							<form:input path="customerName" id="cuName" name="customerName" type="text"/>
-							<form:errors path="customerName" cssClass="error"/>
+							<form:input path="customer_name" id="cuName" type="text" maxlength="60"/>
+							<form:errors path="customer_name" cssClass="error"/>
 						</td>
 					</tr>
 					<tr>
 						<th><span>연락처</span></th>
 						<td>
-							<form:input path="cellNum" id="cuCellNum" name="cellNum" type="text"/>
-							<form:errors path="cellNum" cssClass="error"/>
+							<form:input path="cell_num" id="cuCellNum" type="text" maxlength="15"/>
+							<form:errors path="cell_num" cssClass="error"/>
 						</td>
 					</tr>
 				</tbody>

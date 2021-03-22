@@ -15,37 +15,36 @@ import com.board.dto.BoardDto;
 public class BoardDao {
 	private static final Logger logger = LoggerFactory.getLogger(BoardDao.class);
 	
-	@Autowired(required=false) 
+	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	int result = 0; 
 	
-	public List<BoardDto> boardList(int offset) {
-		return sqlSessionTemplate.selectList("boardList", offset);
+	public List<BoardDto> getBoardList(int offset) {
+		return sqlSessionTemplate.selectList("getBoardList", offset);
 	}
 	
-	public BoardDto boardSelect(int idx) {
-		return sqlSessionTemplate.selectOne("boardSelect", idx);
+	public BoardDto getBoardItem(int idx) {
+		return sqlSessionTemplate.selectOne("getBoardItem", idx);
 	}
 	
-	public int boardDelete(int brdIdx) {
-		return sqlSessionTemplate.delete("boardDelete", brdIdx);
+	public int deleteBoardItem(int brdIdx) {
+		return sqlSessionTemplate.delete("deleteBoardItem", brdIdx);
 	}
  
-	public int boardDeleteGroup(String[] idxArr) {
-		return sqlSessionTemplate.delete("boardDeleteGroup", idxArr);
+	public int deleteBoardGroup(String[] idxArr) {
+		return sqlSessionTemplate.delete("deleteBoardGroup", idxArr);
 	}
 	
-	public int boardUpdate(BoardDto bDto) {
-		return sqlSessionTemplate.update("boardUpdate", bDto);
+	public int updateBoardItem(BoardDto bDto) {
+		return sqlSessionTemplate.update("updateBoardItem", bDto);
 	}
 	
-	public int boardInsert(BoardDto bDto) {
-		return sqlSessionTemplate.insert("boardInsert", bDto);
+	public int insertBoardItem(BoardDto bDto) {
+		return sqlSessionTemplate.insert("insertBoardItem", bDto);
 	}
 
 	public int getTotal() {
 		return sqlSessionTemplate.selectOne("getTotal");
 	}
 		
-	
 }

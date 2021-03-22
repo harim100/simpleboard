@@ -19,30 +19,30 @@
 				</colgroup>
 				<tr>
 					<th>제목</th>
-					<td><input id="title" name="title" class="input title" type="text" value="${bDto.getTitle()}"/></td>
+					<td><input id="title" name="title" class="input title" type="text" value="${bDto.getTitle()}" maxlength="60"/></td>
 				</tr>
 				<tr>
 					<th>내용</th>
 					<td>
-					<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10">${bDto.getContent()}</textarea>
+					<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10" maxlength="200">${bDto.getContent()}</textarea>
 					</td>
 				</tr>
 				<tr>
 					<th>이미지</th>
 					<td>
 						<input type="file" accept=".gif, .jpg, .png" name="imageFile" id="fileUploadBtn" onChange="imageChanger(this)"/> 
-						<input type="hidden" name="oriImagePath" value="${bDto.getImagePath()}"/>
+						<input type="hidden" name="oriImagePath" value="${bDto.getImage_path()}"/>
 					</td>
 				</tr>
 				<tr>
 					<td></td>
 					<td>
 						<div id="filename" class="filename"></div> 
-						<img id="imagePreview" src="${bDto.getImagePath()}" width="50" height="50"/>
+						<img id="imagePreview" src="${bDto.getImage_path()}" width="50" height="50"/>
 					</td>
 				</tr>
 			</table>
-			<input type="hidden" name="brdIdx" value="${bDto.getBrdIdx()}"/>
+			<input type="hidden" name="brdIdx" value="${bDto.getBrd_idx()}"/>
 		</form>
 		<div class="btnGroup">
 			<button class="btn" onClick="cancel()">취소</button>
@@ -60,7 +60,7 @@
 	{
 		if (confirm("정말 삭제하시겠습니까?") == true) 
 		{	
-			$.get(`/board/delete?brdIdx=${bDto.getBrdIdx()}`, function(result)
+			$.get(`/board/delete?brdIdx=${bDto.getBrd_idx()}`, function(result)
 			{
 				result = 1 ? alert("삭제 성공") : alert("삭제 실패");
 				location.href = `${pageContext.request.contextPath}/board/list`;
@@ -120,7 +120,7 @@
 	
 	function getFileName()
 	{
-		const file = `${bDto.getImagePath()}`.split('/');
+		const file = `${bDto.getImage_path()}`.split('/');
 	
 		if (file[file.length - 1] != 'default.png') 
 		{

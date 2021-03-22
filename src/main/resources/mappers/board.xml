@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mssql.mybatis.boardMapper">
+<insert id="insertBoardItem"  parameterType="com.board.dto.BoardDto">
+	INSERT INTO BD_BOARD
+	(
+		TITLE
+		,CONTENT
+		,IMAGE_PATH
+		,CUSTOMER_NUM
+	)
+	VALUES 
+	( 
+		#{title}
+		,#{content}
+		<choose>
+			<when test="image_path!=null">
+				,#{image_path}
+			</when>
+			<otherwise>
+				,DEFAULT
+			</otherwise>
+		</choose>
+		,#{customer_num}
+	)
+</insert>
+
+<select id="getBoardList" parameterType="int" resultType="com.board.dto.BoardDto">
+	SELECT	BRD_IDX
+			,CUSTOMER_NUM
+			,TITLE
+			,CONTENT
+			,IMAGE_PATH
+			,CONVERT(varchar(10), INS_DATE, 23) AS INS_DATE
+			,CONVERT(varchar(10), UPT_DATE, 23) AS UPT_DATE
+			,USE_YN
+	FROM  BD_BOARD WITH(NOLOCK)
+	ORDER BY BRD_IDX desc
+	OFFSET #{offset} ROWS
+	FETCH NEXT 5 ROWS ONLY
+</select>
+
+<select id="getBoardItem" resultType="com.board.dto.BoardDto">
+	SELECT	BRD_IDX
+			,CUSTOMER_NUM
+			,TITLE
+			,CONTENT
+			,IMAGE_PATH
+			,CONVERT(varchar(10), INS_DATE, 23) AS INS_DATE
+			,CONVERT(varchar(10), UPT_DATE, 23) AS UPT_DATE
+	FROM BD_BOARD WITH(NOLOCK)
+	WHERE BRD_IDX = #{brdIdx}
+</select>
+
+<delete id="deleteBoardItem" parameterType="int">
+	DELETE FROM BD_BOARD
+	WHERE BRD_IDX = #{brdIdx}
+</delete>
+
+<delete id="deleteBoardGroup" parameterType="java.util.ArrayList">
+	DELETE FROM BD_BOARD
+	WHERE BRD_IDX in 
+	<foreach collection="array" item='item' index='i' open="(" close=")" separator=","> 
+		#{item}
+	</foreach>
+</delete>
+
+<update id="updateBoardItem" parameterType="com.board.dto.BoardDto">
+	UPDATE BD_BOARD
+	SET	TITLE = #{title}
+		,CONTENT = #{content}
+		,IMAGE_PATH = #{image_path}
+		,UPT_DATE = getDate()
+	WHERE BRD_IDX = #{brd_idx}
+</update>
+
+<select id="getTotal" parameterType="map" resultType="Integer">
+	SELECT count(BRD_IDX) 
+	FROM BD_BOARD WITH(NOLOCK)
+	WHERE USE_YN = 'Y';
+</select>
+
+</mapper>
