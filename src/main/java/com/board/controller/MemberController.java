@@ -147,6 +147,8 @@ public class MemberController {
 			session = req.getSession();
 			session.setAttribute("customerName", mDto.getCustomer_name());
 			
+			
+			//메시지
 			res.setCharacterEncoding("UTF-8");
 			res.setContentType("text/html;charset=UTF-8");
 			PrintWriter pw = res.getWriter();

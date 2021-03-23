@@ -95,11 +95,6 @@
 	</div>
 	
 <script type="text/javascript">
-/* if("${result}" == 0)
-{
-	alert("글 등록 실패!");	
-} */
-	
 $(document).ready(function()
 {
 	$("#deleteBtn").click(function ()

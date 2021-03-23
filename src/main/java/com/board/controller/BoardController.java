@@ -1,9 +1,11 @@
 package com.board.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +34,7 @@ public class BoardController {
 
 	@Autowired
 	BoardBiz bBiz;
-
+	
 	/**
 	 * 게시글 목록과 페이지목록을 불러오는 메소드
 	 * 
@@ -71,19 +73,48 @@ public class BoardController {
 	 * @param model 게시글 작성 결과를 담는 모델
 	 * @param bDto  게시글 정보를 담은 DTO
 	 * @param file  게시글 작성 시 첨부한 이미지 파일
-	 * @return redirect:/board/list 게시글 목록 페이지
+	 * @return 
 	 */
 	@RequestMapping("/board/insert")
 	public String insertBoardItem(RedirectAttributes rttr, @ModelAttribute BoardDto bDto,
-			@RequestParam(value = "imageFile", required = false) MultipartFile file)
+			@RequestParam(value = "imageFile", required = false) MultipartFile file, HttpServletResponse res)
 			throws IllegalStateException, IOException {
-		int result = bBiz.insertBoardItem(bDto, file);
-		//rttr.addFlashAttribute("result", result);
-		//alert 공통메소드	
-		
-		return "redirect:/board/list";
+		int result = 0;
+		String pageName = null;
+		try 
+		{
+			result = bBiz.insertBoardItem(bDto, file);
+			pageName = "redirect:/board/list";
+		} 
+		catch (Exception e) 
+		{
+			//alert 공통메소드	
+			handleErrors(res, result); 
+			pageName = null;
+		}
+		return pageName;
 	} 
-
+	
+	/**
+	 * exception 발생시 에러 메시지를 띄워주는 메소드
+	 * 
+	 * @param res
+	 * @param result
+	 * @throws IOException
+	 */
+	public void handleErrors(HttpServletResponse res, int result) throws IOException {
+		res.setCharacterEncoding("UTF-8");
+		res.setContentType("text/html;charset=UTF-8");
+		PrintWriter pw = res.getWriter();
+		if(result != 1)
+		{
+			pw.append("<script>");
+			pw.append("alert('전송 실패!'); window.history.go(-1);");
+			pw.append("</script>");
+			pw.flush();
+		}
+	}
+	
 	/**
 	 * 글쓰기 페이지로 이동하는 메소드
 	 * 

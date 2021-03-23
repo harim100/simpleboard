@@ -46,22 +46,15 @@ public class BoardBiz {
 		return bDao.getBoardItem(brdIdx);
 	}
 	
-	@Transactional(rollbackFor=RuntimeException.class)
-	public int insertBoardItem(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException {
+	public int insertBoardItem(BoardDto bDto, MultipartFile file) 
+			throws IllegalStateException, IOException {
 		if(file != null && !file.isEmpty()) 
 		{
-			try 
-			{
-				String path = fileUpload(file);
-				bDto.setImage_path(path);
-				result= bDao.insertBoardItem(bDto);
-				throw new RuntimeException("Exception for RuntimeException");
-			}
-			catch (Exception e) 
-			{
-				result = 0;
-				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-			}
+			String path = fileUpload(file);
+			bDto.setImage_path(path);
+			result= bDao.insertBoardItem(bDto);
+			result = 0;
+			throw new RuntimeException("RuntimeException for transaction");
 		}
 		else
 		{
