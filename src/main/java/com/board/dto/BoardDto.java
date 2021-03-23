@@ -11,24 +11,32 @@ import javax.validation.constraints.NotBlank;
 public class BoardDto {
 	/** 글번호*/
 	private int brd_idx;
+	
 	/** 작성자의 고객번호*/
 	private int customer_num;
+	
 	/** 글제목*/
 	@NotBlank(message = "{NotBlank.bDto.title}")
 	@Max(value=30, message = "{Max.bDto.title}")
 	private String title;
+	
 	/** 글내용*/
 	@NotBlank(message = "{NotBlank.bDto.content}")
 	@Max(value=100, message = "{Max.bDto.content}")
 	private String content;
+	
 	/** 이미지 경로*/
 	private String image_path;
+	
 	/** 작성일*/
 	private String ins_date;
+	
 	/** 글 사용여부*/
 	private String use_yn;
+	
 	/** 수정일*/
 	private String upt_date;
+	
 	/** 수정시 사용하는 기존 이미지 주소*/
 	private String oriImagePath;
 	

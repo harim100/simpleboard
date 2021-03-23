@@ -60,17 +60,16 @@ public class MemberController {
 		
 		MemberDto login = null; 
 		login = memBiz.login(mDto);
-		session = req.getSession(); 
 		ModelAndView mv = new ModelAndView(); 
 		
 		boolean passMatch = passEncoder.matches(mDto.getPw(), login.getPw());
 		
 		if(login != null && passMatch) {
+			session = req.getSession(); 
 			session.setAttribute("customerName", login.getCustomer_name());
 			session.setAttribute("customerNumber", login.getCustomer_num());
 			mv.setViewName("redirect:/board/list");
 		} else { 
-			session.setAttribute("customerName", null);
 			rttr.addFlashAttribute("msg", false);
 			mv.setViewName("redirect:/login");
 		} 
@@ -113,21 +112,29 @@ public class MemberController {
 		return result;
 	}
 	
-	@RequestMapping("/logout")  
-	public String logout(@RequestParam Map<String,Object> pMap) {
-		return "redirect:/login";
-	}
-	
+	/**
+	 * 회원가입 페이지로 이동하는 메소드
+	 * 
+	 * @param mod 유저가 입력할 정보를 담을 새로운 DTO객체를 생성해 전달함
+	 * @return Join 회원가입 페이지
+	 */
 	@RequestMapping("/join")
 	public String join(Model mod) {
 		mod.addAttribute("mDto", new MemberDto());
 		return "Join";
 	}
-	 
+	
+	/**
+	 * 회원을 insert하는 메소드
+	 * 
+	 * @param mDto 유저가 입력한 값을 담고, 유효성검사를 하는 MemberDto 객체
+	 * @param bindingResult 유효성 검사 결과
+	 * @param res 회원가입 결과를 메시지로 전달하도록 HttpServletResponse의 PrintWriter를 이용함
+	 * @return Join 에러발생 시 회원가입 페이지로 리턴
+	 */
 	@RequestMapping("/insert/member")
 	public String insertMember(@Valid @ModelAttribute("mDto") MemberDto mDto
-			, BindingResult bindingResult
-			, HttpServletRequest req, HttpServletResponse res) throws IOException {
+			, BindingResult bindingResult, HttpServletResponse res) throws IOException {
 		
 		//에러 발생시
 		if(bindingResult.hasErrors())
@@ -142,11 +149,6 @@ public class MemberController {
 			
 			//insert
 			result = memBiz.insertMember(mDto);
-			
-			//이름 세션에 담기
-			session = req.getSession();
-			session.setAttribute("customerName", mDto.getCustomer_name());
-			
 			
 			//메시지
 			res.setCharacterEncoding("UTF-8");
@@ -169,5 +171,4 @@ public class MemberController {
 			return null;
 		}
 	}
-	
 }

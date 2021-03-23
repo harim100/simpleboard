@@ -3,8 +3,6 @@ package com.board.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.Length;
-
 import com.board.util.CellPhoneConstraint;
 import com.board.util.IdDuplicationConstraint;
 
@@ -12,6 +10,7 @@ import com.board.util.IdDuplicationConstraint;
  * 
  * @author Jung.Harim
  * @see com.board.dao.MemberDao#login(MemberDto dto)
+ *		,com.board.dao.MemberDao#insertMember(MemberDto dto, BindingResult bindingResult, HttpServletResponse res)
  * 
  */
 public class MemberDto {
@@ -23,17 +22,21 @@ public class MemberDto {
 	@Pattern(regexp="^[a-zA-Z0-9]{4,20}$", message = "{Pattern.memberDto.id}")
 	@IdDuplicationConstraint
 	private String id;
+	
 	/**	고객 비밀번호 */
 	@NotBlank(message = "{NotBlank.memberDto.pw}")
 	@Pattern(regexp="^(?=.+[0-9])(?=.+[A-Za-z])(?=.+[$@!%*#?&])[A-Za-z0-9$@!%*#?&]{8,20}$", message = "{Pattern.memberDto.pw}")
 	private String pw;
+	
 	/**	고객 이름 */
 	@NotBlank(message = "{NotBlank.memberDto.customerName}")
 	@Pattern(regexp="^[a-zA-Z가-힣]{2,30}$", message = "{Pattern.memberDto.customerName}")
 	private String customer_name;
+	
 	/**	고객 휴대폰번호 */
 	@CellPhoneConstraint(message = "{Pattern.memberDto.cellNum}")
 	private String cell_num;
+	
 	/**	가입일시 */
 	private String ins_date;
 	

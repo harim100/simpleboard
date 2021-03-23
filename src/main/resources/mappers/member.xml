@@ -10,7 +10,7 @@
 		,CELL_NUM
 	)
 	VALUES
-	( 
+	(
 		#{id}  
 		,#{pw}  
 		,#{customer_name}
