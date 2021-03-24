@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.board.dao.BoardDao;
 import com.board.dto.BoardDto;
 import com.board.util.Pagination;
+import com.board.util.fileExtensionException;
  
 @Service
 public class BoardBiz {
@@ -23,7 +24,8 @@ public class BoardBiz {
 	
 	private final String DOWNLOAD_PATH = "C:\\work";
 	private final String URL_PATH = "/simpleboard/upload/";
-	
+	private final String[] ALLOWED_EXTENSIONS = {"jpg", "png", "gif"};
+
 	@Autowired
 	private BoardDao bDao;
 	
@@ -46,14 +48,13 @@ public class BoardBiz {
 		return bDao.getBoardItem(brdIdx);
 	}
 	
-	public int insertBoardItem(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException {
+	public int insertBoardItem(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException, fileExtensionException {
 		result= bDao.insertBoardItem(bDto);
 		if(file != null && !file.isEmpty()) 
 		{
 			String path = uploadFile(file);
 			bDto.setImage_path(path);
 			result = 0;
-			throw new RuntimeException("RuntimeException for transaction");
 		}
 		else
 		{
@@ -70,7 +71,7 @@ public class BoardBiz {
 		return bDao.deleteBoardGroup(idxArr);
 	}
 	
-	public int updateBoardItem(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException{
+	public int updateBoardItem(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException, fileExtensionException{
 		if(file != null && !file.isEmpty()) 
 		{
 			String path = uploadFile(file);
@@ -83,10 +84,26 @@ public class BoardBiz {
 		return bDao.updateBoardItem(bDto);
 	}
 	
-	public String uploadFile(MultipartFile file) throws IllegalStateException, IOException {
+	/**
+	 * 파일 업로드를 처리하는 메소드
+	 * 
+	 * @param file 사용자가 업로드한 파일
+	 * @return DB에 저장할 주소
+	 * @throws IOException 파일을 로컬에 저장 실패 시 예외 발생
+	 * @throws fileExtensionException 파일 확장자가 지정된 이미지 확장자가 아닐 시 에러 발생
+	 */
+	public String uploadFile(MultipartFile file) throws IOException, fileExtensionException {
 		String originFileName = file.getOriginalFilename();
+		String extension = originFileName.substring(originFileName.lastIndexOf("."));
 		Date date = new Date();
 		String randomString = String.valueOf(date.getTime());
+		
+		for(String allowedExtension : ALLOWED_EXTENSIONS) {
+			if(!extension.equals(allowedExtension))
+			{
+				throw new fileExtensionException("이미지파일만 허용됩니다.");
+			}
+		}
 		
 		if (!file.getOriginalFilename().isEmpty()) 
 		{

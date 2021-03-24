@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.board.biz.BoardBiz;
 import com.board.dto.BoardDto;
 import com.board.util.Pagination;
+import com.board.util.fileExtensionException;
 
 /**
  * 게시판관련 컨트롤러
@@ -28,6 +29,7 @@ import com.board.util.Pagination;
  *
  */
 @Controller
+@RequestMapping("/board")
 public class BoardController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
@@ -41,7 +43,7 @@ public class BoardController {
 	 * @param page  쿼리스트링에서 가져오는 현재페이지 번호
 	 * @return boardList 게시판 목록 페이지
 	 */
-	@RequestMapping("/board/list")
+	@RequestMapping("/list")
 	public String getBoardList(Model model, @RequestParam(defaultValue = "1") int page) {
 		Pagination pagination = bBiz.getPages(page);
 		List<BoardDto> bList = bBiz.getBoardList(pagination.getOffset(page - 1));
@@ -59,7 +61,7 @@ public class BoardController {
 	 * @param bDto   게시글 정보를 담은 DTO
 	 * @return boardModify 글 수정 페이지
 	 */
-	@RequestMapping("/board/view")
+	@RequestMapping("/view")
 	public String getBoardItem(Model model, @RequestParam("brdIdx") int brdIdx, BoardDto bDto) {
 		bDto = bBiz.getBoardItem(brdIdx);
 		model.addAttribute("bDto", bDto);
@@ -73,67 +75,27 @@ public class BoardController {
 	 * @param bDto  게시글 정보를 담은 DTO
 	 * @param file  게시글 작성 시 첨부한 이미지 파일
 	 * @return pageName 이동할 페이지, exception 발생 시 뒤로가기
+	 * @throws fileExtensionException 
 	 */
-	@RequestMapping("/board/insert")
+	@RequestMapping("/insert")
 	public String insertBoardItem(@ModelAttribute BoardDto bDto
-			, @RequestParam(value = "imageFile", required = false) MultipartFile file, HttpServletResponse res)
-			throws IllegalStateException, IOException {
+			, @RequestParam(value = "imageFile", required = false) MultipartFile file)
+			throws IllegalStateException, IOException, fileExtensionException {
 		int result = 0;
-		String pageName = null;
 		//alert 공통메소드	
-		pageName = handleErrors(res, bBiz.insertBoardItem(bDto, file)); 
+		bBiz.insertBoardItem(bDto, file);
 		
-		return pageName;
+		return "redirect:/board/list";
 	} 
-	
-	/**
-	 * exception 발생시 에러 메시지를 띄워주는 메소드
-	 * 
-	 * @param res
-	 * @param result
-	 * @throws IOException
-	 */
-	public String handleErrors(HttpServletResponse res, int result) throws IOException {
-		String pageName= null;
-		
-		res.setCharacterEncoding("UTF-8");
-		res.setContentType("text/html;charset=UTF-8");
-		PrintWriter pw = res.getWriter();
-		
-		pageName = "redirect:/board/list";
-		if(result != 1)
-		{
-			pw.append("<script>");
-			pw.append("alert('전송 실패!'); window.history.go(-1);");
-			pw.append("</script>");
-			pw.flush();
-		}
-		else
-		{
-			pageName = null;
-		}
-		
-		return pageName;
-	}
 	
 	/**
 	 * 글쓰기 페이지로 이동하는 메소드
 	 * 
 	 * @return boardWrite 글쓰기 페이지
 	 */
-	@RequestMapping("/board/write")
+	@RequestMapping("/write")
 	public String write() {
 		return "BoardWrite";
-	}
-
-	/**
-	 * 글 작성시 첨부파일 용량이 5MB를 초과할 때 에러페이지로 연결하는 메소드
-	 * 
-	 * @return handleUploadError 용량초과 알림 후 뒤로가기를 실행하는 페이지
-	 */
-	@RequestMapping("/error/attachFileOverSizeErr")
-	public String handleUploadError() {
-		return "HandleUploadError";
 	}
 
 	/**
@@ -143,7 +105,7 @@ public class BoardController {
 	 * @param brdIdx 삭제 대상 글번호
 	 * @return redirect:/board/list 게시글 목록 페이지
 	 */
-	@RequestMapping("/board/delete")
+	@RequestMapping("/delete")
 	public String deleteBoardItem(Model model, @RequestParam("brdIdx") int brdIdx) {
 		int result = bBiz.deleteBoardItem(brdIdx);
 		model.addAttribute("result", result);
@@ -157,7 +119,7 @@ public class BoardController {
 	 * @param idxArr 삭제 대상인 게시글들의 게시글번호 배열
 	 * @return redirect:/board/list 게시글 목록 페이지
 	 */
-	@RequestMapping("/board/delete/group")
+	@RequestMapping("/delete/group")
 	public String deleteGroup(Model model, @RequestParam(value = "idxArr[]") String[] idxArr) {
 		int result = bBiz.deleteBoardGroup(idxArr);
 		model.addAttribute("result", result);
@@ -171,10 +133,12 @@ public class BoardController {
 	 * @param bDto  게시글 정보를 담는 DTO
 	 * @param file  수정 시 첨부한 이미지 파일
 	 * @return "redirect:/board/view?brdIdx=" + bDto.getBrdIdx() 수정된 해당 게시글 페이지
+	 * @throws fileExtensionException 
+	 * @throws IllegalStateException 
 	 */
-	@RequestMapping("/board/update")
+	@RequestMapping("/update")
 	public String updateBoardItem(Model model, @ModelAttribute BoardDto bDto,
-			@RequestParam(value = "imageFile", required = false) MultipartFile file) throws IOException {
+			@RequestParam(value = "imageFile", required = false) MultipartFile file) throws IOException, IllegalStateException, fileExtensionException {
 		int result = bBiz.updateBoardItem(bDto, file);
 		model.addAttribute("result", result);
 		return "redirect:/board/view?brdIdx=" + bDto.getBrd_idx();

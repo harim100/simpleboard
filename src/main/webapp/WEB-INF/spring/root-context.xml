@@ -36,7 +36,7 @@
 	<!-- <tx:annotation-driven transaction-manager="transactionManager"/> -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes> 
-			<tx:method name="insertBoardItem" propagation="REQUIRED" rollback-for="RuntimeException"/>
+			<tx:method name="insertBoardItem" propagation="REQUIRED" rollback-for="fileExtensionException"/>
 		</tx:attributes>
 	</tx:advice>
 	
@@ -61,17 +61,6 @@
 		<property name="maxUploadSizePerFile" value="5242880"/>
 		<property name="maxInMemorySize" value="0"/>
 		<property name="defaultEncoding" value="UTF-8"/>
-	</bean>
-	
-	<!-- 파일 업로드 사이즈에러 handler -->
-	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-    <property name="exceptionMappings">
-		<props>
-			<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">
-			/handleUploadError
-			</prop>
-		</props>
-	</property>
 	</bean>
 	
 	<!-- 서버단 유효성검사 -->
