@@ -1,5 +1,6 @@
-package com.board.util;
+package com.board.frm.util;
 
+import org.apache.commons.fileupload.FileUploadException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -7,14 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
 public class ExceptionAdvice {
-	
-	@ExceptionHandler(RuntimeException.class)
-	public ModelAndView runtimeExceptionHandler() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("HandleErrors");
-		mv.addObject("exception", "업로드에 실패하였습니다.");
-		return mv;
-	}
 	
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	public ModelAndView uploadSizeExceptionHandler() {
@@ -24,8 +17,8 @@ public class ExceptionAdvice {
 		return mv;
 	}
 	
-	@ExceptionHandler(fileExtensionException.class)
-	public ModelAndView fileExtensionExceptionHandler(fileExtensionException fe) {
+	@ExceptionHandler(FileUploadException.class)
+	public ModelAndView fileExtensionExceptionHandler(FileUploadException fe) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("HandleErrors");
 		mv.addObject("fileError", fe.getMessage());

@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.board.dao.MemberDao;
-import com.board.util.CellPhoneConstraint;
-import com.board.util.IdDuplicationConstraint;
+import com.board.frm.util.CellPhoneConstraint;
+import com.board.frm.util.IdDuplicationConstraint;
 
 /**
  * 
@@ -22,7 +22,7 @@ public class MemberDto {
 	private static final Logger logger = LoggerFactory.getLogger(MemberDto.class);
 	
 	/**	고객번호 */
-	private int customer_num;
+	private int customer_no;
 
 	/**	고객 아이디 */
 	@NotBlank
@@ -48,20 +48,20 @@ public class MemberDto {
 	/**	고객 이름 */
 	@NotBlank
 	@Pattern(regexp="^[a-zA-Z가-힣]{2,30}$")
-	private String customer_name;
+	private String customer_nm;
 	
 	/**	고객 휴대폰번호 */
 	@CellPhoneConstraint
-	private String cell_num;
+	private String cell_no;
 	
 	/**	가입일시 */
 	private String ins_date;
 	
-	public int getCustomer_num() {
-		return customer_num;
+	public int getCustomer_no() {
+		return customer_no;
 	}
-	public void setCustomer_num(int customer_num) {
-		this.customer_num = customer_num;
+	public void setCustomer_no(int customer_no) {
+		this.customer_no = customer_no;
 	}
 	public String getId() {
 		return id;
@@ -75,17 +75,17 @@ public class MemberDto {
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
-	public String getCustomer_name() {
-		return customer_name;
+	public String getCustomer_nm() {
+		return customer_nm;
 	}
-	public void setCustomer_name(String customer_name) {
-		this.customer_name = customer_name;
+	public void setCustomer_nm(String customer_nm) {
+		this.customer_nm = customer_nm;
 	}
-	public String getCell_num() {
-		return cell_num;
+	public String getCell_no() {
+		return cell_no;
 	}
-	public void setCell_num(String cell_num) {
-		this.cell_num = cell_num;
+	public void setCell_num(String cell_no) {
+		this.cell_no = cell_no;
 	}
 	public String getIns_date() {
 		return ins_date;

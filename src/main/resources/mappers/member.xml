@@ -6,8 +6,8 @@
 	(
 		ID
 		,PW
-		,CUSTOMER_NAME
-		,CELL_NUM
+		,CUSTOMER_NM
+		,CELL_NO
 	)
 	VALUES
 	(
@@ -19,11 +19,11 @@
 </insert>
 
 <select id="login" resultType="com.board.dto.MemberDto">
-	SELECT	CUSTOMER_NUM
+	SELECT	CUSTOMER_NO
 			,ID
 			,PW
-			,CUSTOMER_NAME
-			,CELL_NUM
+			,CUSTOMER_NM
+			,CELL_NO
 	FROM CU_CUSTOMER WITH(NOLOCK)
 	WHERE ID = #{id}
 </select>

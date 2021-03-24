@@ -13,7 +13,7 @@ public class BoardDto {
 	private int brd_idx;
 	
 	/** 작성자의 고객번호*/
-	private int customer_num;
+	private int customer_no;
 	
 	/** 글제목*/
 	@NotBlank(message = "{NotBlank.bDto.title}")
@@ -46,11 +46,11 @@ public class BoardDto {
 	public void setBrd_idx(int brd_idx) {
 		this.brd_idx = brd_idx;
 	}
-	public int getCustomer_num() {
-		return customer_num;
+	public int getCustomer_no() {
+		return customer_no;
 	}
-	public void setCustomer_num(int customer_num) {
-		this.customer_num = customer_num;
+	public void setCustomer_no(int customer_no) {
+		this.customer_no = customer_no;
 	}
 	public String getTitle() {
 		return title;

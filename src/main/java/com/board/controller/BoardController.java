@@ -1,11 +1,9 @@
 package com.board.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
+import org.apache.commons.fileupload.FileUploadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +13,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.board.biz.BoardBiz;
 import com.board.dto.BoardDto;
-import com.board.util.Pagination;
-import com.board.util.fileExtensionException;
+import com.board.frm.util.Pagination;
 
 /**
  * 게시판관련 컨트롤러
  * 
  * @author Jung.Harim
  *
- */
+ */ 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -75,14 +71,14 @@ public class BoardController {
 	 * @param bDto  게시글 정보를 담은 DTO
 	 * @param file  게시글 작성 시 첨부한 이미지 파일
 	 * @return pageName 이동할 페이지, exception 발생 시 뒤로가기
-	 * @throws fileExtensionException 
+	 * @throws FileUploadException 파일 확장자가 지정된 이미지 확장자가 아닐 시 에러 발생 
 	 */
 	@RequestMapping("/insert")
 	public String insertBoardItem(@ModelAttribute BoardDto bDto
 			, @RequestParam(value = "imageFile", required = false) MultipartFile file)
-			throws IllegalStateException, IOException, fileExtensionException {
+			throws IOException, FileUploadException {
 		int result = 0;
-		//alert 공통메소드	
+		//alert 공통메소드	 
 		bBiz.insertBoardItem(bDto, file);
 		
 		return "redirect:/board/list";
@@ -133,12 +129,11 @@ public class BoardController {
 	 * @param bDto  게시글 정보를 담는 DTO
 	 * @param file  수정 시 첨부한 이미지 파일
 	 * @return "redirect:/board/view?brdIdx=" + bDto.getBrdIdx() 수정된 해당 게시글 페이지
-	 * @throws fileExtensionException 
-	 * @throws IllegalStateException 
+	 * @throws FileUploadException 파일 확장자가 지정된 이미지 확장자가 아닐 시 에러 발생 
 	 */
 	@RequestMapping("/update")
 	public String updateBoardItem(Model model, @ModelAttribute BoardDto bDto,
-			@RequestParam(value = "imageFile", required = false) MultipartFile file) throws IOException, IllegalStateException, fileExtensionException {
+			@RequestParam(value = "imageFile", required = false) MultipartFile file) throws IOException, FileUploadException {
 		int result = bBiz.updateBoardItem(bDto, file);
 		model.addAttribute("result", result);
 		return "redirect:/board/view?brdIdx=" + bDto.getBrd_idx();

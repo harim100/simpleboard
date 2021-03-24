@@ -33,7 +33,7 @@ import com.board.dto.MemberDto;
  *    
  */
 @Controller
-public class MemberController {
+public class MemberController {     
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	HttpSession session= null; 
@@ -58,15 +58,15 @@ public class MemberController {
 		Map<String, Object> loginMap = memBiz.passwordMatching(mDto);
 		
 		//비밀번호 일치여부 확인
-		if((boolean) loginMap.get("isMatch"))
+		if((boolean) loginMap.get("isMatch"))    
 		{
 			MemberDto loginDto = (MemberDto) loginMap.get("loginDto");
 			session = req.getSession(); 
-			session.setAttribute("customerName", loginDto.getCustomer_name());
-			session.setAttribute("customerNumber", loginDto.getCustomer_num());
+			session.setAttribute("customer_nm", loginDto.getCustomer_nm());
+			session.setAttribute("customer_no", loginDto.getCustomer_no());
 			mv.setViewName("redirect:/board/list");
 		} 
-		else 
+		else   
 		{ 
 			rttr.addFlashAttribute("msg", false);
 			mv.setViewName("redirect:/login");
@@ -81,7 +81,7 @@ public class MemberController {
 	 * @return login 로그인 페이지
 	 */
 	@RequestMapping(value={"/", "/login"})
-	public String loginView() throws Exception{
+	public String loginView(){
 		return "Login";
 	}
 	
@@ -91,8 +91,8 @@ public class MemberController {
 	 * @param session 로그아웃시 현재 세션 종료
 	 * @return redirect:/login 로그인페이지
 	 */
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(HttpSession session) throws Exception{
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public String logout(HttpSession session){
 		session.invalidate();
 		return "redirect:/login";
 	}

@@ -7,7 +7,7 @@
 		TITLE
 		,CONTENT
 		,IMAGE_PATH
-		,CUSTOMER_NUM
+		,CUSTOMER_NO
 	)
 	VALUES 
 	( 
@@ -21,19 +21,19 @@
 				,DEFAULT
 			</otherwise>
 		</choose>
-		,#{customer_num}
+		,#{customer_no}
 	)
 </insert>
 
 <select id="getBoardList" parameterType="int" resultType="com.board.dto.BoardDto">
 	SELECT	BRD_IDX
-			,CUSTOMER_NUM
+			,CUSTOMER_NO
 			,TITLE
 			,CONTENT
 			,IMAGE_PATH
+			,USE_YN
 			,CONVERT(varchar(10), INS_DATE, 23) AS INS_DATE
 			,CONVERT(varchar(10), UPT_DATE, 23) AS UPT_DATE
-			,USE_YN
 	FROM  BD_BOARD WITH(NOLOCK)
 	ORDER BY BRD_IDX desc
 	OFFSET #{offset} ROWS
@@ -42,7 +42,7 @@
 
 <select id="getBoardItem" resultType="com.board.dto.BoardDto">
 	SELECT	BRD_IDX
-			,CUSTOMER_NUM
+			,CUSTOMER_NO
 			,TITLE
 			,CONTENT
 			,IMAGE_PATH

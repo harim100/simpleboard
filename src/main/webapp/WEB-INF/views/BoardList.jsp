@@ -13,7 +13,7 @@
 <body>
 	<div class="container">
 		<div class="navBar">
-			<span> ${customerName} | </span> 
+			<span> ${customer_nm} | </span> 
 			<a href="javascript:doLogout()"><span>로그아웃</span></a>
 		</div>
 		<form>
@@ -39,7 +39,7 @@
 				<c:forEach var="bList" items="${bList}" varStatus="status">
 					<tr>
 						<td>
-							<input type="checkbox" name="cb" value="${bList.customer_num}"/> 
+							<input type="checkbox" name="cb" value="${bList.customer_no}"/> 
 							<input type="hidden" value="${bList.brd_idx}"/>
 						</td>
 						<td>
@@ -60,7 +60,7 @@
 							<div name="tableBtns">
 								<button class="modifyOneBtn tableBtn modify" onclick="modify(this)" type="button" value="${bList.brd_idx}">수정</button>
 								<button class="deleteOneBtn tableBtn" onclick="deleteOne(this)" type="button" value="${bList.brd_idx}">삭제</button>
-								<input type="hidden" value="${bList.customer_num}" name="customerNum"/>
+								<input type="hidden" value="${bList.customer_no}" name="customer_no"/>
 							</div>
 						</td>
 					</tr>
@@ -184,7 +184,7 @@ $(document).ready(function()
 	
 	function init()
 	{
-		var customerNum = "${customerNumber}";
+		var customerNum = "${customer_no}";
 		if (customerNum.length <= 0) 
 		{
 			alert("로그인이 필요합니다"),
@@ -196,7 +196,7 @@ $(document).ready(function()
 	function cbValidation(cb)
 	{
 		var author = cb.value;
-			if(cb.value != "${customerNumber}")
+			if(cb.value != "${customer_no}")
 			{
 				cb.checked = false;
 			}
@@ -237,9 +237,9 @@ $(document).ready(function()
 		
 		 $(tableBtns).each(function(i)
 		{
-			if($(this).children("[name='customerNum']").val() != "${customerNumber}")
+			if($(this).children("[name='customer_no']").val() != "${customer_no}")
 			{
-				$(this).css("display", "none");			 
+				$(this).css("display", "none");
 			}
 		});
 	}

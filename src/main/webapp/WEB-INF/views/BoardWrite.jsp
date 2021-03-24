@@ -20,7 +20,7 @@
 				<tr>
 					<th>제목</th>
 					<td>
-						<input type="hidden" value="${sessionScope.customerNumber}" name="customer_num"/>
+						<input type="hidden" value="${customer_no}" name="customer_no"/>
 						<input id="title" name="title" class="input title" type="text" maxlength="60"/>
 					</td>
 				</tr>

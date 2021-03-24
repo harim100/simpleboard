@@ -1,4 +1,4 @@
-package com.board.util;
+package com.board.frm.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

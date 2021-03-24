@@ -5,18 +5,16 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.fileupload.FileUploadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.board.dao.BoardDao;
 import com.board.dto.BoardDto;
-import com.board.util.Pagination;
-import com.board.util.fileExtensionException;
+import com.board.frm.util.Pagination;
  
 @Service
 public class BoardBiz {
@@ -48,8 +46,7 @@ public class BoardBiz {
 		return bDao.getBoardItem(brdIdx);
 	}
 	
-	public int insertBoardItem(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException, fileExtensionException {
-		result= bDao.insertBoardItem(bDto);
+	public int insertBoardItem(BoardDto bDto, MultipartFile file) throws IOException, FileUploadException {
 		if(file != null && !file.isEmpty()) 
 		{
 			String path = uploadFile(file);
@@ -60,6 +57,7 @@ public class BoardBiz {
 		{
 			bDto.setImage_path(null);
 		}
+		result= bDao.insertBoardItem(bDto);
 		return result;
 	}
 	
@@ -71,7 +69,7 @@ public class BoardBiz {
 		return bDao.deleteBoardGroup(idxArr);
 	}
 	
-	public int updateBoardItem(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException, fileExtensionException{
+	public int updateBoardItem(BoardDto bDto, MultipartFile file) throws IOException, FileUploadException {
 		if(file != null && !file.isEmpty()) 
 		{
 			String path = uploadFile(file);
@@ -90,18 +88,22 @@ public class BoardBiz {
 	 * @param file 사용자가 업로드한 파일
 	 * @return DB에 저장할 주소
 	 * @throws IOException 파일을 로컬에 저장 실패 시 예외 발생
-	 * @throws fileExtensionException 파일 확장자가 지정된 이미지 확장자가 아닐 시 에러 발생
+	 * @throws FileUploadException 파일 확장자가 지정된 이미지 확장자가 아닐 시 에러 발생
 	 */
-	public String uploadFile(MultipartFile file) throws IOException, fileExtensionException {
+	public String uploadFile(MultipartFile file) throws IOException, FileUploadException {
 		String originFileName = file.getOriginalFilename();
-		String extension = originFileName.substring(originFileName.lastIndexOf("."));
+		String extension = originFileName.substring(originFileName.lastIndexOf(".")+1);
 		Date date = new Date();
 		String randomString = String.valueOf(date.getTime());
 		
 		for(String allowedExtension : ALLOWED_EXTENSIONS) {
-			if(!extension.equals(allowedExtension))
+			if(extension.equals(allowedExtension))
 			{
-				throw new fileExtensionException("이미지파일만 허용됩니다.");
+				break;
+			}
+			else
+			{
+				throw new FileUploadException("이미지파일만 허용됩니다.");
 			}
 		}
 		

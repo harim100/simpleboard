@@ -36,7 +36,7 @@
 	<!-- <tx:annotation-driven transaction-manager="transactionManager"/> -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes> 
-			<tx:method name="insertBoardItem" propagation="REQUIRED" rollback-for="fileExtensionException"/>
+			<tx:method name="insertBoardItem" propagation="REQUIRED" rollback-for="FileUploadException"/>
 		</tx:attributes>
 	</tx:advice>
 	
@@ -77,7 +77,7 @@
 	</bean>
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<context:component-scan base-package="com.board.dao, com.board.biz, com.board.util">
+	<context:component-scan base-package="com.board.dao, com.board.biz, com.board.frm.util">
     	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 </beans>
