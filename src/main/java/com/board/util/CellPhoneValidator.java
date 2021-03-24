@@ -8,10 +8,6 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.stereotype.Component;
 
-import com.board.dao.MemberDao;
-
-import lombok.RequiredArgsConstructor;
-
 
 @Component
 public class CellPhoneValidator implements ConstraintValidator<CellPhoneConstraint, String> {
@@ -21,7 +17,7 @@ public class CellPhoneValidator implements ConstraintValidator<CellPhoneConstrai
 		
 		String reg ="^[0-9]{11,15}$";
 		
-		if(cellNum.length() > 0 && Pattern.matches(reg, cellNum))
+		if(cellNum.length() > 0 && !Pattern.matches(reg, cellNum))
 		{
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(

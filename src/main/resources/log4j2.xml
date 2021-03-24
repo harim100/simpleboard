@@ -13,6 +13,9 @@
 		<Logger name="com.board.biz" level="INFO">
 			<AppenderRef ref="console"/>
 		</Logger>
+		<Logger name="com.board.dto" level="INFO">
+			<AppenderRef ref="console"/>
+		</Logger>
 		<Logger name="com.board.util" level="INFO">
 			<AppenderRef ref="console"/>
 		</Logger>

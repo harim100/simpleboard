@@ -5,11 +5,16 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+	
+	<!-- password encoder -->
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/> 
 	
 	<!-- dbconfig location -->
 	<context:property-placeholder location="classpath:config/dbconfig.properties"/>
@@ -40,7 +45,6 @@
 		<aop:pointcut id="serviceMethod" expression="execution(* com.board.biz.*.*(..))"/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
 	</aop:config>
-		
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="configLocation" value="WEB-INF/spring/appServlet/mybatis-config.xml"/>
@@ -51,7 +55,7 @@
 		<constructor-arg index="0" ref="sqlSessionFactory"/>
 	</bean>
 	
-	<!-- fileupload -->
+	<!-- 파일 업로드 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="5242880"/> <!-- 5MB 5242880 bytes-->
 		<property name="maxUploadSizePerFile" value="5242880"/>
@@ -59,7 +63,7 @@
 		<property name="defaultEncoding" value="UTF-8"/>
 	</bean>
 	
-	<!-- fileupload handle size error -->
+	<!-- 파일 업로드 사이즈에러 handler -->
 	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
     <property name="exceptionMappings">
 		<props>
@@ -72,7 +76,8 @@
 	
 	<!-- 서버단 유효성검사 -->
 	<mvc:annotation-driven validator="validator" />
-
+	
+	<!-- 메시지 리소스 -->
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="classpath:/message/messages"/>
 		<property name="defaultEncoding" value="UTF-8"/>

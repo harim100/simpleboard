@@ -211,7 +211,9 @@ $(document).ready(function()
 				result = 1 ? alert("삭제 성공") : alert("삭제 실패");
 				location.href = `${pageContext.request.contextPath}/board/list`;
 			});
-		} else {
+		} 
+		else 
+		{
 			return;
 		}
 	}

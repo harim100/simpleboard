@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -73,25 +72,17 @@ public class BoardController {
 	 * @param model 게시글 작성 결과를 담는 모델
 	 * @param bDto  게시글 정보를 담은 DTO
 	 * @param file  게시글 작성 시 첨부한 이미지 파일
-	 * @return 
+	 * @return pageName 이동할 페이지, exception 발생 시 뒤로가기
 	 */
 	@RequestMapping("/board/insert")
-	public String insertBoardItem(RedirectAttributes rttr, @ModelAttribute BoardDto bDto,
-			@RequestParam(value = "imageFile", required = false) MultipartFile file, HttpServletResponse res)
+	public String insertBoardItem(@ModelAttribute BoardDto bDto
+			, @RequestParam(value = "imageFile", required = false) MultipartFile file, HttpServletResponse res)
 			throws IllegalStateException, IOException {
 		int result = 0;
 		String pageName = null;
-		try 
-		{
-			result = bBiz.insertBoardItem(bDto, file);
-			pageName = "redirect:/board/list";
-		} 
-		catch (Exception e) 
-		{
-			//alert 공통메소드	
-			handleErrors(res, result); 
-			pageName = null;
-		}
+		//alert 공통메소드	
+		pageName = handleErrors(res, bBiz.insertBoardItem(bDto, file)); 
+		
 		return pageName;
 	} 
 	
@@ -102,10 +93,14 @@ public class BoardController {
 	 * @param result
 	 * @throws IOException
 	 */
-	public void handleErrors(HttpServletResponse res, int result) throws IOException {
+	public String handleErrors(HttpServletResponse res, int result) throws IOException {
+		String pageName= null;
+		
 		res.setCharacterEncoding("UTF-8");
 		res.setContentType("text/html;charset=UTF-8");
 		PrintWriter pw = res.getWriter();
+		
+		pageName = "redirect:/board/list";
 		if(result != 1)
 		{
 			pw.append("<script>");
@@ -113,6 +108,12 @@ public class BoardController {
 			pw.append("</script>");
 			pw.flush();
 		}
+		else
+		{
+			pageName = null;
+		}
+		
+		return pageName;
 	}
 	
 	/**

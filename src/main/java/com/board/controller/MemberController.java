@@ -10,13 +10,12 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory; 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,50 +25,49 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.board.biz.MemberBiz;
-import com.board.dto.BoardDto;
 import com.board.dto.MemberDto;
   
 /** 
- * 고객 관련 컨트롤러
+ * 고객 관련 컨트롤러 
  * @author Jung.Harim
- *   
+ *    
  */
 @Controller
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
-	HttpSession session= null;
+	HttpSession session= null; 
 	int result = 0;
 	
 	@Autowired
-	MemberBiz memBiz; 
-	
-	@Autowired
-	BCryptPasswordEncoder passEncoder;
+	MemberBiz memBiz;
 	
 	/**
 	 * 로그인 처리를 하는 메소드
 	 * 
 	 * @param mDto 고객정보를 담은 DTO
 	 * @param req session에 고객 이름과 번호를 담음
-	 * @param rttr 로그인 실패시 메시지를 전달할 flash attribute 생성을 위해 사용
+	 * @param rttr 로그인 실패시 메시지를 전달할 flash attribute 사용
 	 * @return mv 로그인 성공시 게시글 목록 페이지, 실패시 로그인 페이지로 리다이렉트
 	 */
 	@RequestMapping("/do/login")
 	public ModelAndView login(MemberDto mDto, HttpServletRequest req, RedirectAttributes rttr) {
+		ModelAndView mv = new ModelAndView();
 		
-		MemberDto login = null; 
-		login = memBiz.login(mDto);
-		ModelAndView mv = new ModelAndView(); 
+		//로그인한 회원의 정보를 담은 DTO와 비밀번호 일치여부를 담은 map
+		Map<String, Object> loginMap = memBiz.passwordMatching(mDto);
 		
-		boolean passMatch = passEncoder.matches(mDto.getPw(), login.getPw());
-		
-		if(login != null && passMatch) {
+		//비밀번호 일치여부 확인
+		if((boolean) loginMap.get("isMatch"))
+		{
+			MemberDto loginDto = (MemberDto) loginMap.get("loginDto");
 			session = req.getSession(); 
-			session.setAttribute("customerName", login.getCustomer_name());
-			session.setAttribute("customerNumber", login.getCustomer_num());
+			session.setAttribute("customerName", loginDto.getCustomer_name());
+			session.setAttribute("customerNumber", loginDto.getCustomer_num());
 			mv.setViewName("redirect:/board/list");
-		} else { 
+		} 
+		else 
+		{ 
 			rttr.addFlashAttribute("msg", false);
 			mv.setViewName("redirect:/login");
 		} 
@@ -90,7 +88,7 @@ public class MemberController {
 	/**
 	 * 로그아웃 처리 후 로그인 페이지로 이동하는 메소드
 	 * 
-	 * @param session 
+	 * @param session 로그아웃시 현재 세션 종료
 	 * @return redirect:/login 로그인페이지
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -143,10 +141,6 @@ public class MemberController {
 		} 
 		else
 		{ 
-			//패스워드 암호화
-			String password = mDto.getPw();
-			mDto.setPw(passEncoder.encode(password));
-			
 			//insert
 			result = memBiz.insertMember(mDto);
 			
@@ -167,7 +161,6 @@ public class MemberController {
 				pw.append("alert('회원가입 실패!'); location.href='/login';");
 				pw.append("</script>");
 			}
-			
 			return null;
 		}
 	}

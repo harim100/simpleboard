@@ -37,7 +37,10 @@
 					</tr>
 					<tr>
 						<th><span class="required"> 비밀번호 확인</span></th>
-						<td><input id="cuPw2" type="password"/></td>
+						<td>
+							<form:input path="pwConfirm" id="cuPw2" type="password" maxlength="20"/>
+							<form:errors path="pwConfirmCheck" cssClass="error"/>
+						</td>
 					</tr>
 					<tr>
 						<th><span class="required"> 이름</span></th>

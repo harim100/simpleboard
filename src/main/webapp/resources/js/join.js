@@ -148,7 +148,7 @@
 	
 	function handleSubmit() 
 	{
-		if (validation()) 
+		if (true) 
 		{
 			$("#joinForm").submit();
 		}

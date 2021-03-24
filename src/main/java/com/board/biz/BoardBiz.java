@@ -46,20 +46,18 @@ public class BoardBiz {
 		return bDao.getBoardItem(brdIdx);
 	}
 	
-	public int insertBoardItem(BoardDto bDto, MultipartFile file) 
-			throws IllegalStateException, IOException {
+	public int insertBoardItem(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException {
+		result= bDao.insertBoardItem(bDto);
 		if(file != null && !file.isEmpty()) 
 		{
-			String path = fileUpload(file);
+			String path = uploadFile(file);
 			bDto.setImage_path(path);
-			result= bDao.insertBoardItem(bDto);
 			result = 0;
 			throw new RuntimeException("RuntimeException for transaction");
 		}
 		else
 		{
 			bDto.setImage_path(null);
-			result= bDao.insertBoardItem(bDto);
 		}
 		return result;
 	}
@@ -75,7 +73,7 @@ public class BoardBiz {
 	public int updateBoardItem(BoardDto bDto, MultipartFile file) throws IllegalStateException, IOException{
 		if(file != null && !file.isEmpty()) 
 		{
-			String path = fileUpload(file);
+			String path = uploadFile(file);
 			bDto.setImage_path(path);
 		}
 		else
@@ -85,7 +83,7 @@ public class BoardBiz {
 		return bDao.updateBoardItem(bDto);
 	}
 	
-	public String fileUpload(MultipartFile file) throws IllegalStateException, IOException {
+	public String uploadFile(MultipartFile file) throws IllegalStateException, IOException {
 		String originFileName = file.getOriginalFilename();
 		Date date = new Date();
 		String randomString = String.valueOf(date.getTime());
@@ -101,6 +99,7 @@ public class BoardBiz {
 	
 	/**
 	 * 페이징 처리를 위해 전체 로우 수를 가져오는 메소드
+	 * 
 	 * @return bDao.getTotal() 전체 로우 수
 	 */
 	public int getTotal() {

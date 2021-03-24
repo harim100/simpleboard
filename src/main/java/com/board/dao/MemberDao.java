@@ -44,7 +44,7 @@ public class MemberDao {
 	
 //==================================== [[login]] ==========================================
 	public MemberDto login(MemberDto memDto) {
-		return sqlSessionTemplate.selectOne("login",memDto);
+		return sqlSessionTemplate.selectOne("login", memDto);
 	}
 		
 	
