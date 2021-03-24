@@ -14,9 +14,10 @@
 	id.keydown(function()
 	{
 		isIdChecked = false;
-		if(warning.text().length > 0)
+		if(warning.text().length > 0 || $("#idError").text().length > 0)
 		{
 			warning.text("아이디를 다시 확인해주세요.")
+			$("#idError").text("");
 		}
 	})
 	

@@ -139,7 +139,7 @@ public class MemberController {
 		{
 			return "Join";
 		} 
-		else
+		else    
 		{ 
 			//insert
 			result = memBiz.insertMember(mDto);
@@ -149,7 +149,7 @@ public class MemberController {
 			res.setContentType("text/html;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
 			
-			if(result == 1) 
+			if(result == 1)  
 			{
 				pw.append("<script>");
 				pw.append("alert('회원가입 성공'); location.href='/login';");
@@ -157,7 +157,7 @@ public class MemberController {
 			}
 			else
 			{
-				pw.append("<script>");
+				pw.append("<script>");   
 				pw.append("alert('회원가입 실패!'); location.href='/login';");
 				pw.append("</script>");
 			}

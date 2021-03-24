@@ -22,7 +22,6 @@ import com.board.frm.util.Pagination;
  * 게시판관련 컨트롤러
  * 
  * @author Jung.Harim
- *
  */ 
 @Controller
 @RequestMapping("/board")
@@ -77,10 +76,8 @@ public class BoardController {
 	public String insertBoardItem(@ModelAttribute BoardDto bDto
 			, @RequestParam(value = "imageFile", required = false) MultipartFile file)
 			throws IOException, FileUploadException {
-		int result = 0;
-		//alert 공통메소드	 
-		bBiz.insertBoardItem(bDto, file);
 		
+		bBiz.insertBoardItem(bDto, file);
 		return "redirect:/board/list";
 	} 
 	

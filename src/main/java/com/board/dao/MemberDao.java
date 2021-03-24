@@ -11,10 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.board.dto.MemberDto;
 
-/**
- * @author Jung.Harim
- *
- */
 @Repository
 public class MemberDao {
 	private static final Logger logger = LoggerFactory.getLogger(MemberDao.class);
@@ -26,25 +22,17 @@ public class MemberDao {
 	List<Map<String,Object>> memList= null;
 	
 //==================================== [[join]] ==========================================
-	/**
-	 * @param pMap = (requestedId, value)
-	 */
 	public int checkId(String requestedId) {
 		return sqlSessionTemplate.selectOne("checkId", requestedId);
 	}
 	
-	/**
-	 * 
-	 * @param pMap 가입 시 아이디, 비밀번호, 이름, 연락처
-	 * @return
-	 */
 	public int insertMember(MemberDto mDto) {
 		return sqlSessionTemplate.insert("insertMember", mDto);
 	}
 	
 //==================================== [[login]] ==========================================
-	public MemberDto login(MemberDto memDto) {
-		return sqlSessionTemplate.selectOne("login", memDto);
+	public MemberDto login(MemberDto mDto) {
+		return sqlSessionTemplate.selectOne("login", mDto);
 	}
 		
 	

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.board.dto.BoardDto;
 
-
 @Repository 
 public class BoardDao {
 	private static final Logger logger = LoggerFactory.getLogger(BoardDao.class);

@@ -23,7 +23,7 @@
 						<th><span class="required"> 아이디</span></th>
 						<td>
 							<form:input path="id" id="cuId" type="text" maxlength="20"/>
-							<form:errors path="id" cssClass="error"/>
+							<form:errors path="id" id="idError" cssClass="error"/>
 							<div id="warningTxt" ></div>
 						</td>
 						<td><a id="idCheckBtn" href="javascript:checkId()">중복확인</a></td>
@@ -45,15 +45,15 @@
 					<tr>
 						<th><span class="required"> 이름</span></th>
 						<td>
-							<form:input path="customer_name" id="cuName" type="text" maxlength="60"/>
-							<form:errors path="customer_name" cssClass="error"/>
+							<form:input path="customer_nm" id="cuName" type="text" maxlength="60"/>
+							<form:errors path="customer_nm" cssClass="error"/>
 						</td>
 					</tr>
 					<tr>
 						<th><span>연락처</span></th>
 						<td>
-							<form:input path="cell_num" id="cuCellNum" type="text" maxlength="15"/>
-							<form:errors path="cell_num" cssClass="error"/>
+							<form:input path="cell_no" id="cuCellNum" type="text" maxlength="15"/>
+							<form:errors path="cell_no" cssClass="error"/>
 						</td>
 					</tr>
 				</tbody>

@@ -84,7 +84,7 @@ public class MemberDto {
 	public String getCell_no() {
 		return cell_no;
 	}
-	public void setCell_num(String cell_no) {
+	public void setCell_no(String cell_no) {
 		this.cell_no = cell_no;
 	}
 	public String getIns_date() {

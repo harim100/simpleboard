@@ -13,8 +13,8 @@
 	(
 		#{id}  
 		,#{pw}  
-		,#{customer_name}
-		,#{cell_num}
+		,#{customer_nm}
+		,#{cell_no}
 	)
 </insert>
 
