@@ -25,7 +25,7 @@ import com.board.frm.util.Pagination;
  */ 
 @Controller
 @RequestMapping("/board")
-public class BoardController {
+public class BoardController { 
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
 	@Autowired

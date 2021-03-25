@@ -8,6 +8,58 @@
 <script src="../../resources/js/jquery-3.6.0.min.js"></script>
 <title>게시판 등록</title>
 <link rel="stylesheet" href="../../resources/css/boardModify.css">
+<script type="text/javascript">
+	function writeValidation(target, limit) 
+	{
+		if(target.val().length == 0)
+		{
+			alert('내용을 입력해주세요.');
+			target.focus();
+			return false;
+		}
+		else if(target.val().length <= limit)
+	    {
+	    	return true;
+	    }
+	    else
+	    {
+			alert('최대 ' + limit + '자 까지만 입력가능합니다');
+			target.val(target.val().substring(0, limit));
+			target.focus();
+			return false;
+		}
+	}
+	
+	function cancel()
+	{
+	    location.href = '/board/list';
+	}
+	
+	function insert()
+	{
+		const title = $("#title");
+		const insertForm = $("#insertForm");
+		const textArea = $("#textarea");
+		
+		if(writeValidation(title, 30) && writeValidation(textArea, 100))
+		{
+			insertForm.submit();
+		}
+	}
+	
+	function imageChanger(file)
+	{
+		const imagePreview = $("#imagePreview");
+		
+		let reader = new FileReader(); 
+		
+		reader.readAsDataURL(event.target.files[0]); 
+		reader.onload = (function (e) 
+		{
+			imagePreview.attr("src", e.target.result);
+	    })
+	}
+</script>
 </head>
 <body>
 	<div class="container">
@@ -49,59 +101,5 @@
 			 <button id="insertBtn" class="btn" onclick="insert()">등록</button>
 		</div>
 	</div>
-
-<script type="text/javascript">
-	function cancel()
-	{
-	    location.href = '/board/list';
-	}
-	
-	function insert()
-	{
-		const title = $("#title");
-		const insertForm = $("#insertForm");
-		const textArea = $("#textarea");
-		
-		if(writeValidation(title, 30) && writeValidation(textArea, 100))
-		{
-			insertForm.submit();
-		}
-	}
-	
-	function writeValidation(target, limit) 
-	{
-		if(target.val().length == 0)
-		{
-			alert('내용을 입력해주세요.');
-			target.focus();
-			return false;
-		}
-		else if(target.val().length <= limit)
-	    {
-	    	return true;
-	    }
-	    else
-	    {
-			alert('최대 ' + limit + '자 까지만 입력가능합니다');
-			target.val(target.val().substring(0, limit));
-			target.focus();
-			return false;
-		}
-	}
-	
-	function imageChanger(file)
-	{
-		const imagePreview = $("#imagePreview");
-		
-		let reader = new FileReader(); 
-		
-		reader.readAsDataURL(event.target.files[0]); 
-		reader.onload = (function (e) 
-		{
-			imagePreview.attr("src", e.target.result);
-	    })
-	}
-
-</script>
 </body>
 </html>

@@ -13,15 +13,12 @@ import com.board.dto.MemberDto;
 
 @Repository
 public class MemberDao {
-	private static final Logger logger = LoggerFactory.getLogger(MemberDao.class);
-	
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	
 	int result = 0;
 	List<Map<String,Object>> memList= null;
 	
-//==================================== [[join]] ==========================================
 	public int checkId(String requestedId) {
 		return sqlSessionTemplate.selectOne("checkId", requestedId);
 	}
@@ -30,7 +27,6 @@ public class MemberDao {
 		return sqlSessionTemplate.insert("insertMember", mDto);
 	}
 	
-//==================================== [[login]] ==========================================
 	public MemberDto login(MemberDto mDto) {
 		return sqlSessionTemplate.selectOne("login", mDto);
 	}

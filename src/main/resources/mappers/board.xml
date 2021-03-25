@@ -35,6 +35,7 @@
 			,CONVERT(varchar(10), INS_DATE, 23) AS INS_DATE
 			,CONVERT(varchar(10), UPT_DATE, 23) AS UPT_DATE
 	FROM  BD_BOARD WITH(NOLOCK)
+	WHERE USE_YN = 'Y'
 	ORDER BY BRD_IDX desc
 	OFFSET #{offset} ROWS
 	FETCH NEXT 5 ROWS ONLY
@@ -49,16 +50,26 @@
 			,CONVERT(varchar(10), INS_DATE, 23) AS INS_DATE
 			,CONVERT(varchar(10), UPT_DATE, 23) AS UPT_DATE
 	FROM BD_BOARD WITH(NOLOCK)
-	WHERE BRD_IDX = #{brdIdx}
+	WHERE BRD_IDX = #{brdIdx} AND USE_YN = 'Y'
 </select>
 
 <delete id="deleteBoardItem" parameterType="int">
-	DELETE FROM BD_BOARD
+<!-- 	DELETE FROM BD_BOARD
+	WHERE BRD_IDX = #{brdIdx} -->
+	
+	UPDATE BD_BOARD
+	SET USE_YN = 'N'
 	WHERE BRD_IDX = #{brdIdx}
 </delete>
 
 <delete id="deleteBoardGroup" parameterType="java.util.ArrayList">
-	DELETE FROM BD_BOARD
+<!-- 	DELETE FROM BD_BOARD
+	WHERE BRD_IDX in 
+	<foreach collection="array" item='item' index='i' open="(" close=")" separator=","> 
+		#{item}
+	</foreach> -->
+	UPDATE BD_BARD
+	SET USE_YN = 'N'
 	WHERE BRD_IDX in 
 	<foreach collection="array" item='item' index='i' open="(" close=")" separator=","> 
 		#{item}

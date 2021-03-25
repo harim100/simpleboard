@@ -14,6 +14,10 @@
 		{
 			setCookie("loginId", loginId.val(), 7);
 		}
+		else
+		{
+			setCookie("loginId", loginId.val(), -1);
+		}
 	});
 
 	cookieId = getCookieValue("loginId");
@@ -46,6 +50,7 @@
 			if(cookieArr[i].indexOf(cookieKey) === 0) 
 			{
 				result = cookieArr[i].slice(cookieKey.length, cookieArr[i].length);
+				
 				return result;
 			}
 		}

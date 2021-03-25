@@ -19,19 +19,19 @@ import com.board.frm.util.IdDuplicationConstraint;
  * 
  */
 public class MemberDto {
-	private static final Logger logger = LoggerFactory.getLogger(MemberDto.class);
-	
 	/**	고객번호 */
 	private int customer_no;
 
 	/**	고객 아이디 */
 	@NotBlank
+	/** 숫자, 영문대소문자만으로 구성되며 길이를 4자 이상 20자 이하로 제한하는 정규식*/
 	@Pattern(regexp="^[a-zA-Z0-9]{4,20}$")
 	@IdDuplicationConstraint
 	private String id;
 	
 	/**	고객 비밀번호 */
 	@NotBlank
+	/** 숫자, 영문대소문자, 특수문자를 최소한 한개 포함하고 길이를 8자 이상 20자 이하로 제한하는 정규식*/
 	@Pattern(regexp="^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[$@!%*#?&])[A-Za-z0-9$@!%*#?&]{8,20}$")
 	private String pw;
 	
@@ -47,6 +47,7 @@ public class MemberDto {
 
 	/**	고객 이름 */
 	@NotBlank
+	/** 숫자, 영문대소문자, 한글만으로 구성되며 길이를 2자 이상 30자 이하로 제한하는 정규식*/
 	@Pattern(regexp="^[a-zA-Z가-힣]{2,30}$")
 	private String customer_nm;
 	

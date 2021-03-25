@@ -3,6 +3,7 @@ package com.board.frm.util;
 import org.apache.commons.fileupload.FileUploadException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -61,6 +62,20 @@ public class ExceptionAdvice {
 		mv.setViewName("HandleErrors");
 		mv.addObject("movePage", false);
 		mv.addObject("message", "제목이나 내용의 글자수가 30자, 100자를 초과합니다");
+		return mv;
+	}
+	
+	/**
+	 * 게시글 목록, 게시글 페이지에서 숫자가 아닌 한글, 영문 등 잘못된 파라미터를 입력했을 때 에러페이지로 연결 후 게시글 목록으로 이동
+	 * 
+	 * @return mv 에러페이지
+	 */
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	public ModelAndView methodArgumentTypeMismatchExceptionHandler() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("HandleErrors");
+		mv.addObject("movePage", true);
+		mv.addObject("message", "잘못된 접근입니다.");
 		return mv;
 	}
 }

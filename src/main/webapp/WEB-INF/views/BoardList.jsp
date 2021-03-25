@@ -9,6 +9,158 @@
 <script src="../../resources/js/jquery-3.6.0.min.js"></script>
 <title>게시판 목록</title>
 <link rel="stylesheet" href="../../resources/css/boardList.css">
+<script type="text/javascript">
+$(document).ready(function()
+{
+	$("#deleteBtn").click(function ()
+	{
+		var cbArr = [];
+		$("input[name='cb']:checked").each(function(i) 
+		{
+			 cbArr.push($(this));
+		});
+		
+		if(cbArr.length>0)
+		{
+			if (confirm("정말 삭제하시겠습니까?") == true) 
+			{
+				var idxArr = [];
+		
+				for (var i=0 ; i < cbArr.length ; i++)
+				{
+					idxArr.push(cbArr[i].next().val());
+				}
+				
+				var obj = {"idxArr": idxArr};
+				
+				$.ajax({
+					url: '/board/delete/group'
+					, data: obj
+					, method: 'get'
+					, success: function(data) {
+						data = 1 ? alert("삭제 성공") : alert("삭제 실패");
+						location.href = "javascript:location.reload()";
+					}, error: function(e) {
+						alert("error" + e);
+					}
+				});
+			} 
+			else 
+			{
+				return;
+			}
+		} 
+		else
+		{
+			alert("삭제할 글을 선택해 주세요");
+		}
+	});
+	
+	function hideButtons()
+	{
+		const tableBtns = $("[name='tableBtns']");
+		
+		 $(tableBtns).each(function(i)
+		{
+			if($(this).children("[name='customer_no']").val() != "${customer_no}")
+			{
+				$(this).css("display", "none");
+			}
+		});
+	}
+	
+	function cbValidation(cb)
+	{
+		var author = cb.value;
+			if(cb.value != "${customer_no}")
+			{
+				cb.checked = false;
+			}
+	}
+	
+	function deleteOne(btn) 
+	{
+		if (confirm("정말 삭제하시겠습니까?") == true) 
+		{
+			$.get('/board/delete?brdIdx='+btn.value, function(result) 
+			{
+				result = 1 ? alert("삭제 성공") : alert("삭제 실패");
+				location.href = `${pageContext.request.contextPath}/board/list`;
+			});
+		} 
+		else 
+		{
+			return;
+		}
+	}
+	
+	function isChecked(cb) 
+	{
+		return cb.checked === true;
+	}
+	
+	const cbSelectAll = $("#selectAll");
+	const cbList = $("[name=cb]");
+	
+	cbList.each(function ()
+	{
+		$(this).change(function()
+		{
+			cbValidation(this);
+		});
+	});
+	
+	cbSelectAll.change(function()
+	{
+		if(this.checked) 
+		{
+			for (var cbs of cbList) 
+			{
+				cbs.checked = true;
+				cbValidation(cbs);
+			} 
+		} 
+		else 
+		{
+			for (var cbs of cbList) 
+			{
+				cbs.checked = false;
+			}
+		}
+	});
+	
+	function init()
+	{
+		var customerNum = "${customer_no}";
+		if (customerNum.length <= 0) 
+		{
+			alert("로그인이 필요합니다"),
+			location.href ="/login"
+		}
+		hideButtons();
+	}
+	
+	init();
+});
+	
+	function modify(obj) 
+	{
+		location.href = '/board/view?brdIdx=' + obj.value;
+	}
+	
+	function insert() 
+	{
+		location.href = '/board/write';
+	}
+	
+	function doLogout()
+	{
+		$.post('/logout', function() 
+		{
+			location.href= "/login";
+		});
+	}
+</script>
 </head>
 <body>
 	<div class="container">
@@ -93,158 +245,5 @@
 			</table>
 		</form>
 	</div>
-	
-<script type="text/javascript">
-$(document).ready(function()
-{
-	$("#deleteBtn").click(function ()
-	{
-		var cbArr = [];
-		$("input[name='cb']:checked").each(function(i) 
-		{
-			 cbArr.push($(this));
-		});
-		
-		if(cbArr.length>0)
-		{
-			if (confirm("정말 삭제하시겠습니까?") == true) 
-			{
-				var idxArr = [];
-		
-				for (var i=0 ; i < cbArr.length ; i++)
-				{
-					idxArr.push(cbArr[i].next().val());
-				}
-				
-				var obj = {"idxArr": idxArr};
-				
-				$.ajax({
-					url: '/board/delete/group'
-					, data: obj
-					, method: 'get'
-					, success: function(data) {
-						data = 1 ? alert("삭제 성공") : alert("삭제 실패");
-						location.href = "javascript:location.reload()";
-					}, error: function(e) {
-						alert("error" + e);
-					}
-				});
-			} 
-			else 
-			{
-				return;
-			}
-		} 
-		else
-		{
-			alert("삭제할 글을 선택해 주세요");
-		}
-	});
-});
-
-	function modify(obj) 
-	{
-		location.href = '/board/view?brdIdx=' + obj.value;
-	}
-	
-	function insert() 
-	{
-		location.href = '/board/write';
-	}
-
-	const cbSelectAll = $("#selectAll");
-	const cbList = $("[name=cb]");
-	
-	cbList.each(function ()
-	{
-		$(this).change(function()
-		{
-			cbValidation(this);
-		});
-	});
-	
-	cbSelectAll.change(function()
-	{
-		if(this.checked) 
-		{
-			for (var cbs of cbList) 
-			{
-				cbs.checked = true;
-				cbValidation(cbs);
-			} 
-		} 
-		else 
-		{
-			for (var cbs of cbList) 
-			{
-				cbs.checked = false;
-			}
-		}
-	});
-	
-	function init()
-	{
-		var customerNum = "${customer_no}";
-		if (customerNum.length <= 0) 
-		{
-			alert("로그인이 필요합니다"),
-			location.href ="/login"
-		}
-		hideButtons();
-	}
-	
-	function cbValidation(cb)
-	{
-		var author = cb.value;
-			if(cb.value != "${customer_no}")
-			{
-				cb.checked = false;
-			}
-	}
-	
-	function deleteOne(btn) 
-	{
-		if (confirm("정말 삭제하시겠습니까?") == true) 
-		{
-			$.get('/board/delete?brdIdx='+btn.value, function(result) 
-			{
-				result = 1 ? alert("삭제 성공") : alert("삭제 실패");
-				location.href = `${pageContext.request.contextPath}/board/list`;
-			});
-		} 
-		else 
-		{
-			return;
-		}
-	}
-	
-	function doLogout()
-	{
-		$.post('/logout', function() 
-		{
-			location.href= "/login";
-		});
-	}
-	
-	function isChecked(cb) 
-	{
-		return cb.checked === true;
-	}
-	
-	function hideButtons()
-	{
-		const tableBtns = $("[name='tableBtns']");
-		
-		 $(tableBtns).each(function(i)
-		{
-			if($(this).children("[name='customer_no']").val() != "${customer_no}")
-			{
-				$(this).css("display", "none");
-			}
-		});
-	}
-	
-	init();
-</script>
 </body>
 </html>

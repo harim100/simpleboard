@@ -8,51 +8,6 @@
 <script src="../../resources/js/jquery-3.6.0.min.js"></script>
 <title>게시판 수정</title>
 <link rel="stylesheet" href="../../resources/css/boardModify.css">
-</head>
-<body>
-	<div class="container">
-		<form id="updateForm" action="/board/update" method="post" enctype="multipart/form-data">
-			<table class="bTable">
-				<colgroup>
-					<col width="20%" />
-					<col width="80%" />
-				</colgroup>
-				<tr>
-					<th>제목</th>
-					<td><input id="title" name="title" class="input title" type="text" value="${bDto.getTitle()}" maxlength="30"/></td>
-				</tr>
-				<tr>
-					<th>내용</th>
-					<td>
-					<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10" maxlength="100">${bDto.getContent()}</textarea>
-					</td>
-				</tr>
-				<tr>
-					<th>이미지</th>
-					<td>
-						<input type="file" accept=".gif, .jpg, .png" name="imageFile" id="fileUploadBtn" onChange="imageChanger(this)"/> 
-						<input type="hidden" id="oriImagePath" name="oriImagePath" value="${bDto.getImage_path()}"/>
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td>
-						<div>
-							<span id="filename" class="filename"></span>
-							<span id="deleteImageBtn"></span>
-						</div>
-						<img id="imagePreview" src="${bDto.getImage_path()}" width="50" height="50"/>
-					</td>
-				</tr>
-			</table>
-			<input type="hidden" name="brd_idx" value="${bDto.getBrd_idx()}"/>
-		</form>
-		<div class="btnGroup">
-			<button class="btn" onClick="cancel()">취소</button>
-			<button class="btn" onClick="deleteBoard()">삭제</button>
-			<button class="btn" onClick="update()">등록</button>
-		</div>
-	</div>
 <script type="text/javascript">
 	const imagePreview = $("#imagePreview");
 
@@ -143,12 +98,67 @@
 		}
 	}
 	
+	function checkAuth()
+	{
+		if(${bDto.customer_no} != ${sessionScope.customer_no})
+		{
+			alert("권한이 없는 접근입니다.");
+			location.href="/board/list";
+		}
+	}
+	
 	function init()
 	{
+		checkAuth();
 		getFileName();
 	}
 	
 	init();
 </script>
+</head>
+<body>
+	<div class="container">
+		<form id="updateForm" action="/board/update" method="post" enctype="multipart/form-data">
+			<table class="bTable">
+				<colgroup>
+					<col width="20%" />
+					<col width="80%" />
+				</colgroup>
+				<tr>
+					<th>제목</th>
+					<td><input id="title" name="title" class="input title" type="text" value="${bDto.getTitle()}" maxlength="30"/></td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td>
+					<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10" maxlength="100">${bDto.getContent()}</textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>이미지</th>
+					<td>
+						<input type="file" accept=".gif, .jpg, .png" name="imageFile" id="fileUploadBtn" onChange="imageChanger(this)"/> 
+						<input type="hidden" id="oriImagePath" name="oriImagePath" value="${bDto.getImage_path()}"/>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<div>
+							<span id="filename" class="filename"></span>
+							<span id="deleteImageBtn"></span>
+						</div>
+						<img id="imagePreview" src="${bDto.getImage_path()}" width="50" height="50"/>
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" name="brd_idx" value="${bDto.getBrd_idx()}"/>
+		</form>
+		<div class="btnGroup">
+			<button class="btn" onClick="cancel()">취소</button>
+			<button class="btn" onClick="deleteBoard()">삭제</button>
+			<button class="btn" onClick="update()">등록</button>
+		</div>
+	</div>
 </body>
 </html>

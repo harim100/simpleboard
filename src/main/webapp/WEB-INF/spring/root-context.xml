@@ -37,7 +37,7 @@
 			<tx:method name="insertBoardItem" propagation="REQUIRED" rollback-for="FileUploadException"/>
 		</tx:attributes>
 	</tx:advice>
-	
+
 	<!-- AOP Pointcut/Advisor 설정 -->
 	<aop:config>
 		<aop:pointcut id="serviceMethod" expression="execution(* com.board.biz.*.*(..))"/>

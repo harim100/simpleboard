@@ -1,7 +1,5 @@
 package com.board.frm.util;
 
-import java.text.MessageFormat;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

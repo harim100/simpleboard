@@ -12,8 +12,6 @@ import com.board.dto.BoardDto;
 
 @Repository 
 public class BoardDao {
-	private static final Logger logger = LoggerFactory.getLogger(BoardDao.class);
-	
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	int result = 0; 
