@@ -1,6 +1,14 @@
 @charset "UTF-8";
 body {height:100%; font-family: 'Noto Sans KR';}
 
+#deleteImageBtn{
+	display: none;
+	margin: 0.3em;
+	padding: 0.3em;
+	color: lightgray;
+	border : 1px solid #ececec;
+}
+
 .container{
 	width: 60%;
 	margin: 10em auto 10em auto;
@@ -45,5 +53,6 @@ body {height:100%; font-family: 'Noto Sans KR';}
 }
 
 .filename{
-	color: red;	
+	color: red;
+	font-size: 9px;	
 }

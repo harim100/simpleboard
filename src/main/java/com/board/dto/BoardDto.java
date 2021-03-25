@@ -16,23 +16,23 @@ public class BoardDto {
 	private int customer_no;
 	
 	/** 글제목*/
-	@NotBlank(message = "{NotBlank.bDto.title}")
-	@Max(value=30, message = "{Max.bDto.title}")
+	@NotBlank
+	@Max(value=30)
 	private String title;
 	
 	/** 글내용*/
-	@NotBlank(message = "{NotBlank.bDto.content}")
-	@Max(value=100, message = "{Max.bDto.content}")
+	@NotBlank
+	@Max(value=100)
 	private String content;
 	
 	/** 이미지 경로*/
 	private String image_path;
 	
-	/** 작성일*/
-	private String ins_date;
-	
 	/** 글 사용여부*/
 	private String use_yn;
+	
+	/** 작성일*/
+	private String ins_date;
 	
 	/** 수정일*/
 	private String upt_date;

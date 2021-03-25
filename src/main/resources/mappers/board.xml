@@ -70,7 +70,7 @@
 	SET	TITLE = #{title}
 		,CONTENT = #{content}
 		,IMAGE_PATH = #{image_path}
-		,UPT_DATE = getDate()
+		,UPT_DATE = GETDATE()
 	WHERE BRD_IDX = #{brd_idx}
 </update>
 

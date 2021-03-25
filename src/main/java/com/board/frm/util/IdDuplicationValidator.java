@@ -21,9 +21,6 @@ public class IdDuplicationValidator implements ConstraintValidator<IdDuplication
 		int isSameId = memberDao.checkId(id);
 		if(isSameId > 0)
 		{
-			context.disableDefaultConstraintViolation();
-			context.buildConstraintViolationWithTemplate
-			(MessageFormat.format("이미 존재하는 아이디 입니다.", id)).addConstraintViolation();
 			return false;
 		} 
 		else 

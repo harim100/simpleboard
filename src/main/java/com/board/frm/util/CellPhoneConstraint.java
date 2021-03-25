@@ -10,7 +10,7 @@ import javax.validation.Payload;
 @Target({ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CellPhoneConstraint {
-	String message() default "핸드폰번호를 확인해주세요.";
+	String message() default "하이픈을 제외한 11~15자리 숫자만 허용됩니다.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

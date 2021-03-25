@@ -21,13 +21,13 @@
 					<th>제목</th>
 					<td>
 						<input type="hidden" value="${customer_no}" name="customer_no"/>
-						<input id="title" name="title" class="input title" type="text" maxlength="60"/>
+						<input id="title" name="title" class="input title" type="text" maxlength="30"/>
 					</td>
 				</tr>
 				<tr>
 					<th>내용</th>
 					<td>
-						<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10" maxlength="200"></textarea>
+						<textarea id="textarea" name="content" class="input textarea" cols="50" rows="10" maxlength="100"></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -53,7 +53,7 @@
 <script type="text/javascript">
 	function cancel()
 	{
-	    location.href = `${pageContext.request.contextPath}/board/list`;
+	    location.href = '/board/list';
 	}
 	
 	function insert()

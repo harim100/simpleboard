@@ -32,7 +32,7 @@ public class MemberDto {
 	
 	/**	고객 비밀번호 */
 	@NotBlank
-	@Pattern(regexp="^(?=.+[0-9])(?=.+[A-Za-z])(?=.+[$@!%*#?&])[A-Za-z0-9$@!%*#?&]{8,20}$")
+	@Pattern(regexp="^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[$@!%*#?&])[A-Za-z0-9$@!%*#?&]{8,20}$")
 	private String pw;
 	
 	/** 고객 비밀번호 확인 */

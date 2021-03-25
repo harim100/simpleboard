@@ -6,7 +6,7 @@
 	const cell = $("#cuCellNum");
 	
 	const idReg = /^[a-zA-Z0-9]{4,20}$/
-	const pwReg = /^(?=.+[0-9])(?=.+[A-Za-z])(?=.+[$@!%*#?&])[A-Za-z0-9$@!%*#?&]{8,20}$/
+	const pwReg = /^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[$@!%*#?&])[A-Za-z0-9$@!%*#?&]{8,20}$/
 	const nameReg = /^[a-zA-Z가-힣]{2,30}$/
 	const cellReg = /^[0-9]{11,15}$/
 	var isIdChecked = false;
@@ -149,7 +149,7 @@
 	
 	function handleSubmit() 
 	{
-		if (true) 
+		if (validation()) 
 		{
 			$("#joinForm").submit();
 		}

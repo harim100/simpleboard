@@ -2,6 +2,7 @@ package com.board.biz;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class BoardBiz {
 	
 	private final String DOWNLOAD_PATH = "C:\\work";
 	private final String URL_PATH = "/simpleboard/upload/";
-	private final String[] ALLOWED_EXTENSIONS = {"jpg", "png", "gif"};
+	private final List<String> ALLOWED_EXTENSIONS = Arrays.asList("jpg", "png", "gif");
 
 	@Autowired
 	private BoardDao bDao;
@@ -31,7 +32,6 @@ public class BoardBiz {
 	int result;
 
 	public List<BoardDto> getBoardList(int offset) {
-		
 		return bDao.getBoardList(offset);
 	}
 	
@@ -79,6 +79,7 @@ public class BoardBiz {
 		{
 			bDto.setImage_path(bDto.getOriImagePath());
 		}
+		
 		return bDao.updateBoardItem(bDto);
 	}
 	
@@ -87,8 +88,8 @@ public class BoardBiz {
 	 * 
 	 * @param file 사용자가 업로드한 파일
 	 * @return DB에 저장할 주소
-	 * @throws IOException 파일을 로컬에 저장 실패 시 예외 발생
-	 * @throws FileUploadException 파일 확장자가 지정된 이미지 확장자가 아닐 시 에러 발생
+	 * @throws IOException 파일 로컬 저장 실패 시 예외 발생
+	 * @throws FileUploadException 파일 확장자가 지정된 이미지 확장자가 아닐 시 예외 발생
 	 */
 	public String uploadFile(MultipartFile file) throws IOException, FileUploadException {
 		String originFileName = file.getOriginalFilename();
@@ -96,25 +97,17 @@ public class BoardBiz {
 		Date date = new Date();
 		String randomString = String.valueOf(date.getTime());
 		
-		for(String allowedExtension : ALLOWED_EXTENSIONS) {
-			if(extension.equals(allowedExtension))
-			{
-				break;
-			}
-			else
-			{
-				throw new FileUploadException("이미지파일만 허용됩니다.");
-			}
-		}
-		
-		if (!file.getOriginalFilename().isEmpty()) 
+		//확장자 확인
+		if(!ALLOWED_EXTENSIONS.contains(extension))
 		{
-			file.transferTo(new File(DOWNLOAD_PATH, randomString+originFileName));
+			throw new FileUploadException("이미지파일만 허용됩니다.");
 		}
-		String path = URL_PATH + originFileName;
+	
+		file.transferTo(new File(DOWNLOAD_PATH, randomString+originFileName));
+		String path = URL_PATH + randomString + originFileName;
 		
 		return path;
-		}
+	}
 	
 	/**
 	 * 페이징 처리를 위해 전체 로우 수를 가져오는 메소드

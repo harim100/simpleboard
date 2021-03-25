@@ -102,7 +102,7 @@ public class BoardController {
 	public String deleteBoardItem(Model model, @RequestParam("brdIdx") int brdIdx) {
 		int result = bBiz.deleteBoardItem(brdIdx);
 		model.addAttribute("result", result);
-		return "redirect:/board/list";
+		return "redirect:/board/list";    
 	}
 
 	/**
@@ -129,10 +129,9 @@ public class BoardController {
 	 * @throws FileUploadException 파일 확장자가 지정된 이미지 확장자가 아닐 시 에러 발생 
 	 */
 	@RequestMapping("/update")
-	public String updateBoardItem(Model model, @ModelAttribute BoardDto bDto,
+	public String updateBoardItem(@ModelAttribute BoardDto bDto,
 			@RequestParam(value = "imageFile", required = false) MultipartFile file) throws IOException, FileUploadException {
-		int result = bBiz.updateBoardItem(bDto, file);
-		model.addAttribute("result", result);
+		bBiz.updateBoardItem(bDto, file);
 		return "redirect:/board/view?brdIdx=" + bDto.getBrd_idx();
 	}
 

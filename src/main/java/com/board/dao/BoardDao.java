@@ -22,8 +22,8 @@ public class BoardDao {
 		return sqlSessionTemplate.selectList("getBoardList", offset);
 	}
 	
-	public BoardDto getBoardItem(int idx) {
-		return sqlSessionTemplate.selectOne("getBoardItem", idx);
+	public BoardDto getBoardItem(int brdIdx) {
+		return sqlSessionTemplate.selectOne("getBoardItem", brdIdx);
 	}
 	
 	public int deleteBoardItem(int brdIdx) {

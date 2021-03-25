@@ -4,14 +4,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript">
-	if("${exception}".length > 0)
+	if(${movePage})
 	{
-		alert("${exception}");
+		alert("${message}");
 		location.href ="/board/list";
 	}
 	else
 	{
-		alert("${fileError}");
+		alert("${message}");
 		location.href ="javascript:history.back()";
 	}
 </script>

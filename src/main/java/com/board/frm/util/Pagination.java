@@ -37,7 +37,7 @@ public class Pagination {
 		}
 		
 		endPage = (int) (currGroup+1)*DISPLAY_PAGE_NUMBER;
-		if(endPage > totalPageNum) {
+		if(endPage >= totalPageNum) {
 			endPage = totalPageNum;
 			setIsNext(false);
 		}

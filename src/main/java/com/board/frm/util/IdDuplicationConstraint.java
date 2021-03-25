@@ -10,7 +10,7 @@ import javax.validation.Payload;
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface IdDuplicationConstraint {
-	String message() default "중복된 아이디 입니다.";
+	String message() default "이미 존재하는 아이디 입니다.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

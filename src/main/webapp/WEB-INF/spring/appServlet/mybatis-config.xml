@@ -6,6 +6,5 @@
 	<mappers>
    		 <mapper resource="mappers/member.xml"/>
    		 <mapper resource="mappers/board.xml"/>
-	</mappers><!-- Ctrl + Shift + F 자동정렬   -->
-	
+	</mappers>
 </configuration>
