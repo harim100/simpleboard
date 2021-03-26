@@ -53,7 +53,6 @@ public class Pagination {
 	 * @param currentPage 현재 사용자가 위치한 페이지
 	 * @return offset 불러올 게시판 글 목록 중 첫번째 로우
 	 * @see BoardBiz#boardList(int offset)
-	 * 
 	 */
 	public int getOffset(int currentPage) {
 		int offset = ROWS_PER_PAGE*currentPage;

@@ -16,7 +16,7 @@
 		isIdChecked = false;
 		if(warning.text().length > 0 || $("#idError").text().length > 0)
 		{
-			warning.text("아이디를 다시 확인해주세요.")
+			warning.text(msgIdAgain)
 			$("#idError").text("");
 		}
 	})
@@ -25,7 +25,7 @@
 	{
 		var requestedId = {requestedId: id.val()};
 	
-		var idVaildation = check(idReg, id, "아이디는 최소 4자리~최대 20자리, 영문, 숫자만 허용됩니다.");
+		var idVaildation = check(idReg, id, msgIdPattern);
 		if (idVaildation) 
 		{
 			$.ajax({
@@ -36,12 +36,12 @@
 				{
 					if (result != 0)
 					{
-						warning.text("중복된 아이디가 있습니다.");
+						warning.text(msgIdduplicated);
 						isIdChecked = false;
 					} 
 					else 
 					{
-						warning.text("사용가능한 아이디 입니다.");
+						warning.text(msgIdAvailable);
 						isIdChecked = true;
 					}
 				}
@@ -80,9 +80,9 @@
 		var valObj = {
 			target: [id, pw, name],
 			reg: [idReg, pwReg, nameReg],
-			message: ["아이디는 최소 4자리~최대 20자리, 영문, 숫자만 허용됩니다."
-				, "비밀번호는 길이 최소 8자리 ~ 최대 20자리, 영문/숫자/특문 조합만 허용됩니다."
-				, "이름은 한글 또는 영문만 최소 두 자부터 30자 까지 허용됩니다."
+			message: [msgIdPattern
+				, msgPwPattern
+				, msgNamePattern
 				]
 		};
 	
@@ -90,7 +90,7 @@
 		{
 			valObj.reg.push(cellReg);
 			valObj.target.push(cell);
-			valObj.message.push("하이픈을 제외한 11~15자리 숫자만 허용됩니다.");
+			valObj.message.push(msgCellPattern);
 		}
 		
 		return valObj
@@ -100,7 +100,7 @@
 	{
 		if (pw2.val().length == 0) 
 		{
-			alert("비밀번호 확인을 입력해주세요.");
+			alert(msgPwConfirm);
 			pw2.focus();
 			return false;
 		}
@@ -108,7 +108,7 @@
 		{
 			if (pw.val() != pw2.val()) 
 			{
-				alert("비밀번호 확인이 일치하지 않습니다.");
+				alert(msgPwConfirmError);
 				pw2.val("");
 				pw2.focus();
 				return false;
@@ -144,7 +144,7 @@
 			}
 		}
 		
-		return !isIdChecked ? (alert("아이디 중복확인이 필요합니다."), false) : true
+		return !isIdChecked ? (alert(msgIdConfirm), false) : true
 	}
 	
 	function handleSubmit() 

@@ -2,6 +2,7 @@ package com.board.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +44,9 @@ public class MemberController {
 	@Autowired
 	MemberBiz memBiz;
 	
+	@Autowired
+	private MessageSource messageSource;
+	
 	/**
 	 * 로그인 처리를 하는 메소드
 	 * 
@@ -71,7 +76,7 @@ public class MemberController {
 			rttr.addFlashAttribute("msg", false);
 			mv.setViewName("redirect:/login");
 		} 
-		 
+		
 		return mv; 
 	}
 	
@@ -152,13 +157,13 @@ public class MemberController {
 			if(result == 1)  
 			{
 				pw.append("<script>");
-				pw.append("alert('회원가입 성공'); location.href='/login';");
+				pw.append("alert('"+ messageSource.getMessage("Join.doJoin.success", null, Locale.KOREAN) +"'); location.href='/login';");
 				pw.append("</script>");
 			}
 			else
 			{
 				pw.append("<script>");   
-				pw.append("alert('회원가입 실패!'); location.href='/login';");
+				pw.append("alert('"+ messageSource.getMessage("Join.doJoin.fail", null, Locale.KOREAN) +"'); location.href='/login';");
 				pw.append("</script>");
 			}
 			return null;

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,7 @@
 	{
 		if(target.val().length == 0)
 		{
-			alert('내용을 입력해주세요.');
+			alert('<spring:message code="Board.empty.error"/>');
 			target.focus();
 			return false;
 		}
@@ -23,7 +24,7 @@
 	    }
 	    else
 	    {
-			alert('최대 ' + limit + '자 까지만 입력가능합니다');
+			alert('<spring:message code="Board.length.error"/>');
 			target.val(target.val().substring(0, limit));
 			target.focus();
 			return false;
@@ -49,16 +50,32 @@
 	
 	function imageChanger(file)
 	{
+		imageValidation(file);
 		const imagePreview = $("#imagePreview");
 		
 		let reader = new FileReader(); 
-		
 		reader.readAsDataURL(event.target.files[0]); 
 		reader.onload = (function (e) 
 		{
 			imagePreview.attr("src", e.target.result);
 	    })
 	}
+	
+	function imageValidation(file)
+	{
+		const allowedImageTypes = ["image/gif", "image/jpeg", "image/png"];
+		
+		if(file.files[0].size > 5242880)
+		{
+			alert('<spring:message code="Fileupload.sizeError"/>');
+		}
+		
+		if(!allowedImageTypes.includes(file.files[0].type))
+		{
+			alert('<spring:message code="Fileupload.typeError"/>');
+		}
+	}
+	
 </script>
 </head>
 <body>

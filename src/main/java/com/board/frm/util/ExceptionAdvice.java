@@ -78,4 +78,18 @@ public class ExceptionAdvice {
 		mv.addObject("message", "잘못된 접근입니다.");
 		return mv;
 	}
+	
+	/**
+	 * 게시글 목록페이지에서 전체 페이지 수를 초과한 페이지 번호를 파라미터로 입력 시 발생하는 예외를 처리하는 메소드
+	 * 
+	 * @return mv 에러페이지
+	 */
+	@ExceptionHandler(NegativeArraySizeException.class)
+	public ModelAndView NegativeArraySizeExceptionHandler() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("HandleErrors");
+		mv.addObject("movePage", true);
+		mv.addObject("message", "잘못된 접근입니다.");
+		return mv;
+	}
 }

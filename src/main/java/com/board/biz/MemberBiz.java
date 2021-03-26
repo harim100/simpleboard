@@ -22,7 +22,6 @@ public class MemberBiz {
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
 
-//==================================== [[login]] ==========================================
 	public MemberDto login(MemberDto mDto) {
 		return memDao.login(mDto);
 	}
@@ -40,7 +39,6 @@ public class MemberBiz {
 		return loginMap;
 	}
 
-//==================================== [[join]] ==========================================
 	public int insertMember(MemberDto mDto) {
 		//패스워드 암호화
 		String password = mDto.getPw();

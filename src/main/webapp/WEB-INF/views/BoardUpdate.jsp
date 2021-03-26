@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,7 @@
 	
 	function deleteBoard()
 	{
-		if (confirm("정말 삭제하시겠습니까?") == true) 
+		if (confirm('<spring:message code="Board.delete.confirm"/>') == true) 
 		{	
 			$.get(`/board/delete?brdIdx=${bDto.getBrd_idx()}`, function(result)
 			{
@@ -42,13 +43,13 @@
 		{
 			updateForm.submit();
 		}
-	}
+	} 
 	
 	function writeValidation(target, limit)
 	{
 		if(target.val().length == 0)
 		{
-			alert('내용을 입력해주세요.');
+			alert('<spring:message code="Board.empty.error"/>');
 			target.focus();
 			return false;
 		}
@@ -58,7 +59,9 @@
 		}
 		else 
 		{
-			alert('최대 ' + limit + '자 까지만 입력가능합니다');
+			var sizeErroMsg = '<spring:message code="Board.length.error" arguments='###' />';
+			sizeErroMsg = sizeErroMsg.replace('###', limit);
+			alert(sizeErroMsg);
 			target.val(target.val().substring(0, limit));
 			target.focus();
 			return false;
@@ -102,7 +105,7 @@
 	{
 		if(${bDto.customer_no} != ${sessionScope.customer_no})
 		{
-			alert("권한이 없는 접근입니다.");
+			alert('<spring:message code="Board.auth.error"/>');
 			location.href="/board/list";
 		}
 	}

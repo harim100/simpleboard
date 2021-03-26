@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +23,7 @@ $(document).ready(function()
 		
 		if(cbArr.length>0)
 		{
-			if (confirm("정말 삭제하시겠습니까?") == true) 
+			if (confirm("<spring:message code='Board.delete.confirm'/>") == true) 
 			{
 				var idxArr = [];
 		
@@ -37,10 +38,12 @@ $(document).ready(function()
 					url: '/board/delete/group'
 					, data: obj
 					, method: 'get'
-					, success: function(data) {
-						data = 1 ? alert("삭제 성공") : alert("삭제 실패");
+					, success: function(data) 
+					{
+						data = 1 ? alert('<spring:message code="Board.delete.success"/>') : alert('<spring:message code="Board.delete.fail"/>');
 						location.href = "javascript:location.reload()";
-					}, error: function(e) {
+					}, error: function(e) 
+					{
 						alert("error" + e);
 					}
 				});
@@ -52,22 +55,9 @@ $(document).ready(function()
 		} 
 		else
 		{
-			alert("삭제할 글을 선택해 주세요");
+			alert('<spring:message code="Board.delete.choose"/>');
 		}
 	});
-	
-	function hideButtons()
-	{
-		const tableBtns = $("[name='tableBtns']");
-		
-		 $(tableBtns).each(function(i)
-		{
-			if($(this).children("[name='customer_no']").val() != "${customer_no}")
-			{
-				$(this).css("display", "none");
-			}
-		});
-	}
 	
 	function cbValidation(cb)
 	{
@@ -76,22 +66,6 @@ $(document).ready(function()
 			{
 				cb.checked = false;
 			}
-	}
-	
-	function deleteOne(btn) 
-	{
-		if (confirm("정말 삭제하시겠습니까?") == true) 
-		{
-			$.get('/board/delete?brdIdx='+btn.value, function(result) 
-			{
-				result = 1 ? alert("삭제 성공") : alert("삭제 실패");
-				location.href = `${pageContext.request.contextPath}/board/list`;
-			});
-		} 
-		else 
-		{
-			return;
-		}
 	}
 	
 	function isChecked(cb) 
@@ -129,37 +103,71 @@ $(document).ready(function()
 		}
 	});
 	
+	const tableBtns = $("[name='tableBtns']");
+	const tdTitle = $("#tdTitle");
+	
+	 $(tableBtns).each(function(i)
+	{
+		$(this).click(function (event)
+		{
+			console.log(event.target);
+			if($(this).children("#customer_no").val() != "${customer_no}")
+			{
+				alert('<spring:message code="Board.auth.error"/>');
+			}
+			else if(event.target.getAttribute("id") == "modifyBtn")
+			{
+				location.href = '/board/view?brdIdx=' + $(this).children("#modifyBtn").val();
+			}
+			else if(event.target.getAttribute("id") == "deleteBtn")
+			{
+				deleteOne(event.target);
+			}
+		});
+	});
+	
 	function init()
 	{
 		var customerNum = "${customer_no}";
 		if (customerNum.length <= 0) 
 		{
-			alert("로그인이 필요합니다"),
-			location.href ="/login"
+			alert('<spring:message code="Board.check.login"/>');
+			location.href ="/login";
 		}
-		hideButtons();
+		
 	}
 	
 	init();
 });
-	
-	function modify(obj) 
+
+function deleteOne(btn) 
+{
+	if (confirm('<spring:message code="Board.delete.confirm"/>') == true) 
 	{
-		location.href = '/board/view?brdIdx=' + obj.value;
-	}
-	
-	function insert() 
-	{
-		location.href = '/board/write';
-	}
-	
-	function doLogout()
-	{
-		$.post('/logout', function() 
+		$.get('/board/delete?brdIdx='+btn.value, function(result) 
 		{
-			location.href= "/login";
+			result = 1 ? alert('<spring:message code="Board.delete.success"/>') : alert('<spring:message code="Board.delete.fail"/>');
+			location.href = `${pageContext.request.contextPath}/board/list`;
 		});
+	} 
+	else 
+	{
+		return;
 	}
+}
+
+function insert() 
+{
+	location.href = '/board/write';
+}
+
+function doLogout()
+{
+	$.post('/logout', function() 
+	{
+		location.href= "/login";
+	});
+}
 </script>
 </head>
 <body>
@@ -197,7 +205,7 @@ $(document).ready(function()
 						<td>
 							<img src="${bList.image_path}" width="50" height="50">
 						</td>
-						<td class="tdTitle">
+						<td class="tdTitle" id="tdTitle">
 							<c:choose>
 								<c:when test="${fn:length(bList.title) gt 11}">
 									<c:out value="${fn:substring(bList.title, 0, 10)}" />...
@@ -210,9 +218,9 @@ $(document).ready(function()
 						<td>${bList.ins_date}</td>
 						<td>
 							<div name="tableBtns">
-								<button class="modifyOneBtn tableBtn modify" onclick="modify(this)" type="button" value="${bList.brd_idx}">수정</button>
-								<button class="deleteOneBtn tableBtn" onclick="deleteOne(this)" type="button" value="${bList.brd_idx}">삭제</button>
-								<input type="hidden" value="${bList.customer_no}" name="customer_no"/>
+								<button class="modifyOneBtn tableBtn modify" id="modifyBtn" type="button" value="${bList.brd_idx}">수정</button>
+								<button class="deleteOneBtn tableBtn" id="deleteBtn" type="button" value="${bList.brd_idx}">삭제</button>
+								<input type="hidden" value="${bList.customer_no}" id="customer_no" name="customer_no"/>
 							</div>
 						</td>
 					</tr>

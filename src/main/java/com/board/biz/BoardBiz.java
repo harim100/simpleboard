@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.fileupload.FileUploadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +29,9 @@ public class BoardBiz {
 
 	@Autowired
 	private BoardDao bDao;
+	
+	@Autowired
+	private MessageSource messageSource;
 	
 	Pagination pagination;
 	int result;
@@ -100,7 +105,7 @@ public class BoardBiz {
 		//확장자 확인
 		if(!ALLOWED_EXTENSIONS.contains(extension))
 		{
-			throw new FileUploadException("이미지파일만 허용됩니다.");
+			throw new FileUploadException(messageSource.getMessage("Fileupload.typeError", null, Locale.KOREAN));
 		}
 	
 		file.transferTo(new File(DOWNLOAD_PATH, randomString+originFileName));

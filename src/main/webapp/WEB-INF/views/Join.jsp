@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,20 @@
 <script src="../../resources/js/jquery-3.6.0.min.js"></script>
 <title>회원가입</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/join.css">
+<script type="text/javascript">
+var msgIdAgain = '<spring:message code="Join.check.id"/>'
+var msgIdPattern = '<spring:message code="Pattern.mDto.id"/>'
+var msgPwPattern = '<spring:message code="Pattern.mDto.pw"/>'
+var msgNamePattern = '<spring:message code="Pattern.mDto.customer_name"/>'
+var msgCellPattern = '<spring:message code="Pattern.mDto.cellNum"/>'
+var msgIdduplicated = '<spring:message code="Join.duplicated.id"/>'
+var msgIdAvailable = '<spring:message code="Join.available.id"/>'
+var msgIdAgain = '<spring:message code="Join.check.id"/>'
+var msgPwConfirm = '<spring:message code="Join.confirm.password"/>'
+var msgIdConfirm = '<spring:message code="Join.confirm.id"/>'
+var msgPwConfirmError = '<spring:message code="Join.conError.password"/>'
+
+</script>
 </head>
 <body>
 	<div class="container">
