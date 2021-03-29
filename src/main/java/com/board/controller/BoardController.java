@@ -22,7 +22,7 @@ import com.board.frm.util.Pagination;
  * 게시판관련 컨트롤러
  * 
  * @author Jung.Harim
- */ 
+ */  
 @Controller
 @RequestMapping("/board")
 public class BoardController { 

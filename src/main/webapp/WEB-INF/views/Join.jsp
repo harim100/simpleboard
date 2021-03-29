@@ -13,7 +13,7 @@
 var msgIdAgain = '<spring:message code="Join.check.id"/>'
 var msgIdPattern = '<spring:message code="Pattern.mDto.id"/>'
 var msgPwPattern = '<spring:message code="Pattern.mDto.pw"/>'
-var msgNamePattern = '<spring:message code="Pattern.mDto.customer_name"/>'
+var msgNamePattern = '<spring:message code="Pattern.mDto.customer_nm"/>'
 var msgCellPattern = '<spring:message code="Pattern.mDto.cellNum"/>'
 var msgIdduplicated = '<spring:message code="Join.duplicated.id"/>'
 var msgIdAvailable = '<spring:message code="Join.available.id"/>'

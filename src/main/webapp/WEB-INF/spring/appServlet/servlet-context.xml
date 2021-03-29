@@ -10,7 +10,7 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<annotation-driven/>
 	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -26,6 +26,7 @@
 	</context:component-scan>
 	<context:component-scan base-package="com.board.frm.util">
 		<context:include-filter expression="org.springframework.web.bind.annotation.ControllerAdvice" type="annotation"/>
+		<context:include-filter expression="org.springframework.stereotype.Component" type="annotation"/>
 	</context:component-scan>
 	
 </beans:beans>

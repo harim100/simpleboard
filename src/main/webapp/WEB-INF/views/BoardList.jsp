@@ -110,16 +110,15 @@ $(document).ready(function()
 	{
 		$(this).click(function (event)
 		{
-			console.log(event.target);
 			if($(this).children("#customer_no").val() != "${customer_no}")
 			{
 				alert('<spring:message code="Board.auth.error"/>');
 			}
-			else if(event.target.getAttribute("id") == "modifyBtn")
+			else if($(event.target).attr("id") == "modifyBtn")
 			{
 				location.href = '/board/view?brdIdx=' + $(this).children("#modifyBtn").val();
 			}
-			else if(event.target.getAttribute("id") == "deleteBtn")
+			else if($(event.target).attr("id") == "deleteBtn")
 			{
 				deleteOne(event.target);
 			}

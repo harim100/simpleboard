@@ -2,6 +2,9 @@ package com.board.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 import java.util.Map;
 
@@ -54,9 +57,12 @@ public class MemberController {
 	 * @param req session에 고객 이름과 번호를 담음
 	 * @param rttr 로그인 실패시 메시지를 전달할 flash attribute 사용
 	 * @return mv 로그인 성공시 게시글 목록 페이지, 실패시 로그인 페이지로 리다이렉트
+	 * @throws GeneralSecurityException 
+	 * @throws UnsupportedEncodingException 
+	 * @throws NoSuchAlgorithmException 
 	 */
 	@RequestMapping("/do/login")
-	public ModelAndView login(MemberDto mDto, HttpServletRequest req, RedirectAttributes rttr) {
+	public ModelAndView login(MemberDto mDto, HttpServletRequest req, RedirectAttributes rttr) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
 		ModelAndView mv = new ModelAndView();
 		
 		//로그인한 회원의 정보를 담은 DTO와 비밀번호 일치여부를 담은 map
@@ -67,10 +73,10 @@ public class MemberController {
 		{
 			MemberDto loginDto = (MemberDto) loginMap.get("loginDto");
 			session = req.getSession(); 
-			session.setAttribute("customer_nm", loginDto.getCustomer_nm());
+			session.setAttribute("customer_nm", loginMap.get("customer_nm"));
 			session.setAttribute("customer_no", loginDto.getCustomer_no());
 			mv.setViewName("redirect:/board/list");
-		} 
+		}
 		else   
 		{ 
 			rttr.addFlashAttribute("msg", false);
@@ -134,10 +140,12 @@ public class MemberController {
 	 * @param bindingResult 유효성 검사 결과
 	 * @param res 회원가입 결과를 메시지로 전달하도록 HttpServletResponse의 PrintWriter를 이용함
 	 * @return Join 에러발생 시 회원가입 페이지로 리턴
+	 * @throws GeneralSecurityException 
+	 * @throws NoSuchAlgorithmException 
 	 */
 	@RequestMapping("/insert/member")
 	public String insertMember(@Valid @ModelAttribute("mDto") MemberDto mDto
-			, BindingResult bindingResult, HttpServletResponse res) throws IOException {
+			, BindingResult bindingResult, HttpServletResponse res) throws IOException, NoSuchAlgorithmException, GeneralSecurityException {
 		
 		//에러 발생시
 		if(bindingResult.hasErrors())

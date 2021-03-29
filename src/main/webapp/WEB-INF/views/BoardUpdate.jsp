@@ -23,7 +23,7 @@
 		{	
 			$.get(`/board/delete?brdIdx=${bDto.getBrd_idx()}`, function(result)
 			{
-				result = 1 ? alert("삭제 성공") : alert("삭제 실패");
+				result = 1 ? alert('<spring:message code="Board.delete.success"/>') : alert('<spring:message code="Board.delete.fail"/>')
 				location.href = '/board/list';
 			});
 		}

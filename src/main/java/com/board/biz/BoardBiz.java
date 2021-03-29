@@ -34,7 +34,7 @@ public class BoardBiz {
 	private MessageSource messageSource;
 	
 	Pagination pagination;
-	int result;
+	int result; 
 
 	public List<BoardDto> getBoardList(int offset) {
 		return bDao.getBoardList(offset);

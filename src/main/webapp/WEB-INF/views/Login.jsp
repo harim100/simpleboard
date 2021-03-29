@@ -28,7 +28,9 @@
 				</tr>
 			</table>
 			<c:if test="${msg == false}">
-				<div style="color: red;">아이디, 비밀번호가 틀렸습니다.</div>
+				<div style="color: red;">
+					<spring:message code="Login.failed"/>
+				</div>
 			</c:if>
 		</form>
 		<button id="joinBtn" class="joinBtn btn" type="button">회원가입</button>
